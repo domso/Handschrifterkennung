@@ -1,0 +1,2 @@
+# Handschrifterkennung
+Handschrifterkennung in CUDA
