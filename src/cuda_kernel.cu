@@ -24,7 +24,7 @@ __global__ void cuda_neural_network(float* input, float* hidden, float* output,
 
 	float hidden_bias;
 	if (threadIdx.x == 0) {
-		input_bias = weights[(len_input + 1) * (blockIdx.x + 1) + blockDim.x];
+		input_bias = weights[(len_input + 1) * len_hidden + blockDim.x];
 	}
 
 	int end = len_input * (*n);
@@ -38,7 +38,6 @@ __global__ void cuda_neural_network(float* input, float* hidden, float* output,
 				if (threadIdx.x + i < len_input) {
 					buffer[threadIdx.x] += buffer[threadIdx.x + i];
 				}
-
 			}
 
 			if (threadIdx.x == 0) {
