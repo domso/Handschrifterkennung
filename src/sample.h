@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <stdint.h>
+#include <string>
 
 namespace data {
     template <typename imgT>
@@ -58,6 +59,14 @@ namespace data {
             }
 
             return false;
+        }
+
+        int size() const {
+        	return internalData_.size();
+        }
+
+        std::vector<imgT>& internalData() {
+        	return internalData_;
         }
 
     private:
