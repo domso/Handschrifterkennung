@@ -58,7 +58,7 @@ namespace data {
                         break;
                     }
 
-                    s[pi] = pixel;
+                    s[pi] = (double)pixel / (double) 256;
                 }
 
                 uint8_t label;

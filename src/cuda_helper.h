@@ -33,9 +33,10 @@ namespace cuda_helper {
             return error_;
         }
 
-        void synchToDevice(synchT& input, const int n = 1) {
+        void synchToDevice(const synchT& input, const int n = 1) {
             error_ = (cudaMemcpy(dev_data_, &input, n * sizeof(synchT), cudaMemcpyHostToDevice) != cudaSuccess);
         }
+
 
         void synchFromDevice(synchT& output, const int n = 1) {
             error_ = (cudaMemcpy(&output, dev_data_, n * sizeof(synchT), cudaMemcpyDeviceToHost) != cudaSuccess);
