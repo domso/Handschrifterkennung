@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 /**
  *
@@ -115,9 +116,11 @@ void NeuronalNetwork::initWeights(LayerType lType) {
 int NeuronalNetwork::getNetworkClassification() {
 	Layer* layer = getLayer(OUTPUT);
 	Node* max = layer->getNode(0);
+	std::cout << " node 0 has output " << max->getOutput() << "\n";
 
 	for(int i = 1; i < layer->getNodeCount(); i++){
 		Node* node = layer->getNode(i);
+		std::cout << " node " << i << " has output " << node->getOutput() << "\n";
 		if(node->getOutput() > max->getOutput())
 			max = node;
 	}
@@ -135,7 +138,7 @@ void NeuronalNetwork::feedInput(std::vector<float> input) {
 
 	int threadCount = std::thread::hardware_concurrency();
 	int elementsPerThread = input.size() / threadCount;
-	std::vector<std::thread> threads(threadCount);
+	std::vector<std::thread> threads(0);
 
 	for(int thID = 0; thID < threadCount; thID++){
 		int rangeFrom = thID * elementsPerThread;
@@ -149,9 +152,8 @@ void NeuronalNetwork::feedInput(std::vector<float> input) {
 		}));
 	}
 
-	for(int thID = 0; thID < threadCount; thID++){
-		threads[thID].join();
-	}
+	for(auto& thread : threads)
+		thread.join();
 
 	// sequentiell
 //	Layer* inputLayer = getLayer(INPUT);
@@ -258,7 +260,7 @@ void NeuronalNetwork::calcLayer(LayerType lType) {
 
 	int threadCount = std::thread::hardware_concurrency();
 	int nodesPerThread = layer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(threadCount);
+	std::vector<std::thread> threads(0);
 
 	for(int thID = 0; thID < threadCount; thID++){
 		int rangeFrom = thID * nodesPerThread;
@@ -272,9 +274,8 @@ void NeuronalNetwork::calcLayer(LayerType lType) {
 		}));
 	}
 
-	for(int thID = 0; thID < threadCount; thID++){
-		threads[thID].join();
-	}
+	for(auto& thread : threads)
+		thread.join();
 
 	// seqentiell
 //	for(int i = 0; i < layer->getNodeCount(); i++){
@@ -294,7 +295,7 @@ void NeuronalNetwork::backPropagateHiddenLayer(int targetClassification) {
 
 	int threadCount = std::thread::hardware_concurrency();
 	int nodesPerThread = hiddenLayer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(threadCount);
+	std::vector<std::thread> threads(0);
 
 	for(int thID = 0; thID < threadCount; thID++){
 		int rangeFrom = thID * nodesPerThread;
@@ -319,9 +320,8 @@ void NeuronalNetwork::backPropagateHiddenLayer(int targetClassification) {
 		}));
 	}
 
-	for(int thID = 0; thID < threadCount; thID++){
-		threads[thID].join();
-	}
+	for(auto& thread : threads)
+		thread.join();
 
 	// sequentiell
 //	for(int i = 0; i < hiddenLayer->getNodeCount(); i++){
@@ -352,7 +352,7 @@ void NeuronalNetwork::backPropagateOutputLayer(int targetClassification) {
 
 	int threadCount = std::thread::hardware_concurrency();
 	int nodesPerThread = outputLayer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(threadCount);
+	std::vector<std::thread> threads(0);
 
 	for(int thID = 0; thID < threadCount; thID++){
 		int rangeFrom = thID * nodesPerThread;
@@ -370,9 +370,8 @@ void NeuronalNetwork::backPropagateOutputLayer(int targetClassification) {
 		}));
 	}
 
-	for(int thID = 0; thID < threadCount; thID++){
-		threads[thID].join();
-	}
+	for(auto& thread : threads)
+		thread.join();
 
 	// sequentiell
 //	for(int i = 0; i < outputLayer->getNodeCount(); i++){
