@@ -4,7 +4,7 @@
 #include "src/cuda_kernel.h"
 #include <random>
 
-int main(int argc, char** argv) {
+int main_old(int argc, char** argv) {
 	auto input = data::sample_set::load<float>("../train-images.idx3-ubyte",
 			"../train-labels.idx1-ubyte");
 
