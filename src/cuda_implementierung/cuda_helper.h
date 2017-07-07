@@ -4,7 +4,7 @@
 #include <cuda.h>
 #include <vector>
 
-namespace cuda_helper {
+namespace cuda {
 
     template<typename synchT>
     class ressource {
@@ -15,7 +15,7 @@ namespace cuda_helper {
         }
 
         ressource(const std::vector<synchT>& input, const int n = 1) {
-                    error_ = (cudaMalloc((void**) &dev_data_, n * input.size() * sizeof(synchT)) != cudaSuccess);
+            error_ = (cudaMalloc((void**) &dev_data_, n * input.size() * sizeof(synchT)) != cudaSuccess);
 		}
 
         ~ressource() {
@@ -42,7 +42,7 @@ namespace cuda_helper {
             error_ = (cudaMemcpy(&output, dev_data_, n * sizeof(synchT), cudaMemcpyDeviceToHost) != cudaSuccess);
         }
 
-        void synchToDevice(std::vector<synchT>& input, const int offset = 0) {
+        void synchToDevice(const std::vector<synchT>& input, const int offset = 0) {
             error_ = (cudaMemcpy(dev_data_ + offset * input.size(), input.data(), input.size() * sizeof(synchT), cudaMemcpyHostToDevice) != cudaSuccess);
         }
 

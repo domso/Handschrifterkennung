@@ -1,4 +1,30 @@
+
 #include <iostream>
+#include "../sample_set.h"
+#include "cuda_neuronalNetwork.h"
+#include "cuda_model.h"
+
+int main3() {
+	auto trainings_data = data::sample_set::load<float>("./train-images.idx3-ubyte",
+				"./train-labels.idx1-ubyte");
+	auto test_data = data::sample_set::load<float>("./t10k-images.idx3-ubyte",
+					"./t10k-labels.idx1-ubyte");
+
+	cuda::model model;
+	cuda::neuronalNetwork NN;
+
+	NN.train(model, trainings_data);
+
+	auto result = NN.test(model, test_data);
+
+	std::cout << result.correct << std::endl;
+	std::cout << result.total << std::endl;
+	std::cout << result.ratio << std::endl;
+
+	return 0;
+}
+
+/*#include <iostream>
 #include "src/sample_set.h"
 #include "src/cuda_helper.h"
 #include "src/cuda_kernel.h"
@@ -166,7 +192,7 @@ int main_old(int argc, char** argv) {
 
 	return 0;
 }
-
+*/
 /*
  input[1] = input[0];
  std::vector<float>& ref_input = input[0].internalData();

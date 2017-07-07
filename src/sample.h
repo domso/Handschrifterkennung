@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdint.h>
 #include <string>
+#include <iostream>
 
 namespace data {
     template <typename imgT>
@@ -67,6 +68,10 @@ namespace data {
 
         std::vector<imgT>& internalData() {
         	return internalData_;
+        }
+
+        const std::vector<imgT>& internalData() const{
+           	return internalData_;
         }
 
     private:

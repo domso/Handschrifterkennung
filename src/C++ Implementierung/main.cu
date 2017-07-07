@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 20;
+	int hiddenCount = 200;
 	int outputCount = 10;
 
 	NeuronalNetwork nn(inputCount, hiddenCount, outputCount);
