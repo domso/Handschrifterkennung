@@ -14,6 +14,7 @@ class NeuronalNetwork {
 public:
 	NeuronalNetwork(int inputCount, int hiddenCount, int outputCount);
 	virtual ~NeuronalNetwork();
+	NeuronalNetwork(NeuronalNetwork& o) = delete;
 	Layer* createInputLayer(int inputCount);
 	Layer* createLayer(int nodeCount, int weightCount);
 	Layer* getLayer(LayerType lType);

@@ -7,10 +7,9 @@
 
 #include "Node.h"
 
-Node::Node(float bias, float output, int weightCount) {
+Node::Node(float bias, float output, int weightCount) : weights(weightCount){
 	this->bias = bias;
 	this->output = output;
-	weights.reserve(weightCount);
 }
 
 Node::~Node() {

@@ -18,9 +18,9 @@
  * @param hiddenCount Number of nodes in the HIDDEN layer
  * @param outputCount Number of nodes in the OUTPUT layer
  */
-NeuronalNetwork::NeuronalNetwork(int inputCount, int hiddenCount, int outputCount) {
+NeuronalNetwork::NeuronalNetwork(int inputCount, int hiddenCount, int outputCount) : layers(3) {
+	srand(time(NULL));
 	learningRate = 0.2;
-	layers.reserve(3);
 
 	layers[0] = createInputLayer(inputCount);
 	layers[1] = createLayer(hiddenCount, inputCount);
@@ -94,16 +94,20 @@ Layer* NeuronalNetwork::createLayer(int nodeCount, int weightCount) {
  * @param lType  Defining what layer to initialize
  */
 void NeuronalNetwork::initWeights(LayerType lType) {
-	srand(time(NULL));
 	Layer* layer = getLayer(lType);
 	int nodeCount = layer->getNodeCount();
 
 	for(int i = 0; i < nodeCount; i++){
 		Node* node = layer->getNode(i);
-		for(int j = 0; j < node->getWeights().size(); j++){
-			node->getWeights()[j] = 0.7 * (rand() / (float) RAND_MAX);
+
+//		node->setBias(-0.5 + (float) (std::rand() % 1000001) / (float) 1000000);
+		int j = 0;
+		for (float& weight : node->getWeights()){
+			weight = 0.7 * (rand() / (float) RAND_MAX);
 			if(j%2)
-				node->getWeights()[j] = - node->getWeights()[j];  // make half of the weights negative
+				weight = - weight;  // make half of the weights negative
+			j++;
+//			weight = -0.5 + (float) (std::rand() % 1000001) / (float) 1000000;
 		}
 	}
 }
@@ -116,16 +120,17 @@ void NeuronalNetwork::initWeights(LayerType lType) {
 int NeuronalNetwork::getNetworkClassification() {
 	Layer* layer = getLayer(OUTPUT);
 	Node* max = layer->getNode(0);
-	std::cout << " node 0 has output " << max->getOutput() << "\n";
+	int maxIndex = 0;
 
 	for(int i = 1; i < layer->getNodeCount(); i++){
 		Node* node = layer->getNode(i);
-		std::cout << " node " << i << " has output " << node->getOutput() << "\n";
-		if(node->getOutput() > max->getOutput())
+		if(node->getOutput() > max->getOutput()){
 			max = node;
+			maxIndex = i;
+		}
 	}
 
-	return (max != nullptr) ? max->getOutput() : -1;
+	return maxIndex;
 }
 
 
@@ -134,35 +139,35 @@ int NeuronalNetwork::getNetworkClassification() {
  * @param input  a vector with the input values
  */
 void NeuronalNetwork::feedInput(std::vector<float> input) {
-	Layer* inputLayer = getLayer(INPUT);
-
-	int threadCount = std::thread::hardware_concurrency();
-	int elementsPerThread = input.size() / threadCount;
-	std::vector<std::thread> threads(0);
-
-	for(int thID = 0; thID < threadCount; thID++){
-		int rangeFrom = thID * elementsPerThread;
-		int rangeTo = (thID == (threadCount - 1) ? input.size() : ((thID + 1) * elementsPerThread) );
-		threads.push_back(std::thread([rangeFrom, rangeTo, &input, &inputLayer]{
-			// copy the input values to the inputLayer
-			for(int i = rangeFrom; i < rangeTo; i++){
-				Node* inputNode = inputLayer->getNode(i);
-				inputNode->setOutput(input[i]);
-			}
-		}));
-	}
-
-	for(auto& thread : threads)
-		thread.join();
-
-	// sequentiell
 //	Layer* inputLayer = getLayer(INPUT);
 //
-//	// copy the input values to the inputLayer
-//	for(int i = 0; i < input.size(); i++){
-//		Node* inputNode = inputLayer->getNode(i);
-//		inputNode->setOutput(input[i]);
+//	int threadCount = std::thread::hardware_concurrency();
+//	int elementsPerThread = input.size() / threadCount;
+//	std::vector<std::thread> threads(0);
+//
+//	for(int thID = 0; thID < threadCount; thID++){
+//		int rangeFrom = thID * elementsPerThread;
+//		int rangeTo = (thID == (threadCount - 1) ? input.size() : ((thID + 1) * elementsPerThread) );
+//		threads.push_back(std::thread([rangeFrom, rangeTo, &input, &inputLayer]{
+//			// copy the input values to the inputLayer
+//			for(int i = rangeFrom; i < rangeTo; i++){
+//				Node* inputNode = inputLayer->getNode(i);
+//				inputNode->setOutput(input[i]);
+//			}
+//		}));
 //	}
+//
+//	for(auto& thread : threads)
+//		thread.join();
+
+	// sequentiell
+	Layer* inputLayer = getLayer(INPUT);
+
+	// copy the input values to the inputLayer
+	for(int i = 0; i < input.size(); i++){
+		Node* inputNode = inputLayer->getNode(i);
+		inputNode->setOutput(input[i]);
+	}
 }
 
 
@@ -205,7 +210,7 @@ void NeuronalNetwork::updateNodeWeights(LayerType lType, int nodeID, float delta
 
 	// go through all weights of updateNode and update them with the delta
 	int i = 0;
-	for(float weight: updateNode->getWeights()){
+	for(float& weight: updateNode->getWeights()){
 		Node* prevLayerNode = prevLayer->getNode(i);
 		weight += (learningRate * prevLayerNode->getOutput() * delta);
 		i++;
@@ -225,7 +230,7 @@ void NeuronalNetwork::activateNode(LayerType lType, int nodeID) {
 	Layer* layer = getLayer(lType);
 	Node*  node  = layer->getNode(nodeID);
 
-	node->setOutput( 1 / (1 + std::exp(-node->getOutput()))); // SIGMOID activation function
+	node->setOutput(1.0 / (1 + std::exp((float) -1 * node->getOutput()))); // SIGMOID activation function
 }
 
 
@@ -243,11 +248,12 @@ void NeuronalNetwork::calcNodeOutput(LayerType lType, int nodeID) {
 		prevLayer = getLayer(HIDDEN);
 	}
 
-	calcNode->setOutput(calcNode->getBias()); // start with the nodes bias
+	float output = calcNode->getBias();  // start with the nodes bias
 	for(int i = 0; i < prevLayer->getNodeCount(); i++){
 		Node* prevLayerNode = prevLayer->getNode(i);
-		calcNode->setOutput(calcNode->getOutput() + prevLayerNode->getOutput() * calcNode->getWeights()[i]);
+		output += prevLayerNode->getOutput() * calcNode->getWeights()[i];
 	}
+	calcNode->setOutput(output);
 }
 
 
@@ -258,30 +264,29 @@ void NeuronalNetwork::calcNodeOutput(LayerType lType, int nodeID) {
 void NeuronalNetwork::calcLayer(LayerType lType) {
 	Layer* layer = getLayer(lType);
 
-	int threadCount = std::thread::hardware_concurrency();
-	int nodesPerThread = layer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(0);
-
-	for(int thID = 0; thID < threadCount; thID++){
-		int rangeFrom = thID * nodesPerThread;
-		int rangeTo = (thID == (threadCount - 1) ? layer->getNodeCount() : ((thID + 1) * nodesPerThread) );
-		threads.push_back(std::thread([this, rangeFrom, rangeTo, lType]{
-
-			for(int i = rangeFrom; i < rangeTo; i++){
-				calcNodeOutput(lType, i);
-				activateNode(lType, i);
-			}
-		}));
-	}
-
-	for(auto& thread : threads)
-		thread.join();
+//	int threadCount = std::thread::hardware_concurrency();
+//	int nodesPerThread = layer->getNodeCount() / threadCount;
+//	std::vector<std::thread> threads(0);
+//
+//	for(int thID = 0; thID < threadCount; thID++){
+//		int rangeFrom = thID * nodesPerThread;
+//		int rangeTo = (thID == (threadCount - 1) ? layer->getNodeCount() : ((thID + 1) * nodesPerThread) );
+//		threads.push_back(std::thread([this, rangeFrom, rangeTo, lType]{
+//			for(int i = rangeFrom; i < rangeTo; i++){
+//				calcNodeOutput(lType, i);
+//				activateNode(lType, i);
+//			}
+//		}));
+//	}
+//
+//	for(auto& thread : threads)
+//		thread.join();
 
 	// seqentiell
-//	for(int i = 0; i < layer->getNodeCount(); i++){
-//		calcNodeOutput(lType, i);
-//		activateNode(lType, i);
-//	}
+	for(int i = 0; i < layer->getNodeCount(); i++){
+		calcNodeOutput(lType, i);
+		activateNode(lType, i);
+	}
 }
 
 
@@ -293,53 +298,53 @@ void NeuronalNetwork::backPropagateHiddenLayer(int targetClassification) {
 	Layer* outputLayer = getLayer(OUTPUT);
 	Layer* hiddenLayer = getLayer(HIDDEN);
 
-	int threadCount = std::thread::hardware_concurrency();
-	int nodesPerThread = hiddenLayer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(0);
-
-	for(int thID = 0; thID < threadCount; thID++){
-		int rangeFrom = thID * nodesPerThread;
-		int rangeTo = (thID == (threadCount - 1) ? hiddenLayer->getNodeCount() : ((thID + 1) * nodesPerThread) );
-		threads.push_back(std::thread([this, rangeFrom, rangeTo, &hiddenLayer, &outputLayer, targetClassification]{
-			for(int i = rangeFrom; i < rangeTo; i++){
-				Node* hiddenNode = hiddenLayer->getNode(i);
-				float outputErrorSum = 0;
-
-				for(int k = 0; k < outputLayer->getNodeCount(); k++){
-					Node* outputNode = outputLayer->getNode(k);
-					int targetOutput = (k == targetClassification) ? 1 : 0;
-
-					float errorDelta  = targetOutput - outputNode->getOutput();
-					float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
-					outputErrorSum += errorSignal * outputNode->getWeights()[i];
-				}
-
-				double hiddenErrorSignal = outputErrorSum * hiddenNode->getOutput() * (1 - hiddenNode->getOutput()); // derivative of the SIGMOID activation function
-				updateNodeWeights(HIDDEN, i, hiddenErrorSignal);
-			}
-		}));
-	}
-
-	for(auto& thread : threads)
-		thread.join();
+//	int threadCount = std::thread::hardware_concurrency();
+//	int nodesPerThread = hiddenLayer->getNodeCount() / threadCount;
+//	std::vector<std::thread> threads(0);
+//
+//	for(int thID = 0; thID < threadCount; thID++){
+//		int rangeFrom = thID * nodesPerThread;
+//		int rangeTo = (thID == (threadCount - 1) ? hiddenLayer->getNodeCount() : ((thID + 1) * nodesPerThread) );
+//		threads.push_back(std::thread([this, rangeFrom, rangeTo, &hiddenLayer, &outputLayer, targetClassification]{
+//			for(int i = rangeFrom; i < rangeTo; i++){
+//				Node* hiddenNode = hiddenLayer->getNode(i);
+//				float outputErrorSum = 0;
+//
+//				for(int k = 0; k < outputLayer->getNodeCount(); k++){
+//					Node* outputNode = outputLayer->getNode(k);
+//					int targetOutput = (k == targetClassification) ? 1 : 0;
+//
+//					float errorDelta  = targetOutput - outputNode->getOutput();
+//					float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
+//					outputErrorSum += errorSignal * outputNode->getWeights()[i];
+//				}
+//
+//				double hiddenErrorSignal = outputErrorSum * hiddenNode->getOutput() * (1 - hiddenNode->getOutput()); // derivative of the SIGMOID activation function
+//				updateNodeWeights(HIDDEN, i, hiddenErrorSignal);
+//			}
+//		}));
+//	}
+//
+//	for(auto& thread : threads)
+//		thread.join();
 
 	// sequentiell
-//	for(int i = 0; i < hiddenLayer->getNodeCount(); i++){
-//		Node* hiddenNode = hiddenLayer->getNode(i);
-//		float outputErrorSum = 0;
-//
-//		for(int k = 0; k < outputLayer->getNodeCount(); k++){
-//			Node* outputNode = outputLayer->getNode(k);
-//			int targetOutput = (k == targetClassification) ? 1 : 0;
-//
-//			float errorDelta  = targetOutput - outputNode->getOutput();
-//			float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
-//			outputErrorSum += errorSignal * outputNode->getWeights()[i];
-//		}
-//
-//		double hiddenErrorSignal = outputErrorSum * hiddenNode->getOutput() * (1 - hiddenNode->getOutput()); // derivative of the SIGMOID activation function
-//		updateNodeWeights(HIDDEN, i, hiddenErrorSignal);
-//	}
+	for(int i = 0; i < hiddenLayer->getNodeCount(); i++){
+		Node* hiddenNode = hiddenLayer->getNode(i);
+		float outputErrorSum = 0;
+
+		for(int k = 0; k < outputLayer->getNodeCount(); k++){
+			Node* outputNode = outputLayer->getNode(k);
+			int targetOutput = (k == targetClassification) ? 1 : 0;
+
+			float errorDelta  = targetOutput - outputNode->getOutput();
+			float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
+			outputErrorSum += errorSignal * outputNode->getWeights()[i];
+		}
+
+		double hiddenErrorSignal = outputErrorSum * hiddenNode->getOutput() * (1 - hiddenNode->getOutput()); // derivative of the SIGMOID activation function
+		updateNodeWeights(HIDDEN, i, hiddenErrorSignal);
+	}
 }
 
 
@@ -350,37 +355,37 @@ void NeuronalNetwork::backPropagateHiddenLayer(int targetClassification) {
 void NeuronalNetwork::backPropagateOutputLayer(int targetClassification) {
 	Layer* outputLayer = getLayer(OUTPUT);
 
-	int threadCount = std::thread::hardware_concurrency();
-	int nodesPerThread = outputLayer->getNodeCount() / threadCount;
-	std::vector<std::thread> threads(0);
-
-	for(int thID = 0; thID < threadCount; thID++){
-		int rangeFrom = thID * nodesPerThread;
-		int rangeTo = (thID == (threadCount - 1) ? outputLayer->getNodeCount() : ((thID + 1) * nodesPerThread) );
-		threads.push_back(std::thread([this, rangeFrom, rangeTo, &outputLayer, targetClassification]{
-			for(int i = rangeFrom; i < rangeTo; i++){
-				Node* outputNode = outputLayer->getNode(i);
-				int targetOutput = (i == targetClassification) ? 1 : 0;
-
-				float errorDelta  = targetOutput - outputNode->getOutput();
-				float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
-
-				updateNodeWeights(OUTPUT, i, errorSignal);
-			}
-		}));
-	}
-
-	for(auto& thread : threads)
-		thread.join();
+//	int threadCount = std::thread::hardware_concurrency();
+//	int nodesPerThread = outputLayer->getNodeCount() / threadCount;
+//	std::vector<std::thread> threads(0);
+//
+//	for(int thID = 0; thID < threadCount; thID++){
+//		int rangeFrom = thID * nodesPerThread;
+//		int rangeTo = (thID == (threadCount - 1) ? outputLayer->getNodeCount() : ((thID + 1) * nodesPerThread) );
+//		threads.push_back(std::thread([this, rangeFrom, rangeTo, &outputLayer, targetClassification]{
+//			for(int i = rangeFrom; i < rangeTo; i++){
+//				Node* outputNode = outputLayer->getNode(i);
+//				int targetOutput = (i == targetClassification) ? 1 : 0;
+//
+//				float errorDelta  = targetOutput - outputNode->getOutput();
+//				float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
+//
+//				updateNodeWeights(OUTPUT, i, errorSignal);
+//			}
+//		}));
+//	}
+//
+//	for(auto& thread : threads)
+//		thread.join();
 
 	// sequentiell
-//	for(int i = 0; i < outputLayer->getNodeCount(); i++){
-//		Node* outputNode = outputLayer->getNode(i);
-//		int targetOutput = (i == targetClassification) ? 1 : 0;
-//
-//		float errorDelta  = targetOutput - outputNode->getOutput();
-//		float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
-//
-//		updateNodeWeights(OUTPUT, i, errorSignal);
-//	}
+	for(int i = 0; i < outputLayer->getNodeCount(); i++){
+		Node* outputNode = outputLayer->getNode(i);
+		int targetOutput = (i == targetClassification) ? 1 : 0;
+
+		float errorDelta  = targetOutput - outputNode->getOutput();
+		float errorSignal = errorDelta *  outputNode->getOutput() * (1 - outputNode->getOutput());	// derivative of the SIGMOID activation function
+
+		updateNodeWeights(OUTPUT, i, errorSignal);
+	}
 }

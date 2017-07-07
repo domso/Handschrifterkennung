@@ -7,8 +7,7 @@
 
 #include "Layer.h"
 
-Layer::Layer(int nodeCount) {
-	nodes.reserve(nodeCount);
+Layer::Layer(int nodeCount) : nodes(nodeCount){
 }
 
 Layer::~Layer() {
