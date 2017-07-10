@@ -4,7 +4,7 @@
 #include "cuda_neuronalNetwork.h"
 #include "cuda_model.h"
 
-int main3() {
+int main() {
 	auto trainings_data = data::sample_set::load<float>("./train-images.idx3-ubyte",
 				"./train-labels.idx1-ubyte");
 	auto test_data = data::sample_set::load<float>("./t10k-images.idx3-ubyte",
