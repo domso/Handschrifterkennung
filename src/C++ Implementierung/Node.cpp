@@ -15,7 +15,7 @@ Node::Node(float bias, float output, int weightCount) : weights(weightCount){
 Node::~Node() {
 }
 
-float Node::getOutput() {
+float Node::getOutput() const{
 	return output;
 }
 
@@ -23,7 +23,7 @@ void Node::setOutput(float output) {
 	this->output = output;
 }
 
-float Node::getBias() {
+float Node::getBias() const{
 	return bias;
 }
 
@@ -31,6 +31,6 @@ void Node::setBias(float bias) {
 	this->bias = bias;
 }
 
-std::vector<float>& Node::getWeights() {
+std::vector<float>& Node::getWeights(){
 	return weights;
 }

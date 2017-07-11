@@ -17,7 +17,7 @@ public:
 	Layer(int nodeCount);
 	virtual ~Layer();
 	int getNodeCount();
-	Node* getNode(int nodeID);
+	Node* getNode(int nodeID) const;
 	void  setNode(Node* node, int nodeID);
 
 private:

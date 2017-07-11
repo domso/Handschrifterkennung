@@ -25,9 +25,7 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-. \
-build/CMakeFiles/handschrifterkennung.dir \
-build/CMakeFiles \
-build/CMakeFiles/3.7.2/CompilerIdCXX \
-build/CMakeFiles/3.7.2/CompilerIdC \
+src \
+src/cuda_implementierung \
+src/C++\ Implementierung \
 

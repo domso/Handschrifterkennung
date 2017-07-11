@@ -20,7 +20,7 @@ int Layer::getNodeCount() {
 	return nodes.size();
 }
 
-Node* Layer::getNode(int nodeID){
+Node* Layer::getNode(int nodeID) const {
 	return nodes[nodeID];
 }
 

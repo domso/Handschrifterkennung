@@ -12,8 +12,8 @@ src/C++ Implementierung/main.o : ../src/C++ Implementierung/main.cu \
     /usr/include/device_types.h \
     /usr/include/host_defines.h \
     /usr/include/driver_types.h \
-    /usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/limits.h \
-    /usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/syslimits.h \
+    /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
+    /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
     /usr/include/limits.h \
     /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
     /usr/include/x86_64-linux-gnu/bits/local_lim.h \
@@ -21,7 +21,7 @@ src/C++ Implementierung/main.o : ../src/C++ Implementierung/main.cu \
     /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
     /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
     /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-    /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h \
+    /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
     /usr/include/surface_types.h \
     /usr/include/texture_types.h \
     /usr/include/vector_types.h \
@@ -41,20 +41,20 @@ src/C++ Implementierung/main.o : ../src/C++ Implementierung/main.cu \
     /usr/include/x86_64-linux-gnu/bits/types.h \
     /usr/include/x86_64-linux-gnu/bits/typesizes.h \
     /usr/include/x86_64-linux-gnu/bits/timex.h \
-    /usr/include/c++/4.9/new \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++config.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/os_defines.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/cpu_defines.h \
-    /usr/include/c++/4.9/exception \
-    /usr/include/c++/4.9/bits/atomic_lockfree_defines.h \
-    /usr/include/c++/4.9/bits/exception_ptr.h \
-    /usr/include/c++/4.9/bits/exception_defines.h \
-    /usr/include/c++/4.9/bits/nested_exception.h \
+    /usr/include/c++/5/new \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/cpu_defines.h \
+    /usr/include/c++/5/exception \
+    /usr/include/c++/5/bits/atomic_lockfree_defines.h \
+    /usr/include/c++/5/bits/exception_ptr.h \
+    /usr/include/c++/5/bits/exception_defines.h \
+    /usr/include/c++/5/bits/nested_exception.h \
     /usr/include/stdio.h \
     /usr/include/libio.h \
     /usr/include/_G_config.h \
     /usr/include/wchar.h \
-    /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h \
+    /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
     /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
     /usr/include/x86_64-linux-gnu/bits/stdio.h \
     /usr/include/x86_64-linux-gnu/bits/stdio2.h \
@@ -89,10 +89,10 @@ src/C++ Implementierung/main.o : ../src/C++ Implementierung/main.cu \
     /usr/include/x86_64-linux-gnu/bits/mathdef.h \
     /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
     /usr/include/x86_64-linux-gnu/bits/mathinline.h \
-    /usr/include/c++/4.9/cmath \
-    /usr/include/c++/4.9/bits/cpp_type_traits.h \
-    /usr/include/c++/4.9/ext/type_traits.h \
-    /usr/include/c++/4.9/cstdlib \
+    /usr/include/c++/5/cmath \
+    /usr/include/c++/5/bits/cpp_type_traits.h \
+    /usr/include/c++/5/ext/type_traits.h \
+    /usr/include/c++/5/cstdlib \
     /usr/include/math_functions.hpp \
     /usr/include/math_functions_dbl_ptx3.h \
     /usr/include/math_functions_dbl_ptx3.hpp \
@@ -125,105 +125,108 @@ src/C++ Implementierung/main.o : ../src/C++ Implementierung/main.cu \
     /usr/include/texture_indirect_functions.h \
     /usr/include/surface_indirect_functions.h \
     /usr/include/device_launch_parameters.h \
-    /usr/include/c++/4.9/iostream \
-    /usr/include/c++/4.9/ostream \
-    /usr/include/c++/4.9/ios \
-    /usr/include/c++/4.9/iosfwd \
-    /usr/include/c++/4.9/bits/stringfwd.h \
-    /usr/include/c++/4.9/bits/memoryfwd.h \
-    /usr/include/c++/4.9/bits/postypes.h \
-    /usr/include/c++/4.9/cwchar \
+    /usr/include/c++/5/iostream \
+    /usr/include/c++/5/ostream \
+    /usr/include/c++/5/ios \
+    /usr/include/c++/5/iosfwd \
+    /usr/include/c++/5/bits/stringfwd.h \
+    /usr/include/c++/5/bits/memoryfwd.h \
+    /usr/include/c++/5/bits/postypes.h \
+    /usr/include/c++/5/cwchar \
     /usr/include/x86_64-linux-gnu/bits/wchar.h \
     /usr/include/x86_64-linux-gnu/bits/wchar2.h \
-    /usr/include/c++/4.9/bits/char_traits.h \
-    /usr/include/c++/4.9/bits/stl_algobase.h \
-    /usr/include/c++/4.9/bits/functexcept.h \
-    /usr/include/c++/4.9/ext/numeric_traits.h \
-    /usr/include/c++/4.9/bits/stl_pair.h \
-    /usr/include/c++/4.9/bits/move.h \
-    /usr/include/c++/4.9/bits/concept_check.h \
-    /usr/include/c++/4.9/type_traits \
-    /usr/include/c++/4.9/bits/stl_iterator_base_types.h \
-    /usr/include/c++/4.9/bits/stl_iterator_base_funcs.h \
-    /usr/include/c++/4.9/debug/debug.h \
-    /usr/include/c++/4.9/bits/stl_iterator.h \
-    /usr/include/c++/4.9/bits/ptr_traits.h \
-    /usr/include/c++/4.9/bits/predefined_ops.h \
-    /usr/include/c++/4.9/cstdint \
-    /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h \
+    /usr/include/c++/5/bits/char_traits.h \
+    /usr/include/c++/5/bits/stl_algobase.h \
+    /usr/include/c++/5/bits/functexcept.h \
+    /usr/include/c++/5/ext/numeric_traits.h \
+    /usr/include/c++/5/bits/stl_pair.h \
+    /usr/include/c++/5/bits/move.h \
+    /usr/include/c++/5/bits/concept_check.h \
+    /usr/include/c++/5/type_traits \
+    /usr/include/c++/5/bits/stl_iterator_base_types.h \
+    /usr/include/c++/5/bits/stl_iterator_base_funcs.h \
+    /usr/include/c++/5/debug/debug.h \
+    /usr/include/c++/5/bits/stl_iterator.h \
+    /usr/include/c++/5/bits/ptr_traits.h \
+    /usr/include/c++/5/bits/predefined_ops.h \
+    /usr/include/c++/5/cstdint \
+    /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h \
     /usr/include/stdint.h \
-    /usr/include/c++/4.9/bits/localefwd.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++locale.h \
-    /usr/include/c++/4.9/clocale \
+    /usr/include/c++/5/bits/localefwd.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/c++locale.h \
+    /usr/include/c++/5/clocale \
     /usr/include/locale.h \
     /usr/include/x86_64-linux-gnu/bits/locale.h \
-    /usr/include/c++/4.9/cctype \
+    /usr/include/c++/5/cctype \
     /usr/include/ctype.h \
-    /usr/include/c++/4.9/bits/ios_base.h \
-    /usr/include/c++/4.9/ext/atomicity.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr-default.h \
+    /usr/include/c++/5/bits/ios_base.h \
+    /usr/include/c++/5/ext/atomicity.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/gthr.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h \
     /usr/include/pthread.h \
     /usr/include/sched.h \
     /usr/include/x86_64-linux-gnu/bits/sched.h \
     /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/atomic_word.h \
-    /usr/include/c++/4.9/bits/locale_classes.h \
-    /usr/include/c++/4.9/string \
-    /usr/include/c++/4.9/bits/allocator.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++allocator.h \
-    /usr/include/c++/4.9/ext/new_allocator.h \
-    /usr/include/c++/4.9/bits/ostream_insert.h \
-    /usr/include/c++/4.9/bits/cxxabi_forced.h \
-    /usr/include/c++/4.9/bits/stl_function.h \
-    /usr/include/c++/4.9/backward/binders.h \
-    /usr/include/c++/4.9/bits/range_access.h \
-    /usr/include/c++/4.9/bits/basic_string.h \
-    /usr/include/c++/4.9/initializer_list \
-    /usr/include/c++/4.9/ext/string_conversions.h \
-    /usr/include/c++/4.9/cstdio \
-    /usr/include/c++/4.9/cerrno \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/atomic_word.h \
+    /usr/include/c++/5/bits/locale_classes.h \
+    /usr/include/c++/5/string \
+    /usr/include/c++/5/bits/allocator.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/c++allocator.h \
+    /usr/include/c++/5/ext/new_allocator.h \
+    /usr/include/c++/5/bits/ostream_insert.h \
+    /usr/include/c++/5/bits/cxxabi_forced.h \
+    /usr/include/c++/5/bits/stl_function.h \
+    /usr/include/c++/5/backward/binders.h \
+    /usr/include/c++/5/bits/range_access.h \
+    /usr/include/c++/5/initializer_list \
+    /usr/include/c++/5/bits/basic_string.h \
+    /usr/include/c++/5/ext/alloc_traits.h \
+    /usr/include/c++/5/bits/alloc_traits.h \
+    /usr/include/c++/5/ext/string_conversions.h \
+    /usr/include/c++/5/cstdio \
+    /usr/include/c++/5/cerrno \
     /usr/include/errno.h \
     /usr/include/x86_64-linux-gnu/bits/errno.h \
     /usr/include/linux/errno.h \
     /usr/include/x86_64-linux-gnu/asm/errno.h \
     /usr/include/asm-generic/errno.h \
     /usr/include/asm-generic/errno-base.h \
-    /usr/include/c++/4.9/bits/functional_hash.h \
-    /usr/include/c++/4.9/bits/hash_bytes.h \
-    /usr/include/c++/4.9/bits/basic_string.tcc \
-    /usr/include/c++/4.9/bits/locale_classes.tcc \
-    /usr/include/c++/4.9/streambuf \
-    /usr/include/c++/4.9/bits/streambuf.tcc \
-    /usr/include/c++/4.9/bits/basic_ios.h \
-    /usr/include/c++/4.9/bits/locale_facets.h \
-    /usr/include/c++/4.9/cwctype \
+    /usr/include/c++/5/bits/functional_hash.h \
+    /usr/include/c++/5/bits/hash_bytes.h \
+    /usr/include/c++/5/bits/basic_string.tcc \
+    /usr/include/c++/5/bits/locale_classes.tcc \
+    /usr/include/c++/5/system_error \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/error_constants.h \
+    /usr/include/c++/5/stdexcept \
+    /usr/include/c++/5/streambuf \
+    /usr/include/c++/5/bits/streambuf.tcc \
+    /usr/include/c++/5/bits/basic_ios.h \
+    /usr/include/c++/5/bits/locale_facets.h \
+    /usr/include/c++/5/cwctype \
     /usr/include/wctype.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_base.h \
-    /usr/include/c++/4.9/bits/streambuf_iterator.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_inline.h \
-    /usr/include/c++/4.9/bits/locale_facets.tcc \
-    /usr/include/c++/4.9/bits/basic_ios.tcc \
-    /usr/include/c++/4.9/bits/ostream.tcc \
-    /usr/include/c++/4.9/istream \
-    /usr/include/c++/4.9/bits/istream.tcc \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/ctype_base.h \
+    /usr/include/c++/5/bits/streambuf_iterator.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/ctype_inline.h \
+    /usr/include/c++/5/bits/locale_facets.tcc \
+    /usr/include/c++/5/bits/basic_ios.tcc \
+    /usr/include/c++/5/bits/ostream.tcc \
+    /usr/include/c++/5/istream \
+    /usr/include/c++/5/bits/istream.tcc \
     /usr/include/cuda.h \
-    /usr/include/c++/4.9/vector \
-    /usr/include/c++/4.9/bits/stl_construct.h \
-    /usr/include/c++/4.9/ext/alloc_traits.h \
-    /usr/include/c++/4.9/bits/alloc_traits.h \
-    /usr/include/c++/4.9/bits/stl_uninitialized.h \
-    /usr/include/c++/4.9/bits/stl_vector.h \
-    /usr/include/c++/4.9/bits/stl_bvector.h \
-    /usr/include/c++/4.9/bits/vector.tcc \
+    /usr/include/c++/5/vector \
+    /usr/include/c++/5/bits/stl_construct.h \
+    /usr/include/c++/5/bits/stl_uninitialized.h \
+    /usr/include/c++/5/bits/stl_vector.h \
+    /usr/include/c++/5/bits/stl_bvector.h \
+    /usr/include/c++/5/bits/vector.tcc \
     ../src/C++\ Implementierung/NeuronalNetwork.h \
     ../src/C++\ Implementierung/Layer.h \
     ../src/C++\ Implementierung/Node.h \
-    ../src/C++\ Implementierung/sample_set.h \
-    /usr/include/c++/4.9/fstream \
-    /usr/include/c++/4.9/bits/codecvt.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/basic_file.h \
-    /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++io.h \
-    /usr/include/c++/4.9/bits/fstream.tcc \
-    ../src/C++\ Implementierung/sample.h \
-    ../src/C++\ Implementierung/helper.h
+    ../src/C++\ Implementierung/../sample_set.h \
+    /usr/include/c++/5/fstream \
+    /usr/include/c++/5/bits/codecvt.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/basic_file.h \
+    /usr/include/x86_64-linux-gnu/c++/5/bits/c++io.h \
+    /usr/include/c++/5/bits/fstream.tcc \
+    ../src/C++\ Implementierung/../sample.h \
+    ../src/C++\ Implementierung/../helper.h

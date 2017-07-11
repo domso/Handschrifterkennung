@@ -9,10 +9,9 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
--include build/CMakeFiles/handschrifterkennung.dir/subdir.mk
--include build/CMakeFiles/subdir.mk
--include build/CMakeFiles/3.7.2/CompilerIdCXX/subdir.mk
--include build/CMakeFiles/3.7.2/CompilerIdC/subdir.mk
+-include src/subdir.mk
+-include src/cuda_implementierung/subdir.mk
+-include src/C++\ Implementierung/subdir.mk
 
 OS_SUFFIX := $(subst Linux,linux,$(subst Darwin/x86_64,darwin,$(shell uname -s)/$(shell uname -m)))
 
@@ -55,19 +54,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: handschrifterkennung
+all: mc17-team1
 
 # Tool invocations
-handschrifterkennung: $(OBJS) $(USER_OBJS)
+mc17-team1: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: NVCC Linker'
-	/usr/bin/nvcc --cudart static --relocatable-device-code=false -gencode arch=compute_60,code=compute_60 -gencode arch=compute_60,code=sm_60 -link -o  "handschrifterkennung" $(OBJS) $(USER_OBJS) $(LIBS)
+	/usr/bin/nvcc --cudart static --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_60,code=compute_60 -gencode arch=compute_20,code=sm_20 -gencode arch=compute_60,code=sm_60 -link -o  "mc17-team1" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CU_DEPS)$(CPP_DEPS)$(C_DEPS) handschrifterkennung
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CU_DEPS)$(CPP_DEPS)$(C_DEPS) mc17-team1
 	-@echo ' '
 
 .PHONY: all clean dependents
