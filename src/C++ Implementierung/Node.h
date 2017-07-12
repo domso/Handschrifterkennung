@@ -13,9 +13,9 @@ class Node {
 public:
 	Node(float bias, float output, int weightCount);
 	virtual ~Node();
-	float getOutput();
+	float getOutput() const;
 	void setOutput(float output);
-	float getBias();
+	float getBias() const;
 	void setBias(float bias);
 	std::vector<float>& getWeights();
 

@@ -2,8 +2,8 @@
 #include <cuda.h>
 #include <vector>
 #include "NeuronalNetwork.h"
-#include "sample_set.h"
-#include "sample.h"
+#include "../sample_set.h"
+#include "../sample.h"
 
 
 /**
@@ -15,7 +15,7 @@ void trainNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& trainin
 
 	for(int i = 0; i < trainingSamples.size(); i++){
 		std::vector<float>& input = trainingSamples[i].internalData();
-		int label = trainingSamples[i].getLabel();
+		int label = trainingSamples[i].get_label();
 
 		nn.feedInput(input);
 
@@ -40,7 +40,7 @@ void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamp
 	int errorCount = 0;
 	for(int i = 0; i < testSamples.size(); i++){
 		std::vector<float>& input = testSamples[i].internalData();
-		int label = testSamples[i].getLabel();
+		int label = testSamples[i].get_label();
 
 		nn.feedInput(input);
 
@@ -55,7 +55,7 @@ void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamp
 
 }
 
-int main3(int argc, char** argv) {
+int main2() {
 	std::vector<data::sample<float>> trainingInput = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 
 	int imgCount    = trainingInput.size();
@@ -65,7 +65,7 @@ int main3(int argc, char** argv) {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 200;
+	int hiddenCount = 20;
 	int outputCount = 10;
 
 	NeuronalNetwork nn(inputCount, hiddenCount, outputCount);
@@ -77,11 +77,11 @@ int main3(int argc, char** argv) {
 	std::cout << input->getNodeCount() << " input nodes, " << hidden->getNodeCount() << " hidden nodes, " << output->getNodeCount() << " output nodes\n";
 	std::vector<data::sample<float>> testInput = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
-for(int i = 0; i < 1; i++){
+	for(int i = 0; i < 1; i++){
 
-	trainNetwork(nn, trainingInput);
-	testNetwork(nn, testInput);
-}
+		trainNetwork(nn, trainingInput);
+		testNetwork(nn, testInput);
+	}
 
-
+	return 0;
 }
