@@ -33,20 +33,20 @@ namespace cuda {
             return error_;
         }
 
-        void synchToDevice(const synchT& input, const int n = 1) {
+        void synch_to_device(const synchT& input, const int n = 1) {
             error_ = (cudaMemcpy(dev_data_, &input, n * sizeof(synchT), cudaMemcpyHostToDevice) != cudaSuccess);
         }
 
 
-        void synchFromDevice(synchT& output, const int n = 1) {
+        void synch_from_device(synchT& output, const int n = 1) {
             error_ = (cudaMemcpy(&output, dev_data_, n * sizeof(synchT), cudaMemcpyDeviceToHost) != cudaSuccess);
         }
 
-        void synchToDevice(const std::vector<synchT>& input, const int offset = 0) {
+        void synch_to_device(const std::vector<synchT>& input, const int offset = 0) {
             error_ = (cudaMemcpy(dev_data_ + offset * input.size(), input.data(), input.size() * sizeof(synchT), cudaMemcpyHostToDevice) != cudaSuccess);
         }
 
-        void synchFromDevice(std::vector<synchT>& output, const int offset = 0) {
+        void synch_from_device(std::vector<synchT>& output, const int offset = 0) {
             error_ = (cudaMemcpy(output.data(), dev_data_ + offset * output.size(), output.size() * sizeof(synchT), cudaMemcpyDeviceToHost) != cudaSuccess);
         }
 
