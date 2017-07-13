@@ -139,8 +139,10 @@ int NeuronalNetwork::getNetworkClassification() {
  * @param input  a vector with the input values
  */
 void NeuronalNetwork::feedInput(std::vector<float> input) {
-//	Layer* inputLayer = getLayer(INPUT);
-//
+	Layer* inputLayer = getLayer(INPUT);
+
+	// copy the input values to the inputLayer
+	//parallel
 //	int threadCount = std::thread::hardware_concurrency();
 //	int elementsPerThread = input.size() / threadCount;
 //	std::vector<std::thread> threads(0);
@@ -161,9 +163,6 @@ void NeuronalNetwork::feedInput(std::vector<float> input) {
 //		thread.join();
 
 	// sequentiell
-	Layer* inputLayer = getLayer(INPUT);
-
-	// copy the input values to the inputLayer
 	for(int i = 0; i < input.size(); i++){
 		Node* inputNode = inputLayer->getNode(i);
 		inputNode->setOutput(input[i]);
@@ -208,16 +207,40 @@ void NeuronalNetwork::updateNodeWeights(LayerType lType, int nodeID, float delta
 		prevLayer = getLayer(INPUT);
 	}
 
-	// go through all weights of updateNode and update them with the delta
-	int i = 0;
-	for(float& weight: updateNode->getWeights()){
-		Node* prevLayerNode = prevLayer->getNode(i);
-		weight += (learningRate * prevLayerNode->getOutput() * delta);
-		i++;
-	}
+	int threadCount = std::thread::hardware_concurrency();
+		int nodesPerThread = outputLayer->getNodeCount() / threadCount;
+		std::vector<std::thread> threads(0);
 
-	// update bias weigth
-	updateNode->setBias(updateNode->getBias() + learningRate * delta);
+		for(int thID = 0; thID < threadCount; thID++){
+			int rangeFrom = thID * nodesPerThread;
+			int rangeTo = (thID == (threadCount - 1) ? outputLayer->getNodeCount() : ((thID + 1) * nodesPerThread) );
+			threads.push_back(std::thread([this, rangeFrom, rangeTo, &outputLayer, targetClassification]{
+				// go through all weights of updateNode and update them with the delta
+				int i = 0;
+				for(float& weight: updateNode->getWeights()){
+					Node* prevLayerNode = prevLayer->getNode(i);
+					weight += (learningRate * prevLayerNode->getOutput() * delta);
+					i++;
+				}
+
+				// update bias weigth
+				updateNode->setBias(updateNode->getBias() + learningRate * delta);
+			}));
+		}
+
+		for(auto& thread : threads)
+			thread.join();
+
+	// go through all weights of updateNode and update them with the delta
+//	int i = 0;
+//	for(float& weight: updateNode->getWeights()){
+//		Node* prevLayerNode = prevLayer->getNode(i);
+//		weight += (learningRate * prevLayerNode->getOutput() * delta);
+//		i++;
+//	}
+//
+//	// update bias weigth
+//	updateNode->setBias(updateNode->getBias() + learningRate * delta);
 }
 
 
@@ -264,6 +287,7 @@ void NeuronalNetwork::calcNodeOutput(LayerType lType, int nodeID) {
 void NeuronalNetwork::calcLayer(LayerType lType) {
 	Layer* layer = getLayer(lType);
 
+	// parallel
 //	int threadCount = std::thread::hardware_concurrency();
 //	int nodesPerThread = layer->getNodeCount() / threadCount;
 //	std::vector<std::thread> threads(0);

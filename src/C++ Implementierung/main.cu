@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cuda.h>
 #include <vector>
+#include <chrono>
 #include "NeuronalNetwork.h"
 #include "../sample_set.h"
 #include "../sample.h"
@@ -25,15 +26,10 @@ void trainNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& trainin
 
 		int classification = nn.getNetworkClassification();
 		if(classification != label){
-//			std::cout << "network computed " << classification << ", but label is " << label << "\n";
 			errorCount++;
 		}
-//		else
-//		{
-//			std::cout << "network computed " << classification << " and label is " << label << "\n";
-//		}
 	}
-	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images\n";
+	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
 
 void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamples){
@@ -51,7 +47,7 @@ void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamp
 			errorCount++;
 		}
 	}
-	std::cout << "test completed!\n => " << errorCount << " mistakes out of " << testSamples.size() << " images\n";
+	std::cout << "test completed!\n => " << errorCount << " mistakes out of " << testSamples.size() << " images (" << ((float)(testSamples.size() - errorCount) / testSamples.size() * 100) << "% sucess rate)\n";
 
 }
 
@@ -65,7 +61,7 @@ int main() {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 20;
+	int hiddenCount = 50;
 	int outputCount = 10;
 
 	NeuronalNetwork nn(inputCount, hiddenCount, outputCount);
@@ -77,11 +73,17 @@ int main() {
 	std::cout << input->getNodeCount() << " input nodes, " << hidden->getNodeCount() << " hidden nodes, " << output->getNodeCount() << " output nodes\n";
 	std::vector<data::sample<float>> testInput = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
-	for(int i = 0; i < 1; i++){
+	auto startTimeTrain = std::chrono::high_resolution_clock::now();
+	trainNetwork(nn, trainingInput);
+	auto endTimeTrain   = std::chrono::high_resolution_clock::now();
+	auto elapsedTimeTrain = std::chrono::duration_cast<std::chrono::milliseconds>(endTimeTrain - startTimeTrain).count();
+	std::cout << "\nTraining with " << trainingInput.size() << " pictures ended after " << elapsedTimeTrain << "ms\n\n";
 
-		trainNetwork(nn, trainingInput);
-		testNetwork(nn, testInput);
-	}
+	auto startTimeTest = std::chrono::high_resolution_clock::now();
+	testNetwork(nn, testInput);
+	auto endTimeTest   = std::chrono::high_resolution_clock::now();
+	auto elapsedTimeTest = std::chrono::duration_cast<std::chrono::milliseconds>(endTimeTest - startTimeTest).count();
+	std::cout << "\nTesting with " << testInput.size() << " pictures ended after " << elapsedTimeTest << "ms\n\n";
 
 	return 0;
 }
