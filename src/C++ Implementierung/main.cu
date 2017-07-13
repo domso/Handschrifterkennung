@@ -2,7 +2,7 @@
 #include <cuda.h>
 #include <vector>
 #include <chrono>
-#include "NeuronalNetwork.h"
+#include "neuronal_network.h"
 #include "../sample_set.h"
 #include "../sample.h"
 
@@ -11,20 +11,14 @@
  * Training the network by processing the MNIST training set and updating the weights
  * @param nn
  */
-void trainNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& trainingSamples){
+void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& trainingSamples){
 	int errorCount = 0;
 
 	for(int i = 0; i < trainingSamples.size(); i++){
 		std::vector<float>& input = trainingSamples[i].internalData();
 		int label = trainingSamples[i].get_label();
 
-		nn.feedInput(input);
-
-		nn.feedForwardNetwork();
-
-		nn.backPropagateNetwork(label);
-
-		int classification = nn.getNetworkClassification();
+		int classification = nn.proccess_input(input, label, true, 1);
 		if(classification != label){
 			errorCount++;
 		}
@@ -32,17 +26,13 @@ void trainNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& trainin
 	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
 
-void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamples){
+void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSamples){
 	int errorCount = 0;
 	for(int i = 0; i < testSamples.size(); i++){
 		std::vector<float>& input = testSamples[i].internalData();
 		int label = testSamples[i].get_label();
 
-		nn.feedInput(input);
-
-		nn.feedForwardNetwork();
-
-		int classification = nn.getNetworkClassification();
+		int classification = nn.proccess_input(input, label, false, 1);
 		if(classification != label){
 			errorCount++;
 		}
@@ -51,7 +41,7 @@ void testNetwork(NeuronalNetwork& nn, std::vector<data::sample<float>>& testSamp
 
 }
 
-int main2() {
+int main() {
 	std::vector<data::sample<float>> trainingInput = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 
 	int imgCount    = trainingInput.size();
@@ -61,16 +51,16 @@ int main2() {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 50;
+	int hiddenCount = 20;
 	int outputCount = 10;
 
-	NeuronalNetwork nn(inputCount, hiddenCount, outputCount);
+	neuronal_network nn(inputCount, hiddenCount, outputCount);
 
-	Layer* input = nn.getLayer(INPUT);
-	Layer* hidden = nn.getLayer(HIDDEN);
-	Layer* output = nn.getLayer(OUTPUT);
+	layer* input = nn.get_layer(INPUT);
+	layer* hidden = nn.get_layer(HIDDEN);
+	layer* output = nn.get_layer(OUTPUT);
 
-	std::cout << input->getNodeCount() << " input nodes, " << hidden->getNodeCount() << " hidden nodes, " << output->getNodeCount() << " output nodes\n";
+	std::cout << input->get_node_count() << " input nodes, " << hidden->get_node_count() << " hidden nodes, " << output->get_node_count() << " output nodes\n";
 	std::vector<data::sample<float>> testInput = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
 	auto startTimeTrain = std::chrono::high_resolution_clock::now();
