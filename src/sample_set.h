@@ -40,13 +40,13 @@ namespace data {
                 return samples;
             }
 
-            magicImg = helper::convEndian<int32_t>(magicImg);
-            numItemImg = helper::convEndian<int32_t>(numItemImg);
-            width = helper::convEndian<int32_t>(width);
-            height = helper::convEndian<int32_t>(height);
+            magicImg = helper::conv_endian<int32_t>(magicImg);
+            numItemImg = helper::conv_endian<int32_t>(numItemImg);
+            width = helper::conv_endian<int32_t>(width);
+            height = helper::conv_endian<int32_t>(height);
 
-            magicLabel = helper::convEndian<int32_t>(magicLabel);
-            numItemLabel = helper::convEndian<int32_t>(numItemLabel);
+            magicLabel = helper::conv_endian<int32_t>(magicLabel);
+            numItemLabel = helper::conv_endian<int32_t>(numItemLabel);
 
             for (int i = 0; i < numItemImg; i++) {
                 sample<imgT> s(i, width, height);
@@ -67,7 +67,7 @@ namespace data {
                     break;
                 }
 
-                s.setLabel(label);
+                s.set_label(label);
                 samples.push_back(std::move(s));
             }
 

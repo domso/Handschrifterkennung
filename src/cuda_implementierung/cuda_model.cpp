@@ -17,11 +17,11 @@ namespace cuda {
 		}
 	}
 
-	std::vector<float>& model::getWeights() {
+	std::vector<float>& model::get_weights() {
 		return weights_;
 	}
 
-	const std::vector<float>& model::getWeights() const{
+	const std::vector<float>& model::get_weights() const{
 			return weights_;
 	}
 

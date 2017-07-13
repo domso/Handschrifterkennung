@@ -5,7 +5,7 @@
 
 namespace helper {
     template <typename T>
-    T convEndian(const T input) {
+    T conv_endian(const T input) {
         T result;
         
         for (int i = 0; i < sizeof(T); i++) {
