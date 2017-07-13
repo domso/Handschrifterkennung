@@ -9,20 +9,20 @@ namespace cuda {
 	}
 
 	void model::init(const int size) {
-		weights_.resize(size);
+		m_weights.resize(size);
 		std::srand(std::time(0));
 
-		for (float& w : weights_) {
+		for (float& w : m_weights) {
 			w = -0.5 + (float) (std::rand() % 1000001) / (float) 1000000;;
 		}
 	}
 
 	std::vector<float>& model::get_weights() {
-		return weights_;
+		return m_weights;
 	}
 
 	const std::vector<float>& model::get_weights() const{
-			return weights_;
+			return m_weights;
 	}
 
 }

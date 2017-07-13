@@ -196,6 +196,7 @@ void NeuronalNetwork::backPropagateNetwork(int targetClassification) {
  * @param delta   difference between desired output and actual output
  */
 void NeuronalNetwork::updateNodeWeights(LayerType lType, int nodeID, float delta){
+	/*
 	Layer* updateLayer = getLayer(lType);
 	Node*  updateNode  = updateLayer->getNode(nodeID);
 
@@ -230,7 +231,7 @@ void NeuronalNetwork::updateNodeWeights(LayerType lType, int nodeID, float delta
 
 		for(auto& thread : threads)
 			thread.join();
-
+*/
 	// go through all weights of updateNode and update them with the delta
 //	int i = 0;
 //	for(float& weight: updateNode->getWeights()){
@@ -241,6 +242,7 @@ void NeuronalNetwork::updateNodeWeights(LayerType lType, int nodeID, float delta
 //
 //	// update bias weigth
 //	updateNode->setBias(updateNode->getBias() + learningRate * delta);
+
 }
 
 

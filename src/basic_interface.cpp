@@ -9,26 +9,26 @@
 
 basic_interface::basic_interface(const int width, const int height, const int tile_width,
 			const int tile_height) :
-			width_(width),
-			height_(height),
-			tile_width_(tile_width),
-			tile_height_(tile_height),
-			output_(0, tile_width, tile_height),
-			active_(true)
+			m_width(width),
+			m_height(height),
+			m_tile_width(tile_width),
+			m_tile_height(tile_height),
+			m_output(0, tile_width, tile_height),
+			m_active(true)
 {
 }
 
 bool basic_interface::init() {
 
-	window_ = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, width_, height_, SDL_WINDOW_SHOWN);
+	m_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED,
+	SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
 
-	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
-	return window_ != nullptr && renderer_ != nullptr;
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	return m_window != nullptr && m_renderer != nullptr;
 }
 
 void basic_interface::update() {
-	data::sample<float> local_data(0, tile_width_, tile_height_);
+	data::sample<float> local_data(0, m_tile_width, m_tile_height);
 	bool running = true;
 	bool update = false;
 
@@ -40,10 +40,10 @@ void basic_interface::update() {
 		int x, y;
 		uint32_t mouseState = SDL_GetMouseState(&x, &y);
 		if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-			int tile_x = x / tile_width_;
-			int tile_y = y / tile_height_;
-			if (local_data[tile_y * tile_width_ + tile_x] != 1) {
-				local_data[tile_y * tile_width_ + tile_x] = 1;
+			int tile_x = x / m_tile_width;
+			int tile_y = y / m_tile_height;
+			if (local_data[tile_y * m_tile_width + tile_x] != 1) {
+				local_data[tile_y * m_tile_width + tile_x] = 1;
 
 				draw_tile(tile_x, tile_y, 255);
 
@@ -57,50 +57,50 @@ void basic_interface::update() {
 			update = !create_output(local_data);
 		}
 		wait_for_close(running);
-		SDL_RenderPresent(renderer_);
+		SDL_RenderPresent(m_renderer);
 	}
 
-	active_ = false;
-	cond_.notify_all();
+	m_active = false;
+	m_cond.notify_all();
 }
 
 bool basic_interface::is_active() const {
-	return active_;
+	return m_active;
 }
 
 void basic_interface::close() {
-	SDL_DestroyWindow(window_);
+	SDL_DestroyWindow(m_window);
 }
 
 data::sample<float>& basic_interface::wait_for_output() {
-	std::unique_lock <std::mutex> ul(mutex_);
+	std::unique_lock <std::mutex> ul(m_mutex);
 
-	while (!output_valid_) {
-		cond_.wait(ul);
+	while (!m_outputIsValid) {
+		m_cond.wait(ul);
 	}
 
-	output_valid_ = false;
+	m_outputIsValid = false;
 
-	return output_;
+	return m_output;
 }
 
 bool basic_interface::draw_grid() {
 	int result = 0;
-	SDL_SetRenderDrawColor(renderer_, 128, 128, 128, 255);
-	for (int x = 0; x < width_; x += tile_width_) {
-		result += SDL_RenderDrawLine(renderer_, x, 0, x, height_);
+	SDL_SetRenderDrawColor(m_renderer, 128, 128, 128, 255);
+	for (int x = 0; x < m_width; x += m_tile_width) {
+		result += SDL_RenderDrawLine(m_renderer, x, 0, x, m_height);
 	}
 
-	for (int y = 0; y < height_; y += tile_height_) {
-		result += SDL_RenderDrawLine(renderer_, 0, y, width_, y);
+	for (int y = 0; y < m_height; y += m_tile_height) {
+		result += SDL_RenderDrawLine(m_renderer, 0, y, m_width, y);
 	}
 
 	return result == 0;
 }
 
 void basic_interface::clear() {
-	SDL_SetRenderDrawColor(renderer_, 50, 50, 50, 255);
-	SDL_RenderClear(renderer_);
+	SDL_SetRenderDrawColor(m_renderer, 50, 50, 50, 255);
+	SDL_RenderClear(m_renderer);
 }
 
 void basic_interface::wait_for_close(bool& running) {
@@ -114,11 +114,11 @@ void basic_interface::wait_for_close(bool& running) {
 }
 
 bool basic_interface::create_output(data::sample<float>& local) {
-	std::unique_lock <std::mutex> ul(mutex_, std::try_to_lock);
+	std::unique_lock <std::mutex> ul(m_mutex, std::try_to_lock);
 	if (ul.owns_lock()) {
-		output_ = local;
-		output_valid_ = true;
-		cond_.notify_all();
+		m_output = local;
+		m_outputIsValid = true;
+		m_cond.notify_all();
 		return true;
 	}
 
@@ -127,19 +127,19 @@ bool basic_interface::create_output(data::sample<float>& local) {
 
 void basic_interface::draw_tile(const int x, const int y, const uint8_t color) {
 	SDL_Rect tile;
-	tile.x = x * tile_width_;
-	tile.y = y * tile_height_;
-	tile.h = tile_height_;
-	tile.w = tile_width_;
-	SDL_SetRenderDrawColor(renderer_, color, color, color, 255);
-	SDL_RenderFillRect(renderer_, &tile);
+	tile.x = x * m_tile_width;
+	tile.y = y * m_tile_height;
+	tile.h = m_tile_height;
+	tile.w = m_tile_width;
+	SDL_SetRenderDrawColor(m_renderer, color, color, color, 255);
+	SDL_RenderFillRect(m_renderer, &tile);
 }
 
 void basic_interface::reset(data::sample<float>& s) {
 	clear();
 	draw_grid();
 
-	for (auto& t : s.internalData()) {
+	for (auto& t : s.internal_data()) {
 		t = 0;
 	}
 }

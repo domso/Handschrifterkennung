@@ -15,7 +15,7 @@ namespace cuda {
 		const std::vector<float>& get_weights() const;
 
 	private:
-		std::vector<float> weights_;
+		std::vector<float> m_weights;
 	};
 
 }

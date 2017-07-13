@@ -37,21 +37,21 @@ private:
 
 	void reset(data::sample<float>& s);
 
-	std::atomic<bool> active_;
-	std::mutex mutex_;
-	std::condition_variable cond_;
+	std::atomic<bool> m_active;
+	std::mutex m_mutex;
+	std::condition_variable m_cond;
 
-	int width_;
-	int height_;
+	int m_width;
+	int m_height;
 
-	int tile_width_;
-	int tile_height_;
+	int m_tile_width;
+	int m_tile_height;
 
-	data::sample<float> output_;
-	bool output_valid_ = false;
+	data::sample<float> m_output;
+	bool m_outputIsValid = false;
 
-	SDL_Window* window_;
-	SDL_Renderer* renderer_;
+	SDL_Window* m_window;
+	SDL_Renderer* m_renderer;
 };
 
 #endif
