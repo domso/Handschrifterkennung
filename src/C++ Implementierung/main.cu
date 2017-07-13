@@ -15,7 +15,7 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 	int errorCount = 0;
 
 	for(int i = 0; i < trainingSamples.size(); i++){
-		std::vector<float>& input = trainingSamples[i].internalData();
+		std::vector<float>& input = trainingSamples[i].internal_data();
 		int label = trainingSamples[i].get_label();
 
 		int classification = nn.proccess_input(input, label, true, 1);
@@ -29,7 +29,7 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSamples){
 	int errorCount = 0;
 	for(int i = 0; i < testSamples.size(); i++){
-		std::vector<float>& input = testSamples[i].internalData();
+		std::vector<float>& input = testSamples[i].internal_data();
 		int label = testSamples[i].get_label();
 
 		int classification = nn.proccess_input(input, label, false, 1);

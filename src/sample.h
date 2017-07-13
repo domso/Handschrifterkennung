@@ -13,59 +13,59 @@ namespace data {
     class sample {
     public:
 
-        sample(const int id, const int width, const int height) : id_(id), width_(width), height_(height), internalData_(width_ * height_) {
+        sample(const int id, const int width, const int height) : m_id(id), m_width(width), m_height(height), m_internalData(width * height) {
 
         }
 
         imgT& operator [](const int index) {
-            return internalData_[index];
+            return m_internalData[index];
         }
 
         const imgT& operator [](const int index) const {
-			return internalData_[index];
+			return m_internalData[index];
 		}
 
         bool operator ==(const sample<imgT>& o) const {
-        	return internalData_ == o.internalData_;
+        	return m_internalData == o.m_internalData;
         }
 
         bool operator !=(const sample<imgT>& o) const {
-           	return internalData_ != o.internalData_;
+           	return m_internalData != o.m_internalData;
         }
 
         int get_width() const {
-            return width_;
+            return m_width;
         }
 
         int get_height() const {
-            return height_;
+            return m_height;
         }
 
         uint8_t get_label() const {
-            return label_;
+            return m_label;
         }
 
         void set_label(const uint8_t newLabel) {
-            label_ = newLabel;
+            m_label = newLabel;
         }
 
         void print() const {
-            std::cout << "sample-" << id_ << ": " << "(" << width_ << " x " << height_ << ") | " << (int) label_ << std::endl;
+            std::cout << "sample-" << m_id << ": " << "(" << m_width << " x " << m_height << ") | " << (int) m_label << std::endl;
         }
 
         bool store(const std::string& filenamePrefix) {
             std::ofstream file;
-            file.open(filenamePrefix + "_#" + std::to_string(id_) + "_" + std::to_string((int)label_) + ".pgm");
+            file.open(filenamePrefix + "_#" + std::to_string(m_id) + "_" + std::to_string((int)m_label) + ".pgm");
 
             if (file.is_open()) {
                 //https://de.wikipedia.org/wiki/Portable_Anymap
                 file << "P5 ";
-                file << std::to_string(width_);
+                file << std::to_string(m_width);
                 file << " ";
-                file << std::to_string(height_);
+                file << std::to_string(m_height);
                 file << " 255 ";
 
-                for (imgT p : internalData_) {
+                for (imgT p : m_internalData) {
                     file << (uint8_t)(p * 255);
                 }
 
@@ -76,15 +76,15 @@ namespace data {
         }
 
         int size() const {
-        	return internalData_.size();
+        	return m_internalData.size();
         }
 
-        std::vector<imgT>& internalData() {
-        	return internalData_;
+        std::vector<imgT>& internal_data() {
+        	return m_internalData;
         }
 
-        const std::vector<imgT>& internalData() const{
-           	return internalData_;
+        const std::vector<imgT>& internal_data() const{
+           	return m_internalData;
         }
 
         void normalize_from(const sample<imgT>& original) {
@@ -96,7 +96,7 @@ namespace data {
 
     private:
 
-        float normalize_smooth_and_max(sample<float>& output, const sample<float>& input) {
+        static float normalize_smooth_and_max(sample<float>& output, const sample<float>& input) {
         	std::srand(0);
 			float value;
 			float max = 0;
@@ -126,7 +126,7 @@ namespace data {
 			return max;
         }
 
-        void normalize_rescale(sample<float>& output, const sample<float>& input, float max) {
+        static void normalize_rescale(sample<float>& output, const sample<float>& input, float max) {
         	for (int y = 1; y < 27; y++) {
 				for (int x = 1; x < 27; x++) {
 					output[(y + 0) * 28 + (x + 0)] *= (1.0 / max);
@@ -143,7 +143,7 @@ namespace data {
 			}
         }
 
-        void normalize_center(sample<float>& output, const sample<float>& input) {
+        static void normalize_center(sample<float>& output, const sample<float>& input) {
 			int minX = 28;
 			int maxX = 0;
 			int minY = 28;
@@ -179,13 +179,11 @@ namespace data {
 			}
         }
 
-
-
-        int id_;
-        int width_;
-        int height_;
-        uint8_t label_;
-        std::vector<imgT> internalData_;
+        int m_id;
+        int m_width;
+        int m_height;
+        uint8_t m_label;
+        std::vector<imgT> m_internalData;
     };
 }
 

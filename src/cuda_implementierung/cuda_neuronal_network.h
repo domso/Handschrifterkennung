@@ -1,5 +1,5 @@
-#ifndef cuda_neuronalNetwork_h
-#define cuda_neuronalNetwork_h
+#ifndef cuda_neuronal_network_h
+#define cuda_neuronal_network_h
 
 #include <vector>
 #include "cuda_model.h"
@@ -8,16 +8,16 @@
 
 namespace cuda {
 
-	class neuronalNetwork {
+	class neuronal_network {
 	public:
-		neuronalNetwork();
-		~neuronalNetwork();
-		neuronalNetwork(const model& m) = delete;
+		neuronal_network();
+		~neuronal_network();
+		neuronal_network(const model& m) = delete;
 
 		struct config_t {
-			float learning_rate = 0.15;
-			int num_hidden = 20;
-			int num_output = 10;
+			float learningRate = 0.15;
+			int numHidden = 20;
+			int numOutput = 10;
 		};
 
 		void set_config(const config_t config);
@@ -29,41 +29,39 @@ namespace cuda {
 			float ratio = 0;
 		};
 
-		void train(cuda::model& model, std::vector<data::sample<float>>& trainings_data);
-		test_result_t test(cuda::model& model, std::vector<data::sample<float>>& test_data);
+		void train(cuda::model& model, std::vector<data::sample<float>>& trainingsData);
+		test_result_t test(cuda::model& model, std::vector<data::sample<float>>& testData);
 
 		void set_classify_context(cuda::model& model, data::sample<float>& s);
 		uint8_t classify(data::sample<float>& s);
 	private:
 
-		class train_data_context {
-		public:
-			std::vector<float> hidden_layer;
-			std::vector<float> output_layer;
+		struct train_data_context {
+			std::vector<float> hiddenLayer;
+			std::vector<float> outputLayer;
 
 			std::vector<float> labels;
 
-			ressource<float> dev_input;
-			ressource<float> dev_hidden;
-			ressource<float> dev_output;
-			ressource<float> dev_weights;
-			ressource<float> dev_labels;
-			ressource<int> dev_mode;
-			ressource<float> dev_learning;
+			ressource<float> devInput;
+			ressource<float> devHidden;
+			ressource<float> devOutput;
+			ressource<float> devWeights;
+			ressource<float> devLabels;
+			ressource<int> devMode;
+			ressource<float> devLearning;
 
 			train_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 			void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 		};
 
-		class test_data_context {
-		public:
-			std::vector<float> hidden_layer;
-			std::vector<float> output_layer;
+		struct test_data_context {
+			std::vector<float> hiddenLayer;
+			std::vector<float> outputLayer;
 
-			ressource<float> dev_input;
-			ressource<float> dev_hidden;
-			ressource<float> dev_output;
-			ressource<float> dev_weights;
+			ressource<float> devInput;
+			ressource<float> devHidden;
+			ressource<float> devOutput;
+			ressource<float> devWeights;
 
 			test_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 			void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
@@ -72,10 +70,9 @@ namespace cuda {
 		bool train_sample(const int i, const data::sample<float>& sample, train_data_context& context);
 		int test_sample(const int i, const data::sample<float>& sample, test_data_context& context);
 
-		config_t current_config_;
-		test_data_context* current_context_;
+		config_t m_currentConfig;
+		test_data_context* m_currentContext;
 	};
-
 }
 
 #endif

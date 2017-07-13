@@ -46,7 +46,7 @@ public:
 		insert<T>(argument);
 
 		if (T::error) {
-			error_ = true;
+			m_error = true;
 		}
 
 		if (T::critical) {
@@ -59,7 +59,7 @@ public:
 
 	template<typename T>
 	bool check() const {
-		for (const message& m : message_buffer_) {
+		for (const message& m : m_messageBuffer) {
 			if (m.id == T::id) {
 				return true;
 			}
@@ -74,7 +74,7 @@ public:
 
 	template <typename T>
 	void print_only() const{
-		for (const message& m : message_buffer_) {
+		for (const message& m : m_messageBuffer) {
 			if (m.id == T::id) {
 				if (m.error) {
 					std::cerr << m.text << std::endl;
@@ -114,7 +114,7 @@ private:
 		}
 
 		if (!T::hide) {
-			message_buffer_.push_back(std::move(newMessage));
+			m_messageBuffer.push_back(std::move(newMessage));
 		}
 	}
 
@@ -124,8 +124,8 @@ private:
 		std::string text;
 	};
 
-	std::vector<message> message_buffer_;
-	bool error_ = false;
+	std::vector<message> m_messageBuffer;
+	bool m_error = false;
 
 };
 
