@@ -33,12 +33,14 @@ void basic_interface::update() {
 		if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
 			int tile_x = x / m_tile_width;
 			int tile_y = y / m_tile_height;
-			if (local_data[tile_y * m_tile_width + tile_x] != 1) {
-				local_data[tile_y * m_tile_width + tile_x] = 1;
+			if (tile_x < m_tile_width && tile_y < m_tile_height) {
+				if (local_data[tile_y * m_tile_width + tile_x] != 1) {
+					local_data[tile_y * m_tile_width + tile_x] = 1;
 
-				draw_tile(tile_x, tile_y, 255);
+					draw_tile(tile_x, tile_y, 255);
 
-				update = true;
+					update = true;
+				}
 			}
 		} else if (mouseState & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
 			reset(local_data);
@@ -64,7 +66,7 @@ void basic_interface::close() {
 }
 
 bool basic_interface::wait_for_output(data::sample<float>& output) {
-	std::unique_lock<std::mutex> ul(m_mutex);
+	std::unique_lock < std::mutex > ul(m_mutex);
 
 	while (!m_outputIsValid) {
 		auto now = std::chrono::high_resolution_clock::now();
@@ -137,7 +139,7 @@ void basic_interface::ckeck_for_close(bool& running) {
 }
 
 bool basic_interface::create_output(data::sample<float>& local) {
-	std::unique_lock<std::mutex> ul(m_mutex, std::try_to_lock);
+	std::unique_lock < std::mutex > ul(m_mutex, std::try_to_lock);
 	if (ul.owns_lock()) {
 		m_output = local;
 		m_outputIsValid = true;
