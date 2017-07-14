@@ -31,10 +31,15 @@ int main() {
 	auto tp2 = std::chrono::high_resolution_clock::now();
 
 	auto duration  = std::chrono::duration_cast<std::chrono::microseconds>(tp2 - tp1).count();
-
 	std::cout << duration << std::endl;
 
+	tp1 = std::chrono::high_resolution_clock::now();
 	auto result = NN.test(model, testData);
+	tp2 = std::chrono::high_resolution_clock::now();
+
+	duration  = std::chrono::duration_cast<std::chrono::microseconds>(tp2 - tp1).count();
+	std::cout << duration << std::endl;
+
 
 	std::cout << result.correct << std::endl;
 	std::cout << result.total << std::endl;
