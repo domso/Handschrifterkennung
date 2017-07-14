@@ -48,8 +48,9 @@ public:
 
 	/*
 	 * Waits until a new sample was generated
+	 * @return: true, if a new sample could be copied
 	 */
-	data::sample<float>& wait_for_output();
+	bool wait_for_output(data::sample<float>& output);
 private:
 
 	/*

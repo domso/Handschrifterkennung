@@ -40,7 +40,7 @@ __global__ void cuda_neural_network_output_error(float* output, float* labels) {
 }
 
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning, int* mode) {
+		float* weights, float* learning) {
 	extern __shared__ float buffer[];
 	int lenInput = blockDim.x;
 	float hiddenWeight;
@@ -73,9 +73,7 @@ __global__ void cuda_neural_network_error(float* current, float* next,
 		buffer[1] = output;
 		buffer[2] = *learning;
 
-		if (*mode != 0) {
-			current[blockIdx.x] = output * (1 - output) * buffer[0];
-		}
+		current[blockIdx.x] = output * (1 - output) * buffer[0];
 	}
 	__syncthreads();
 

@@ -57,9 +57,8 @@ __global__ void cuda_neural_network_output_error(float* output, float* labels);
  * @param next: next layer after current
  * @param weights: weights for all edges from current to next (warning! not the same order! see cuda_neural_network)
  * @param learning: learning_rate
- * @param mode: deprecated
  */
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning, int* mode);
+		float* weights, float* learning);
 
 #endif

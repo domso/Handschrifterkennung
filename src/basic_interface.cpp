@@ -2,22 +2,18 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
-#include "sample.h"
-#include <stdint.h>
 #include <mutex>
 #include <atomic>
+#include <chrono>
+#include "sample.h"
+#include <stdint.h>
 
-basic_interface::basic_interface(const int width, const int height,
-		const int tile_width, const int tile_height) :
-		m_width(width), m_height(height), m_tile_width(tile_width), m_tile_height(
-				tile_height), m_output(tile_width, tile_height), m_active(true) {
+basic_interface::basic_interface(const int width, const int height, const int tile_width, const int tile_height) :
+		m_width(width), m_height(height), m_tile_width(tile_width), m_tile_height(tile_height), m_output(tile_width, tile_height), m_active(true) {
 }
 
 bool basic_interface::init() {
-
-	m_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
-
+	m_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	return m_window != nullptr && m_renderer != nullptr;
 }
@@ -57,7 +53,6 @@ void basic_interface::update() {
 	}
 
 	m_active = false;
-	m_cond.notify_all();
 }
 
 bool basic_interface::is_active() const {
@@ -68,16 +63,20 @@ void basic_interface::close() {
 	SDL_DestroyWindow(m_window);
 }
 
-data::sample<float>& basic_interface::wait_for_output() {
-	std::unique_lock < std::mutex > ul(m_mutex);
+bool basic_interface::wait_for_output(data::sample<float>& output) {
+	std::unique_lock<std::mutex> ul(m_mutex);
 
 	while (!m_outputIsValid) {
-		m_cond.wait(ul);
+		auto now = std::chrono::high_resolution_clock::now();
+		if (std::cv_status::timeout == m_cond.wait_until(ul, now + std::chrono::seconds(1))) {
+			return false;	//time out
+		}
 	}
 
 	m_outputIsValid = false;
+	output = m_output;
 
-	return m_output;
+	return true;
 }
 
 bool basic_interface::draw_grid() {
@@ -93,7 +92,6 @@ bool basic_interface::draw_grid() {
 
 	return result == 0;
 }
-
 
 bool basic_interface::draw_tile(const int x, const int y, const uint8_t color) {
 	int result = 0;
@@ -139,15 +137,15 @@ void basic_interface::ckeck_for_close(bool& running) {
 }
 
 bool basic_interface::create_output(data::sample<float>& local) {
-	std::unique_lock < std::mutex > ul(m_mutex, std::try_to_lock);
+	std::unique_lock<std::mutex> ul(m_mutex, std::try_to_lock);
 	if (ul.owns_lock()) {
 		m_output = local;
 		m_outputIsValid = true;
 		m_cond.notify_all();
+
 		return true;
 	}
 
 	return false;
 }
-
 

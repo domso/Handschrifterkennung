@@ -45,32 +45,32 @@ public:
 	 * Trains the given model with the given trainingsData
 	 * @param model: untrained-model
 	 * @param trainingsData: container with all labeled training-samples
+	 * @return: true on success
 	 */
-	void train(cuda::model& model,
-			std::vector<data::sample<float>>& trainingsData);
+	bool train(cuda::model& model, std::vector<data::sample<float>>& trainingsData);
 
 	/*
 	 * Tests the given trained model on the given testData
 	 * @param model: trained-model
 	 * @param testData: container with all labeled testData-samples
-	 * @return: basic metrics wrapped in a result-object
+	 * @return: basic metrics wrapped in a result-object (filled with -1 on error)
 	 */
-	test_result_t test(cuda::model& model,
-			std::vector<data::sample<float>>& testData);
+	test_result_t test(cuda::model& model, std::vector<data::sample<float>>& testData);
 
 	/*
-	 * Loads the given model to the graphic-card and set up all required data-structes
+	 * Loads the given model to the graphic-card and set up all required data-structs
 	 * @param model: trained-model
 	 * @param s: a reference object (not important, just for the size)
+	 * @return: true on success
 	 */
-	void set_classify_context(cuda::model& model, data::sample<float>& s);
+	bool set_classify_context(cuda::model& model, data::sample<float>& s);
 
 	/*
 	 * Classifies the sample with the current context (see set_classify_context)
 	 * @param s: unlabeled sample
-	 * @return: classification
+	 * @return: classification (>=0) or -1 on any error
 	 */
-	uint8_t classify(data::sample<float>& s);
+	int classify(data::sample<float>& s);
 private:
 
 	/*
@@ -87,10 +87,7 @@ private:
 		ressource<float> devOutput;
 		ressource<float> devWeights;
 		ressource<float> devLabels;
-		ressource<int> devMode;
 		ressource<float> devLearning;
-
-		bool valid;
 
 		/*
 		 * Allocates memory for a new context with the given arguments on the graphic-card
@@ -98,16 +95,14 @@ private:
 		 * @param model: untrained-model
 		 * @param samples: labeled training-samples
 		 */
-		train_data_context(const config_t config, const cuda::model& model,
-				const std::vector<data::sample<float>>& samples);
+		train_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 		/*
 		 * Copies the memory for a new context with the given arguments to the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
 		 * @param samples: labeled training-samples
 		 */
-		void synchronize(const config_t config, const cuda::model& model,
-				const std::vector<data::sample<float>>& samples);
+		void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
 		/*
 		 * @return: true, if all operations were successfull
@@ -127,16 +122,13 @@ private:
 		ressource<float> devOutput;
 		ressource<float> devWeights;
 
-		bool valid;
-
 		/*
 		 * Allocates memory for a new context with the given arguments on the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
 		 * @param samples: labeled test-samples
 		 */
-		test_data_context(const config_t config, const cuda::model& model,
-				const std::vector<data::sample<float>>& samples);
+		test_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
 		/*
 		 * Copies the memory for a new context with the given arguments to the graphic-card
@@ -144,11 +136,10 @@ private:
 		 * @param model: untrained-model
 		 * @param samples: labeled test-samples
 		 */
-		void synchronize(const config_t config, const cuda::model& model,
-				const std::vector<data::sample<float>>& samples);
+		void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
 		/*
-		 * @return: true, if all operations were successfull
+		 * @return: true, if all operations were successful
 		 */
 		bool error_check();
 	};
@@ -160,18 +151,16 @@ private:
 	 * @param context: the current trainings-context
 	 * @return: true on success
 	 */
-	bool train_sample(const int i, const data::sample<float>& sample,
-			train_data_context& context);
+	bool train_sample(const int i, const data::sample<float>& sample, train_data_context& context);
 
 	/*
 	 * Performs a single test for a sample
 	 * @param i: index inside the test-data
 	 * @param sample: reference sample for the size
 	 * @param context: the current test-context
-	 * @return: true on success
+	 * @return: classification-result on success, -1 on error
 	 */
-	int test_sample(const int i, const data::sample<float>& sample,
-			test_data_context& context);
+	int test_sample(const int i, const data::sample<float>& sample, test_data_context& context);
 
 	config_t m_currentConfig;
 	test_data_context* m_currentContext;
