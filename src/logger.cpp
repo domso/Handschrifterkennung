@@ -1,14 +1,6 @@
 #include "logger.h"
 
-bool logger::has_error() const {
-	return m_error;
-}
-
-void logger::clear() {
-	m_error = false;
-	m_messageBuffer.clear();
-}
-
+namespace util {
 void logger::print_all() const {
 	for (const message& m : m_messageBuffer) {
 		if (m.error) {
@@ -19,3 +11,12 @@ void logger::print_all() const {
 	}
 }
 
+bool logger::has_error() const {
+	return m_error;
+}
+
+void logger::clear() {
+	m_error = false;
+	m_messageBuffer.clear();
+}
+}

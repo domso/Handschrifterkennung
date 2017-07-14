@@ -14,8 +14,8 @@ void gui_thread(basic_interface& i) {
 
 int main() {
 	std::mutex m;
-	data::sample<float> output(0, 28, 28);
-	data::sample<float> final(0, 28, 28);
+	data::sample<float> output(28, 28);
+	data::sample<float> final(28, 28);
 	basic_interface i(800, 800, 28, 28);
 
 	auto trainingsData = data::sample_set::load<float>(

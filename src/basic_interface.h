@@ -8,34 +8,91 @@
 #include <atomic>
 #include "sample.h"
 
+/*
+ * SDL2-canvas-gui for handwriting
+ * Supports hardware-acceleration
+ */
 class basic_interface {
 public:
 
+	/*
+	 * Sets some init values
+	 * @param width: x-resolution of the window
+	 * @param height: y-resolution of the window
+	 * @param tile_width: x-resolution of a sample
+	 * @param tile_height: y-resolution of a sample
+	 */
 	basic_interface(const int width, const int height, const int tile_width,
 			const int tile_height);
-
+	/*
+	 * Starts the SDL-Context and opens the window
+	 * @return: true on success
+	 */
 	bool init();
 
+	/*
+	 * Main-Update-loop for the window
+	 * Terminates after window was closed
+	 */
 	void update();
 
+	/*
+	 * @return: true, if the window is still open and active
+	 */
 	bool is_active() const;
 
+	/*
+	 * Closes the SDL-Context
+	 */
 	void close();
 
+	/*
+	 * Waits until a new sample was generated
+	 */
 	data::sample<float>& wait_for_output();
-
 private:
+
+	/*
+	 * Draws a simple (tile_width x tile_height)-grid
+	 * @return: true on success
+	 */
 	bool draw_grid();
 
-	void clear();
+	/*
+	 * Draws a simple (tile_width x tile_height)-tile on (x,y) with the given color
+	 * @param x: x-position of the left upper edge
+	 * @param y: y-position of the left upper edge
+	 * @param color: color for each RGB-channel
+	 * @return: true on success
+	 */
+	bool draw_tile(const int x, const int y, const uint8_t color);
 
-	void wait_for_close(bool& running);
+	/*
+	 * Clears the screen
+	 * @return: true on success
+	 */
+	bool clear();
 
+	/*
+	 * Resets the canvas
+	 * @return: true on success
+	 */
+	bool reset(data::sample<float>& s);
+
+	/*
+	 *  Pops all window-events and set running to false, if the window was closed by the X-Button
+	 *  @param running: output-variable
+	 */
+	void ckeck_for_close(bool& running);
+
+	/*
+	 *  Sets the given sample as the new generated sample
+	 *  If any wait_for_output-call is currently accessing the
+	 *  data, the function will return false immediately.
+	 *  @param local: input sample
+	 *  @return: true on success
+	 */
 	bool create_output(data::sample<float>& local);
-
-	void draw_tile(const int x, const int y, const uint8_t color);
-
-	void reset(data::sample<float>& s);
 
 	std::atomic<bool> m_active;
 	std::mutex m_mutex;
@@ -47,8 +104,7 @@ private:
 	int m_tile_width;
 	int m_tile_height;
 
-	data::sample<float> m_output;
-	bool m_outputIsValid = false;
+	data::sample<float> m_output;bool m_outputIsValid = false;
 
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;

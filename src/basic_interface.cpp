@@ -7,15 +7,10 @@
 #include <mutex>
 #include <atomic>
 
-basic_interface::basic_interface(const int width, const int height, const int tile_width,
-			const int tile_height) :
-			m_width(width),
-			m_height(height),
-			m_tile_width(tile_width),
-			m_tile_height(tile_height),
-			m_output(0, tile_width, tile_height),
-			m_active(true)
-{
+basic_interface::basic_interface(const int width, const int height,
+		const int tile_width, const int tile_height) :
+		m_width(width), m_height(height), m_tile_width(tile_width), m_tile_height(
+				tile_height), m_output(tile_width, tile_height), m_active(true) {
 }
 
 bool basic_interface::init() {
@@ -28,12 +23,12 @@ bool basic_interface::init() {
 }
 
 void basic_interface::update() {
-	data::sample<float> local_data(0, m_tile_width, m_tile_height);
+	data::sample<float> local_data(m_tile_width, m_tile_height);
 	bool running = true;
 	bool update = false;
 
-	clear();
-	draw_grid();
+	running &= clear();
+	running &= draw_grid();
 
 	while (running) {
 		SDL_PumpEvents();
@@ -56,7 +51,8 @@ void basic_interface::update() {
 		if (update) {
 			update = !create_output(local_data);
 		}
-		wait_for_close(running);
+
+		ckeck_for_close(running);
 		SDL_RenderPresent(m_renderer);
 	}
 
@@ -73,7 +69,7 @@ void basic_interface::close() {
 }
 
 data::sample<float>& basic_interface::wait_for_output() {
-	std::unique_lock <std::mutex> ul(m_mutex);
+	std::unique_lock < std::mutex > ul(m_mutex);
 
 	while (!m_outputIsValid) {
 		m_cond.wait(ul);
@@ -86,7 +82,7 @@ data::sample<float>& basic_interface::wait_for_output() {
 
 bool basic_interface::draw_grid() {
 	int result = 0;
-	SDL_SetRenderDrawColor(m_renderer, 128, 128, 128, 255);
+	result += SDL_SetRenderDrawColor(m_renderer, 128, 128, 128, 255);
 	for (int x = 0; x < m_width; x += m_tile_width) {
 		result += SDL_RenderDrawLine(m_renderer, x, 0, x, m_height);
 	}
@@ -98,12 +94,41 @@ bool basic_interface::draw_grid() {
 	return result == 0;
 }
 
-void basic_interface::clear() {
-	SDL_SetRenderDrawColor(m_renderer, 50, 50, 50, 255);
-	SDL_RenderClear(m_renderer);
+
+bool basic_interface::draw_tile(const int x, const int y, const uint8_t color) {
+	int result = 0;
+	SDL_Rect tile;
+	tile.x = x * m_tile_width;
+	tile.y = y * m_tile_height;
+	tile.h = m_tile_height;
+	tile.w = m_tile_width;
+	result += SDL_SetRenderDrawColor(m_renderer, color, color, color, 255);
+	result += SDL_RenderFillRect(m_renderer, &tile);
+
+	return result == 0;
 }
 
-void basic_interface::wait_for_close(bool& running) {
+bool basic_interface::clear() {
+	int result = 0;
+	result += SDL_SetRenderDrawColor(m_renderer, 50, 50, 50, 255);
+	result += SDL_RenderClear(m_renderer);
+
+	return result == 0;
+}
+
+bool basic_interface::reset(data::sample<float>& s) {
+	bool result = true;
+	result &= clear();
+	result &= draw_grid();
+
+	for (auto& t : s.internal_data()) {
+		t = 0;
+	}
+
+	return result;
+}
+
+void basic_interface::ckeck_for_close(bool& running) {
 	SDL_Event events;
 	while (SDL_PollEvent(&events)) {
 		if (events.type == SDL_QUIT) {
@@ -114,7 +139,7 @@ void basic_interface::wait_for_close(bool& running) {
 }
 
 bool basic_interface::create_output(data::sample<float>& local) {
-	std::unique_lock <std::mutex> ul(m_mutex, std::try_to_lock);
+	std::unique_lock < std::mutex > ul(m_mutex, std::try_to_lock);
 	if (ul.owns_lock()) {
 		m_output = local;
 		m_outputIsValid = true;
@@ -125,22 +150,4 @@ bool basic_interface::create_output(data::sample<float>& local) {
 	return false;
 }
 
-void basic_interface::draw_tile(const int x, const int y, const uint8_t color) {
-	SDL_Rect tile;
-	tile.x = x * m_tile_width;
-	tile.y = y * m_tile_height;
-	tile.h = m_tile_height;
-	tile.w = m_tile_width;
-	SDL_SetRenderDrawColor(m_renderer, color, color, color, 255);
-	SDL_RenderFillRect(m_renderer, &tile);
-}
-
-void basic_interface::reset(data::sample<float>& s) {
-	clear();
-	draw_grid();
-
-	for (auto& t : s.internal_data()) {
-		t = 0;
-	}
-}
 

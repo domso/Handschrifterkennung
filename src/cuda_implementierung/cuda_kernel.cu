@@ -7,6 +7,7 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 	int lenInput = blockDim.x;
 	float inputWeight;
 	float inputBias;
+	float tmp;
 
 	inputWeight = weights[(lenInput + 1) * blockIdx.x + threadIdx.x];
 
@@ -17,17 +18,16 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 	buffer[threadIdx.x] = input[threadIdx.x] * inputWeight;
 
 	__syncthreads();
-
 	for (int i = 1; i < lenInput; i *= 2) {
-		__syncthreads();
 		if ((threadIdx.x + i) < lenInput) {
+			tmp = buffer[threadIdx.x + i];
 			__syncthreads();
-			buffer[threadIdx.x] += buffer[threadIdx.x + i];
+			buffer[threadIdx.x] += tmp;
 			__syncthreads();
 		}
-		__syncthreads();
 	}
-	__syncthreads();
+
+
 	if (threadIdx.x == 0) {
 		next[blockIdx.x] = activation(buffer[0] + inputBias);
 	}
@@ -46,6 +46,7 @@ __global__ void cuda_neural_network_error(float* current, float* next,
 	float hiddenWeight;
 	float hiddenBias;
 	float error;
+	float tmp;
 
 	hiddenWeight = weights[blockIdx.x + threadIdx.x * (gridDim.x + 1)];
 
@@ -57,17 +58,15 @@ __global__ void cuda_neural_network_error(float* current, float* next,
 	buffer[threadIdx.x] = error * hiddenWeight;
 
 	__syncthreads();
-
 	for (int i = 1; i < lenInput; i *= 2) {
-		__syncthreads();
 		if ((threadIdx.x + i) < lenInput) {
+			tmp = buffer[threadIdx.x + i];
 			__syncthreads();
-			buffer[threadIdx.x] += buffer[threadIdx.x + i];
+			buffer[threadIdx.x] += tmp;
 			__syncthreads();
 		}
-		__syncthreads();
 	}
-	__syncthreads();
+
 	if (threadIdx.x == 0) {
 		float output = current[blockIdx.x];
 
