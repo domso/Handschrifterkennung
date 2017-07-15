@@ -14,14 +14,15 @@ typedef enum layers {INPUT, HIDDEN, OUTPUT} layer_type;
 
 class layer {
 public:
-	layer(int nodeCount);
+	layer(const int nodeCount);
 	virtual ~layer();
-	node* get_node(int nodeID) const;
+	node& get_node(const int nodeID);
+	const node& get_node(const int nodeID) const;
 	int   get_node_count() const;
-	void  set_node(node* node, int nodeID);
+	void  insert_node(const node& newNode);
 
 private:
-	std::vector<node*> m_nodes;
+	std::vector<node> m_nodes;
 };
 
 #endif /* LAYER_H_ */

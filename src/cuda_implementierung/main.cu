@@ -12,7 +12,7 @@ void gui_thread(basic_interface& i) {
 	i.close();
 }
 
-int main() {
+int main2() {
 	std::mutex m;
 	data::sample<float> output(28, 28);
 	data::sample<float> final(28, 28);

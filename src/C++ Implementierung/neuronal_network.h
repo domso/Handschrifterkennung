@@ -9,17 +9,18 @@
 #define NEURONALNETWORK_H_
 #include <vector>
 #include "layer.h"
+#include "../sample.h"
 
 class neuronal_network {
 public:
 	neuronal_network(int inputCount, int hiddenCount, int outputCount);
 	virtual ~neuronal_network();
 	neuronal_network(neuronal_network& o) = delete;
-	layer* create_input_layer(int inputCount);
-	layer* create_layer(int nodeCount, int weightCount);
-	layer* get_layer(layer_type lType) const;
+	layer create_layer(int nodeCount, int weightCount);
+	layer& get_layer(layer_type lType);
+	const layer& get_layer(layer_type lType) const;
 	int    get_network_classification() const;
-	int    proccess_input(std::vector<float> input, int label, bool updateWeights, int usedThreadCount);
+	int    proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
 
 private:
 	void activate_node(layer_type lType, int nodeID);
@@ -33,8 +34,11 @@ private:
 	void feed_input(std::vector<float> input);
 	void update_node_weights(layer_type lType, int nodeID, float delta);
 
+
+	void foo_test_bla(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID); //TODO move to good better here
+
 	float m_learning_rate;
-	std::vector<layer*> m_layers;
+	std::vector<layer> m_layers;
 };
 
 #endif /* NEURONALNETWORK_H_ */

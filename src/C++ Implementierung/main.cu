@@ -14,7 +14,7 @@
  */
 void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& trainingSamples){
 	int errorCount = 0;
-
+/*
 	for(int i = 0; i < trainingSamples.size(); i++){
 		std::vector<float>& input = trainingSamples[i].internal_data();
 		int label = trainingSamples[i].get_label();
@@ -23,7 +23,10 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 		if(classification != label){
 			errorCount++;
 		}
-	}
+	}*/
+
+	errorCount = nn.proccess_input(trainingSamples, true, 8);
+
 	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
 
@@ -34,16 +37,20 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
  * @param testSamples  the test set
  */
 void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSamples){
-	int errorCount = 0;
+	int errorCount = 0;/*
 	for(int i = 0; i < testSamples.size(); i++){
 		std::vector<float>& input = testSamples[i].internal_data();
 		int label = testSamples[i].get_label();
 
-		int classification = nn.proccess_input(input, label, false, 8);
+
 		if(classification != label){
 			errorCount++;
 		}
-	}
+	}*/
+
+	errorCount = nn.proccess_input(testSamples, false, 8);
+
+
 	std::cout << "test completed!\n => " << errorCount << " mistakes out of " << testSamples.size() << " images (" << ((float)(testSamples.size() - errorCount) / testSamples.size() * 100) << "% sucess rate)\n";
 
 }
@@ -59,16 +66,16 @@ int main() {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 50;
+	int hiddenCount = 20;
 	int outputCount = 10;
 
 	neuronal_network nn(inputCount, hiddenCount, outputCount);
 
-	layer* input = nn.get_layer(INPUT);
-	layer* hidden = nn.get_layer(HIDDEN);
-	layer* output = nn.get_layer(OUTPUT);
+	layer& input = nn.get_layer(INPUT);
+	layer& hidden = nn.get_layer(HIDDEN);
+	layer& output = nn.get_layer(OUTPUT);
 
-	std::cout << input->get_node_count() << " input nodes, " << hidden->get_node_count() << " hidden nodes, " << output->get_node_count() << " output nodes\n";
+	std::cout << input.get_node_count() << " input nodes, " << hidden.get_node_count() << " hidden nodes, " << output.get_node_count() << " output nodes\n";
 	std::vector<data::sample<float>> testInput = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
 	auto startTimeTrain = std::chrono::high_resolution_clock::now();
