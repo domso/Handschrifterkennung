@@ -7,22 +7,19 @@
 #include <chrono>
 
 void gui_thread(basic_interface& i) {
-	if(!i.init())
-		std::cout << "init: ";
+	i.init();
 	i.update();
 	i.close();
 }
 
-int main2() {
+int main() {
 	std::mutex m;
 	data::sample<float> output(28, 28);
 	data::sample<float> final(28, 28);
 	basic_interface i(800, 800, 28, 28);
 
-	auto trainingsData = data::sample_set::load<float>(
-			"./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
-	auto testData = data::sample_set::load<float>("./t10k-images.idx3-ubyte",
-			"./t10k-labels.idx1-ubyte");
+	auto trainingsData = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
+	auto testData = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
 	cuda::model model;
 	cuda::neuronal_network NN;
@@ -31,32 +28,31 @@ int main2() {
 	NN.train(model, trainingsData);
 	auto tp2 = std::chrono::high_resolution_clock::now();
 
-	auto duration  = std::chrono::duration_cast<std::chrono::microseconds>(tp2 - tp1).count();
-	std::cout << duration << std::endl;
+	auto duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
+	std::cout << "Training took: " << duration / (double) 1000000 << "sec" << std::endl;
 
 	tp1 = std::chrono::high_resolution_clock::now();
 	auto result = NN.test(model, testData);
 	tp2 = std::chrono::high_resolution_clock::now();
 
-	duration  = std::chrono::duration_cast<std::chrono::microseconds>(tp2 - tp1).count();
-	std::cout << duration << std::endl;
-
+	duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
+	std::cout << "Testing took: " << duration / (double) 1000000 << "sec" << std::endl;
 
 	std::cout << result.correct << std::endl;
 	std::cout << result.total << std::endl;
 	std::cout << result.ratio << std::endl;
 
-	NN.set_classify_context(model, output);
+	if (!NN.set_classify_context(model, output)) {
+		std::cout << "Could not create context" << std::endl;
+	}
 
 	std::thread t1(&gui_thread, std::ref(i));
 
 	while (i.is_active()) {
-		output = i.wait_for_output();
-
-		final.normalize_from(output);
-
-		std::cout << (int) NN.classify(final) << std::endl;
-//		final.store("outputDraw");
+		if (i.wait_for_output(output)) {
+			final.normalize_from(output);
+			std::cout << (int) NN.classify(final) << std::endl;
+		}
 	}
 
 	t1.join();
