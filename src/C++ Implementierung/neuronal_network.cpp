@@ -112,7 +112,7 @@ void neuronal_network::init_weights(layer_type lType) {
 
 /**
  * Returns the network's classification using the ID of the node with the highest output
- * @return
+ * @return the network's classification
  */
 int neuronal_network::get_network_classification() const{
 	layer* layer = get_layer(OUTPUT);
@@ -126,7 +126,6 @@ int neuronal_network::get_network_classification() const{
 			maxIndex = i;
 		}
 	}
-
 	return maxIndex;
 }
 
@@ -379,27 +378,132 @@ void neuronal_network::backpropagate_hidden_layer(int targetClassification) {
  * @return the computed classification
  */
 int neuronal_network::proccess_input(std::vector<float> input, int label, bool updateWeights, int usedThreadCount) {
-	std::vector<std::thread> threads(usedThreadCount);
 
-//	for(int thID = 0; thID < usedThreadCount; thID++){
-////		int rangeFrom = thID * nodesPerThread;
-////		int rangeTo = (thID == (threadCount - 1) ? outputLayer->get_nodeCount() : ((thID + 1) * nodesPerThread) );
-//
-//
-//		threads.push_back(std::thread([this]{
-//
-//		}));
-//	}
-//
-//	for(auto& thread : threads)
-//		thread.join();
+	if(usedThreadCount > 1){ // multi threaded
+		std::vector<std::thread> threads(0);
+		for(int thID = 0; thID < usedThreadCount; thID++){
+			threads.push_back(std::thread([this, &input, thID, usedThreadCount, updateWeights, label]{
+				layer* inputLayer = get_layer(INPUT);
+				layer* hiddenLayer = get_layer(HIDDEN);
+				layer* outputLayer = get_layer(OUTPUT);
+				int rangeFrom = 0;
+				int rangeTo = 0;
+				int elementsPerThread = 0;
 
-	feed_input(input);
+				//#############################################
+				// feed_input(input);
+				//#############################################
 
-	feed_forward_network();
+				// copy the input values to the inputLayer
+				elementsPerThread = input.size() / usedThreadCount;
+				rangeFrom = thID * elementsPerThread;
+				rangeTo = (thID == (usedThreadCount - 1) ? input.size() : ((thID + 1) * elementsPerThread));
 
-	if(updateWeights)
-		backpropagate_network(label);
+				// copy the input values to the inputLayer
+				for(int i = rangeFrom; i < rangeTo; i++){
+					node* inputNode = inputLayer->get_node(i);
+					inputNode->set_output(input[i]);
+				}
+
+				// TODO BARRIER WAIT !!!!
+
+				//#############################################
+				// feed_forward_network();
+				//#############################################
+
+				layer* actualLayer = hiddenLayer;
+				do{
+					elementsPerThread = actualLayer->get_node_count() / usedThreadCount;
+					rangeFrom = thID * elementsPerThread;
+					rangeTo = (thID == (usedThreadCount - 1) ? actualLayer->get_node_count() : ((thID + 1) * elementsPerThread) );
+					for(int i = rangeFrom; i < rangeTo; i++){
+						//#############################################
+						// calc_node_output(HIDDEN, i);
+						//#############################################
+
+						node*  calcNode  = actualLayer->get_node(i);
+						layer* prevLayer = get_layer(INPUT);
+						if(actualLayer == get_layer(OUTPUT)){
+							prevLayer = get_layer(HIDDEN);
+						}
+
+						float output = calcNode->get_bias();  // start with the nodes bias
+						for(int j = 0; j < prevLayer->get_node_count(); j++){
+							node* prevLayerNode = prevLayer->get_node(j);
+							output += prevLayerNode->get_output() * calcNode->get_weights()[j];
+						}
+						calcNode->set_output(output);
+
+						//#############################################
+						// activate_node(HIDDEN, i);
+						//#############################################
+
+						calcNode->set_output(1.0 / (1 + std::exp((float) -1 * calcNode->get_output()))); // SIGMOID activation function
+					}
+
+					if(actualLayer == hiddenLayer)
+						actualLayer = outputLayer;
+					else
+						actualLayer = nullptr;
+				} while(actualLayer != nullptr);
+
+				if(updateWeights){
+
+					// TODO BARRIER WAIT !!!!
+
+					//#############################################
+					// backpropagate_network(label);
+					//#############################################
+					elementsPerThread = outputLayer->get_node_count() / usedThreadCount;
+					rangeFrom = thID * elementsPerThread;
+					rangeTo = (thID == (usedThreadCount - 1) ? outputLayer->get_node_count() : ((thID + 1) * elementsPerThread) );
+					for(int i = rangeFrom; i < rangeTo; i++){
+						node* outputNode = outputLayer->get_node(i);
+						int targetOutput = (i == label) ? 1 : 0;
+
+						float errorDelta  = targetOutput - outputNode->get_output();
+						float errorSignal = errorDelta *  outputNode->get_output() * (1 - outputNode->get_output());	// derivative of the SIGMOID activation function
+
+						update_node_weights(OUTPUT, i, errorSignal);
+					}
+
+					// TODO BARRIER WAIT !!!!
+
+					elementsPerThread = hiddenLayer->get_node_count() / usedThreadCount;
+					rangeFrom = thID * elementsPerThread;
+					rangeTo = (thID == (usedThreadCount - 1) ? hiddenLayer->get_node_count() : ((thID + 1) * elementsPerThread) );
+					for(int i = rangeFrom; i < rangeTo; i++){
+						node* hiddenNode = hiddenLayer->get_node(i);
+						float outputErrorSum = 0;
+
+						for(int k = 0; k < outputLayer->get_node_count(); k++){
+							node* outputNode = outputLayer->get_node(k);
+							int targetOutput = (k == label) ? 1 : 0;
+
+							float errorDelta  = targetOutput - outputNode->get_output();
+							float errorSignal = errorDelta *  outputNode->get_output() * (1 - outputNode->get_output());	// derivative of the SIGMOID activation function
+							outputErrorSum += errorSignal * outputNode->get_weights()[i];
+						}
+
+						double hiddenErrorSignal = outputErrorSum * hiddenNode->get_output() * (1 - hiddenNode->get_output()); // derivative of the SIGMOID activation function
+
+						update_node_weights(HIDDEN, i, hiddenErrorSignal);
+					}
+				}
+			}));
+		}
+
+		for(auto& thread : threads)
+			thread.join();
+	}
+	else{	// sequentiell
+		feed_input(input);
+
+		feed_forward_network();
+
+		if(updateWeights)
+			backpropagate_network(label);
+	}
 
 	return get_network_classification();
 }

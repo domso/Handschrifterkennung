@@ -8,8 +8,9 @@
 
 
 /**
- * Training the network by processing the MNIST training set and updating the weights
- * @param nn
+ * Train the network by processing the MNIST training set and updating the weights
+ * @param nn the neuronal network to be trained
+ * @param trainingSamples the training set
  */
 void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& trainingSamples){
 	int errorCount = 0;
@@ -18,7 +19,7 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 		std::vector<float>& input = trainingSamples[i].internal_data();
 		int label = trainingSamples[i].get_label();
 
-		int classification = nn.proccess_input(input, label, true, 1);
+		int classification = nn.proccess_input(input, label, true, 8);
 		if(classification != label){
 			errorCount++;
 		}
@@ -26,13 +27,19 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
 
+
+/**
+ * Test the network by processing the MNIST test set
+ * @param nn  the neuronal network to be tested
+ * @param testSamples  the test set
+ */
 void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSamples){
 	int errorCount = 0;
 	for(int i = 0; i < testSamples.size(); i++){
 		std::vector<float>& input = testSamples[i].internal_data();
 		int label = testSamples[i].get_label();
 
-		int classification = nn.proccess_input(input, label, false, 1);
+		int classification = nn.proccess_input(input, label, false, 8);
 		if(classification != label){
 			errorCount++;
 		}
@@ -41,17 +48,18 @@ void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSam
 
 }
 
-int main2() {
+
+int main() {
 	std::vector<data::sample<float>> trainingInput = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 
-	int imgCount    = trainingInput.size();
+	int imgCount = trainingInput.size();
 	if(imgCount == 0){
 		std::cout << "no images were loaded, exiting....";
 		return -1;
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 20;
+	int hiddenCount = 50;
 	int outputCount = 10;
 
 	neuronal_network nn(inputCount, hiddenCount, outputCount);

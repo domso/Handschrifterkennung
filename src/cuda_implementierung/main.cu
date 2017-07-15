@@ -7,12 +7,13 @@
 #include <chrono>
 
 void gui_thread(basic_interface& i) {
-	i.init();
+	if(!i.init())
+		std::cout << "init: ";
 	i.update();
 	i.close();
 }
 
-int main() {
+int main2() {
 	std::mutex m;
 	data::sample<float> output(28, 28);
 	data::sample<float> final(28, 28);
@@ -55,7 +56,7 @@ int main() {
 		final.normalize_from(output);
 
 		std::cout << (int) NN.classify(final) << std::endl;
-		final.store("outputDraw");
+//		final.store("outputDraw");
 	}
 
 	t1.join();
