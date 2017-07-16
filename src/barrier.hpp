@@ -29,6 +29,7 @@ private:
 #include <iostream>
 #include <pthread.h>
 #include <atomic>
+#include <thread>
 
 class Barrier {
 public:
@@ -62,7 +63,7 @@ public:
 		}
 
 		while (ticket == m_head) {
-
+			std::this_thread::yield();
 		}
 
 	}
