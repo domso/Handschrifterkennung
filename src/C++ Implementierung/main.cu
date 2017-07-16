@@ -25,7 +25,7 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 		}
 	}*/
 
-	errorCount = nn.proccess_input(trainingSamples, true, 8);
+	errorCount = nn.proccess_input(trainingSamples, true, 4);
 
 	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
@@ -48,7 +48,7 @@ void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSam
 		}
 	}*/
 
-	errorCount = nn.proccess_input(testSamples, false, 8);
+	errorCount = nn.proccess_input(testSamples, false, 4);
 
 
 	std::cout << "test completed!\n => " << errorCount << " mistakes out of " << testSamples.size() << " images (" << ((float)(testSamples.size() - errorCount) / testSamples.size() * 100) << "% sucess rate)\n";
