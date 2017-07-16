@@ -6,6 +6,30 @@
 #include <pthread.h>
 #include <atomic>
 
+class Barrier1 {
+public:
+
+    explicit Barrier1(const int n) {
+    	pthread_barrier_init(&m_bar, 0, n);
+    }
+
+	Barrier1(const Barrier1& b) = delete;
+    void wait() {
+    	pthread_barrier_wait(&m_bar);
+    }
+
+private:
+    pthread_barrier_t m_bar;
+};
+
+#pragma once
+
+#include <mutex>
+#include <condition_variable>
+#include <iostream>
+#include <pthread.h>
+#include <atomic>
+
 class Barrier {
 public:
 	explicit Barrier(const int n) :
