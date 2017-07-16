@@ -408,7 +408,7 @@ void neuronal_network::backpropagate_hidden_layer(int targetClassification) {
  */
 int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount) {
 	int numError = 0;
-	if (usedThreadCount > 1) { // multi threaded
+//	if (usedThreadCount > 1) { // multi threaded
 		Barrier barrier(usedThreadCount);
 		std::vector<std::thread> threads(0);
 		for (int thID = 0; thID < usedThreadCount; thID++) {
@@ -505,22 +505,22 @@ int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamp
 
 		for (auto& thread : threads)
 			thread.join();
-	} else {	// sequentiell
-		for(int i = 0; i < inputSamples.size(); i++){
-			std::vector<float>& input = inputSamples[i].internal_data();
-			int label = inputSamples[i].get_label();
-
-			feed_input(input);
-			feed_forward_network();
-			if(updateWeights)
-				backpropagate_network(label);
-
-			int classification = get_network_classification();
-			if(classification != label){
-				numError++;
-			}
-		}
-	}
+//	} else {	// sequentiell
+//		for(int i = 0; i < inputSamples.size(); i++){
+//			std::vector<float>& input = inputSamples[i].internal_data();
+//			int label = inputSamples[i].get_label();
+//
+//			feed_input(input);
+//			feed_forward_network();
+//			if(updateWeights)
+//				backpropagate_network(label);
+//
+//			int classification = get_network_classification();
+//			if(classification != label){
+//				numError++;
+//			}
+//		}
+//	}
 	return numError;
 }
 
