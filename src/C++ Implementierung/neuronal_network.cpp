@@ -6,6 +6,7 @@
  */
 
 #include "neuronal_network.h"
+#include "../barrier.hpp"
 #include <cmath>
 #include <stdlib.h>
 #include <chrono>
@@ -164,6 +165,39 @@ void neuronal_network::feed_input(std::vector<float> input) {
 	for (int i = 0; i < input.size(); i++) {
 		node& inputNode = inputLayer.get_node(i);
 		inputNode.set_output(input[i]);
+	}
+}
+
+/**
+ *
+ * @param actualLayer
+ * @param prevLayer
+ * @param usedThreadCount
+ * @param thID
+ */
+void neuronal_network::feed_forward(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID) {
+	int elementsPerThread = actualLayer.get_node_count() / usedThreadCount;
+	int rangeFrom = thID * elementsPerThread;
+	int rangeTo = (thID == (usedThreadCount - 1) ? actualLayer.get_node_count() : ((thID + 1) * elementsPerThread) );
+	for(int i = rangeFrom; i < rangeTo; i++) {
+		//#############################################
+		// calc_node_output(HIDDEN, i);
+		//#############################################
+
+		node& calcNode = actualLayer.get_node(i);
+
+		float output = calcNode.get_bias();  // start with the nodes bias
+		for(int j = 0; j < prevLayer.get_node_count(); j++) {
+			node& prevLayerNode = prevLayer.get_node(j);
+			output += prevLayerNode.get_output() * calcNode.get_weights()[j];
+		}
+		calcNode.set_output(output);
+
+		//#############################################
+		// activate_node(HIDDEN, i);
+		//#############################################
+
+		calcNode.set_output(1.0 / (1 + std::exp((float) -1 * calcNode.get_output())));// SIGMOID activation function
 	}
 }
 
@@ -366,19 +400,19 @@ void neuronal_network::backpropagate_hidden_layer(int targetClassification) {
 }
 
 /**
- * processes the given input with the label and returns the computed classification
- * @param inputSamples  the input samples
- * @param label  the label of the input
- * @param updateWeights   flag, if the weights should been updated (training)
- * @param usedThreadCount number of threads that should be used
- * @return the computed classification
+ * processes the given inputSamples and returns the number of false calssifications
+ * @param inputSamples     the input samples
+ * @param updateWeights    flag, if the weights should been updated (training)
+ * @param usedThreadCount  number of threads that should be used
+ * @return the number of false computed classifications
  */
 int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount) {
 	int numError = 0;
 	if (usedThreadCount > 1) { // multi threaded
+		Barrier barrier(usedThreadCount);
 		std::vector<std::thread> threads(0);
 		for (int thID = 0; thID < usedThreadCount; thID++) {
-			threads.push_back(std::thread([this, &inputSamples, thID, usedThreadCount, updateWeights, &numError] {
+			threads.push_back(std::thread([this, &barrier, &inputSamples, thID, usedThreadCount, updateWeights, &numError] {
 
 				for (auto& input :inputSamples) {
 					auto label = input.get_label();
@@ -405,29 +439,21 @@ int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamp
 					}
 
 					// TODO BARRIER WAIT !!!!
+					barrier.wait();
 
 					//#############################################
 					// feed_forward_network();
 					//#############################################
-						/*
-					layer& actualLayer = hiddenLayer;
-					do {
 
-
-						if(actualLayer == hiddenLayer)
-						actualLayer = outputLayer;
-						else
-						actualLayer = nullptr;
-					}while(actualLayer != nullptr);*/
-
-					//TODO CHANGE NAME!
-					foo_test_bla(hiddenLayer, inputLayer, usedThreadCount, thID);
-					foo_test_bla(outputLayer, hiddenLayer, usedThreadCount, thID);
-
+					feed_forward(hiddenLayer, inputLayer, usedThreadCount, thID);
+					// TODO BARRIER WAIT !!!!
+					barrier.wait();
+					feed_forward(outputLayer, hiddenLayer, usedThreadCount, thID);
 
 					if(updateWeights) {
 
 						// TODO BARRIER WAIT !!!!
+						barrier.wait();
 
 						//#############################################
 						// backpropagate_network(label);
@@ -446,6 +472,7 @@ int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamp
 						}
 
 						// TODO BARRIER WAIT !!!!
+						barrier.wait();
 
 						elementsPerThread = hiddenLayer.get_node_count() / usedThreadCount;
 						rangeFrom = thID * elementsPerThread;
@@ -464,14 +491,14 @@ int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamp
 							}
 
 							double hiddenErrorSignal = outputErrorSum * hiddenNode.get_output() * (1 - hiddenNode.get_output()); // derivative of the SIGMOID activation function
-
 							update_node_weights(HIDDEN, i, hiddenErrorSignal);
 						}
 					}
 
 					// TODO BARRIER WAIT !!!!
-					// only once
-					numError += get_network_classification() != label;
+					barrier.wait();
+					if(thID == 0)// only once
+						numError += get_network_classification() != label;
 				}
 			}));
 		}
@@ -479,42 +506,22 @@ int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamp
 		for (auto& thread : threads)
 			thread.join();
 	} else {	// sequentiell
-		//feed_input(input);
+		for(int i = 0; i < inputSamples.size(); i++){
+			std::vector<float>& input = inputSamples[i].internal_data();
+			int label = inputSamples[i].get_label();
 
-		//feed_forward_network();
+			feed_input(input);
+			feed_forward_network();
+			if(updateWeights)
+				backpropagate_network(label);
 
-		//if(updateWeights)
-		//	backpropagate_network(label);
-	}
-
-	return numError;
-}
-
-
-void neuronal_network::foo_test_bla(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID) {
-	int elementsPerThread = actualLayer.get_node_count() / usedThreadCount;
-	int rangeFrom = thID * elementsPerThread;
-	int rangeTo = (thID == (usedThreadCount - 1) ? actualLayer.get_node_count() : ((thID + 1) * elementsPerThread) );
-	for(int i = rangeFrom; i < rangeTo; i++) {
-		//#############################################
-		// calc_node_output(HIDDEN, i);
-		//#############################################
-
-		node& calcNode = actualLayer.get_node(i);
-
-		float output = calcNode.get_bias();  // start with the nodes bias
-		for(int j = 0; j < prevLayer.get_node_count(); j++) {
-			node& prevLayerNode = prevLayer.get_node(j);
-			output += prevLayerNode.get_output() * calcNode.get_weights()[j];
+			int classification = get_network_classification();
+			if(classification != label){
+				numError++;
+			}
 		}
-		calcNode.set_output(output);
-
-		//#############################################
-		// activate_node(HIDDEN, i);
-		//#############################################
-
-		calcNode.set_output(1.0 / (1 + std::exp((float) -1 * calcNode.get_output())));// SIGMOID activation function
 	}
+	return numError;
 }
 
 

@@ -31,11 +31,9 @@ private:
 	void calc_node_output(layer_type lType, int nodeID);
 	void init_weights(layer_type lType);
 	void feed_forward_network();
+	void feed_forward(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID);
 	void feed_input(std::vector<float> input);
 	void update_node_weights(layer_type lType, int nodeID, float delta);
-
-
-	void foo_test_bla(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID); //TODO move to good better here
 
 	float m_learning_rate;
 	std::vector<layer> m_layers;
