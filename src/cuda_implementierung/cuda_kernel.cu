@@ -4,32 +4,33 @@ __device__ float activation(float input) {
 
 __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 	extern __shared__ float buffer[];
-	int lenInput = blockDim.x;
 	float inputWeight;
 	float inputBias;
 	float tmp;
 
-	inputWeight = weights[(lenInput + 1) * blockIdx.x + threadIdx.x];
+	inputWeight = weights[(blockDim.x + 1) * blockIdx.x + threadIdx.x];
 
 	if (threadIdx.x == 0) {
-		inputBias = weights[(lenInput + 1) * blockIdx.x + lenInput];
+		inputBias = weights[(blockDim.x + 1) * blockIdx.x + blockDim.x];
 	}
 
-	buffer[threadIdx.x] = input[threadIdx.x] * inputWeight;
+	tmp = input[threadIdx.x] * inputWeight;
+	buffer[threadIdx.x] = tmp;
 
 	__syncthreads();
-	for (int i = 1; i < lenInput; i *= 2) {
-		if ((threadIdx.x + i) < lenInput) {
-			tmp = buffer[threadIdx.x + i];
+#pragma unroll
+	for (int i = 1; i < blockDim.x; i *= 2) {
+		int j = threadIdx.x + i;
+		if (j < blockDim.x) {
+			tmp += buffer[j];
 			__syncthreads();
-			buffer[threadIdx.x] += tmp;
+			buffer[threadIdx.x] = tmp;
 			__syncthreads();
 		}
 	}
 
-
 	if (threadIdx.x == 0) {
-		next[blockIdx.x] = activation(buffer[0] + inputBias);
+		next[blockIdx.x] = activation(tmp + inputBias);
 	}
 }
 
@@ -40,50 +41,57 @@ __global__ void cuda_neural_network_output_error(float* output, float* labels) {
 }
 
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning) {
+		float* weights, float* learning, float* labels) {
 	extern __shared__ float buffer[];
-	int lenInput = blockDim.x;
-	float hiddenWeight;
-	float hiddenBias;
+	float weight;
+	float bias;
 	float error;
 	float tmp;
+	float output;
+	float l;
 
-	hiddenWeight = weights[blockIdx.x + threadIdx.x * (gridDim.x + 1)];
+	int weightIndex = blockIdx.x + threadIdx.x * (gridDim.x + 1);
+	weight = weights[weightIndex];
 
 	if (blockIdx.x == 0) {
-		hiddenBias = weights[(threadIdx.x + 1) * (gridDim.x + 1) - 1];
+		bias = weights[(threadIdx.x + 1) * (gridDim.x + 1) - 1];
 	}
 
 	error = next[threadIdx.x];
-	buffer[threadIdx.x] = error * hiddenWeight;
+	if (labels != NULL) {
+		error = error * (1 - error) * (labels[threadIdx.x] - error);
+	}
 
+	tmp = error * weight;
+	buffer[threadIdx.x] = tmp;
 	__syncthreads();
-	for (int i = 1; i < lenInput; i *= 2) {
-		if ((threadIdx.x + i) < lenInput) {
-			tmp = buffer[threadIdx.x + i];
+
+#pragma unroll
+	for (int i = 1; i < blockDim.x; i *= 2) {
+		int j = threadIdx.x + i;
+		if (j < blockDim.x) {
+			tmp += buffer[j];
 			__syncthreads();
-			buffer[threadIdx.x] += tmp;
+			buffer[threadIdx.x] = tmp;
 			__syncthreads();
 		}
 	}
 
 	if (threadIdx.x == 0) {
-		float output = current[blockIdx.x];
-
-		buffer[1] = output;
-		buffer[2] = *learning;
-
-		current[blockIdx.x] = output * (1 - output) * buffer[0];
+		output = current[blockIdx.x];
+		l = *learning;
+		buffer[1] = output * l;
+		buffer[2] = l;
 	}
 	__syncthreads();
 
-	hiddenWeight += buffer[1] * error * buffer[2];
-
-	weights[blockIdx.x + threadIdx.x * (gridDim.x + 1)] = hiddenWeight;
+	weights[weightIndex] = weight + buffer[1] * error;
 
 	if (blockIdx.x == 0) {
-		hiddenBias += error * buffer[2];
+		weights[(threadIdx.x + 1) * (gridDim.x + 1) - 1] = bias + error * buffer[2];
+	}
 
-		weights[(threadIdx.x + 1) * (gridDim.x + 1) - 1] = hiddenBias;
+	if (threadIdx.x == 0) {
+		current[blockIdx.x] = output * (1 - output) * tmp;
 	}
 }

@@ -59,6 +59,6 @@ __global__ void cuda_neural_network_output_error(float* output, float* labels);
  * @param learning: learning_rate
  */
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning);
+		float* weights, float* learning, float* labels);
 
 #endif

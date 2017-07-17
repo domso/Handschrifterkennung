@@ -121,17 +121,9 @@ bool neuronal_network::train_sample(const int i, const data::sample<float>& samp
 		return false;
 	}
 
-	num_blocks = 1;
-	num_threads = context.outputLayer.size();
-	cuda_neural_network_output_error<<<num_blocks, num_threads>>>(&context.devOutput, (&context.devLabels) + i * context.outputLayer.size());
-
-	if (cudaSuccess != cudaGetLastError()) {
-		return false;
-	}
-
 	num_blocks = context.hiddenLayer.size();
 	num_threads = context.outputLayer.size();
-	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>(&context.devHidden, &context.devOutput, (&context.devWeights) + ((sample.size() + 1) * context.hiddenLayer.size()), &context.devLearning);
+	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>(&context.devHidden, &context.devOutput, (&context.devWeights) + ((sample.size() + 1) * context.hiddenLayer.size()), &context.devLearning, (&context.devLabels) + i * context.outputLayer.size());
 
 	if (cudaSuccess != cudaGetLastError()) {
 		return false;
@@ -139,7 +131,7 @@ bool neuronal_network::train_sample(const int i, const data::sample<float>& samp
 
 	num_blocks = sample.size();
 	num_threads = context.hiddenLayer.size();
-	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>((&context.devInput) + i * sample.size(), &context.devHidden, &context.devWeights, &context.devLearning);
+	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>((&context.devInput) + i * sample.size(), &context.devHidden, &context.devWeights, &context.devLearning, nullptr);
 
 	if (cudaSuccess != cudaGetLastError()) {
 		return false;
