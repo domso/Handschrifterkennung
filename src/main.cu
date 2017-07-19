@@ -67,7 +67,7 @@ bool load_samples(util::config_file& config, std::vector<data::sample<float>>& t
 	return true;
 }
 
-void execute_cpp(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
+void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
 	auto numHidden = config.getNumeric<int, parameters::num_hidden>();
 	cpu::neuronal_network NN(trainingsData[0].size(), numHidden, 10);
 	cpu::main(NN, trainingsData, testData, useGui, config);
@@ -98,7 +98,7 @@ void execute_general(util::config_file& config) {
 
 	std::string implementation = config.getString<parameters::implementation>();
 	if (implementation == "c++") {
-		execute_cpp(config, trainingsData, testData, useGui);
+		execute_cpu(config, trainingsData, testData, useGui);
 	} else if (implementation == "cuda") {
 		execute_cuda(config, trainingsData, testData, useGui);
 	} else {
