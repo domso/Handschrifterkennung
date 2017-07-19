@@ -5,8 +5,10 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
-#include "sample.h"
+#include "../data/sample.h"
 #include <stdint.h>
+
+namespace gui {
 
 basic_interface::basic_interface(const int width, const int height, const int tile_width, const int tile_height) :
 		m_width(width), m_height(height), m_tile_width(tile_width), m_tile_height(tile_height), m_output(tile_width, tile_height), m_active(true) {
@@ -150,4 +152,4 @@ bool basic_interface::create_output(data::sample<float>& local) {
 
 	return false;
 }
-
+}

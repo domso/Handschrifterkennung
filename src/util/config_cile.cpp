@@ -72,7 +72,7 @@ namespace util {
         warningMsg_ += " in " + filename_ + ".\n";
     }
 
-    std::string config_file::getString(const std::__cxx11::string& key, const std::__cxx11::string& defaultValue) const {
+    std::string config_file::getString(const std::string& key, const std::string& defaultValue) const {
         auto result = map_.find(key);
 
         if (result != map_.end()) {

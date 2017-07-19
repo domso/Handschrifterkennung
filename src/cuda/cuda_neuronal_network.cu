@@ -19,7 +19,7 @@ void neuronal_network::set_config(const config_t config) {
 	m_currentConfig = config;
 }
 
-bool neuronal_network::train(cuda::model& model, std::vector<data::sample<float>>& trainingsData) {
+bool neuronal_network::train(cuda::model& model, std::vector<data::sample<float>>& trainingsData, const int numRelearning) {
 	std::vector<float>& refInput = trainingsData[0].internal_data();
 	model.init((refInput.size() + 1) * m_currentConfig.numHidden + (m_currentConfig.numHidden + 1) * m_currentConfig.numOutput);
 	train_data_context context(m_currentConfig, model, trainingsData);
@@ -29,9 +29,11 @@ bool neuronal_network::train(cuda::model& model, std::vector<data::sample<float>
 		return false;
 	}
 
-	for (int i = 0; i < trainingsData.size(); i++) {
-		if (!train_sample(i, trainingsData[i], context)) {
-			return false;
+	for (int iteration = 0; iteration < numRelearning; iteration++) {
+		for (int i = 0; i < trainingsData.size(); i++) {
+			if (!train_sample(i, trainingsData[i], context)) {
+				return false;
+			}
 		}
 	}
 

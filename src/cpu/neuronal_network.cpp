@@ -6,13 +6,14 @@
  */
 
 #include "neuronal_network.h"
-#include "../barrier.hpp"
+#include "../util/barrier.hpp"
 #include <cmath>
 #include <stdlib.h>
 #include <chrono>
 #include <thread>
 #include <iostream>
 
+namespace cpu {
 /**
  * @param inputCount  Number of nodes in the INPUT layer
  * @param hiddenCount Number of nodes in the HIDDEN layer
@@ -414,4 +415,6 @@ void neuronal_network::backpropagate_output_layer(int targetClassification) {
 
 		update_node_weights(OUTPUT, i, errorSignal);
 	}
+}
+
 }

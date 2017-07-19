@@ -10,6 +10,8 @@
 #include <vector>
 #include "node.h"
 
+namespace cpu {
+
 typedef enum layers {INPUT, HIDDEN, OUTPUT} layer_type;
 
 class layer {
@@ -25,4 +27,5 @@ private:
 	std::vector<node> m_nodes;
 };
 
+}
 #endif /* LAYER_H_ */

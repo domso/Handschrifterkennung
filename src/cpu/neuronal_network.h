@@ -9,7 +9,9 @@
 #define NEURONALNETWORK_H_
 #include <vector>
 #include "layer.h"
-#include "../sample.h"
+#include "../data/sample.h"
+
+namespace cpu {
 
 class neuronal_network {
 public:
@@ -39,4 +41,5 @@ private:
 	std::vector<layer> m_layers;
 };
 
+}
 #endif /* NEURONALNETWORK_H_ */

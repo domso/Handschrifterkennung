@@ -6,8 +6,9 @@
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
-#include "sample.h"
+#include "../data/sample.h"
 
+namespace gui {
 /*
  * SDL2-canvas-gui for handwriting
  * Supports hardware-acceleration
@@ -22,8 +23,7 @@ public:
 	 * @param tile_width: x-resolution of a sample
 	 * @param tile_height: y-resolution of a sample
 	 */
-	basic_interface(const int width, const int height, const int tile_width,
-			const int tile_height);
+	basic_interface(const int width, const int height, const int tile_width, const int tile_height);
 	/*
 	 * Starts the SDL-Context and opens the window
 	 * @return: true on success
@@ -110,5 +110,6 @@ private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
 };
+}
 
 #endif

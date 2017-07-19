@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include "sample.h"
-#include "conv_endian.h"
+#include "../util/conv_endian.h"
 
 namespace data {
 namespace sample_set {

@@ -32,6 +32,10 @@ namespace util {
         // - key: the required key
         //______________________________________________________________________________________________________
         void requireString(const std::string& key);
+        template <typename paramT>
+        void requireString() {
+        	requireString(paramT::key);
+        }
         //______________________________________________________________________________________________________
         //
         // Description:
@@ -43,6 +47,10 @@ namespace util {
         // - defaultValue: the default value for missing entries
         //______________________________________________________________________________________________________
         void recommendString(const std::string& key, const std::string& defaultValue = "");
+        template <typename paramT>
+        void recommendString() {
+        	recommendString(paramT::key, paramT::defaultValue);
+        }
         //______________________________________________________________________________________________________
         //
         // Description:
@@ -57,6 +65,10 @@ namespace util {
         // - the defaultValue | for a missing entry
         //______________________________________________________________________________________________________
         std::string getString(const std::string& key, const std::string& defaultValue = "") const;
+        template <typename paramT>
+        std::string getString() const {
+        	return getString(paramT::key, paramT::defaultValue);
+        }
         //______________________________________________________________________________________________________
         //
         // Description:
@@ -139,6 +151,10 @@ namespace util {
             errorMsg_ += "[ERROR] Require '" + key + "'";
             errorMsg_ += " in " + filename_ + ".\n";
         }
+        template <typename T, typename paramT>
+        void requireNumeric() {
+        	requireNumeric<T>(paramT::key);
+        }
         //______________________________________________________________________________________________________
         //
         // Description:
@@ -185,6 +201,10 @@ namespace util {
             warningMsg_ += " (Default = " + std::to_string(defaultValue) + ")";
             warningMsg_ += " in " + filename_ + ".\n";
         }
+        template <typename T, typename paramT>
+        void recommendNumeric() {
+        	recommendNumeric<T>(paramT::key, paramT::defaultValue);
+        }
         //______________________________________________________________________________________________________
         //
         // Description:
@@ -220,6 +240,10 @@ namespace util {
             }
 
             return defaultValue;
+        }
+        template <typename T, typename paramT>
+        T getNumeric() {
+        	return getNumeric<T>(paramT::key, paramT::defaultValue);
         }
     private:
         //______________________________________________________________________________________________________

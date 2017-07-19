@@ -7,6 +7,8 @@
 
 #include "node.h"
 
+namespace cpu {
+
 node::node(float bias, float output, int weightCount) : m_weights(weightCount){
 	this->m_bias = bias;
 	this->m_output = output;
@@ -33,4 +35,6 @@ void node::set_bias(float bias) {
 
 std::vector<float>& node::get_weights(){
 	return m_weights;
+}
+
 }

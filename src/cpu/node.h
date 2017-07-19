@@ -9,6 +9,8 @@
 #define NODE_H_
 #include <vector>
 
+namespace cpu {
+
 class node {
 public:
 	node(float bias, float output, int weightCount);
@@ -24,5 +26,7 @@ private:
 	float m_output;
 	std::vector<float> m_weights;
 };
+
+}
 
 #endif /* NODE_H_ */

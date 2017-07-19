@@ -4,7 +4,7 @@
 #include <vector>
 #include "cuda_model.h"
 #include "cuda_ressource.h"
-#include "../sample.h"
+#include "../data/sample.h"
 
 namespace cuda {
 /*
@@ -45,9 +45,10 @@ public:
 	 * Trains the given model with the given trainingsData
 	 * @param model: untrained-model
 	 * @param trainingsData: container with all labeled training-samples
+	 * @param numRelearning: number of learning iterations (relearning)
 	 * @return: true on success
 	 */
-	bool train(cuda::model& model, std::vector<data::sample<float>>& trainingsData);
+	bool train(cuda::model& model, std::vector<data::sample<float>>& trainingsData, const int numRelearning = 1);
 
 	/*
 	 * Tests the given trained model on the given testData

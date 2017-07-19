@@ -7,6 +7,8 @@
 
 #include "layer.h"
 
+namespace cpu {
+
 layer::layer() {
 }
 
@@ -28,4 +30,6 @@ const node& layer::get_node(const int nodeID) const{
 
 void layer::insert_node(const node& newNode) {
 	m_nodes.push_back(newNode);
+}
+
 }
