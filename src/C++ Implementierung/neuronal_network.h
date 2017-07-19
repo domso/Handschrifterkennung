@@ -14,13 +14,13 @@
 class neuronal_network {
 public:
 	neuronal_network(int inputCount, int hiddenCount, int outputCount);
-	virtual ~neuronal_network();
 	neuronal_network(neuronal_network& o) = delete;
-	layer create_layer(int nodeCount, int weightCount);
-	layer& get_layer(layer_type lType);
+	virtual ~neuronal_network();
+	layer 		 create_layer(int nodeCount, int weightCount);
+	layer& 		 get_layer(layer_type lType);
 	const layer& get_layer(layer_type lType) const;
-	int    get_network_classification() const;
-	int    proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
+	int    		 get_network_classification() const;
+	int    		 proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
 
 private:
 	void activate_node(layer_type lType, int nodeID);

@@ -25,7 +25,7 @@ void trainNetwork(neuronal_network& nn, std::vector<data::sample<float>>& traini
 		}
 	}*/
 
-	errorCount = nn.proccess_input(trainingSamples, true, 4);
+	errorCount = nn.proccess_input(trainingSamples, true, 8);
 
 	std::cout << "training completed!\n => " << errorCount << " mistakes out of " << trainingSamples.size() << " images (" << ((float)(trainingSamples.size() - errorCount) / trainingSamples.size() * 100) << "% sucess rate)\n";
 }
@@ -48,7 +48,7 @@ void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSam
 		}
 	}*/
 
-	errorCount = nn.proccess_input(testSamples, false, 4);
+	errorCount = nn.proccess_input(testSamples, false, 8);
 
 
 	std::cout << "test completed!\n => " << errorCount << " mistakes out of " << testSamples.size() << " images (" << ((float)(testSamples.size() - errorCount) / testSamples.size() * 100) << "% sucess rate)\n";
@@ -66,7 +66,7 @@ int main7() {
 	}
 
 	int inputCount  = trainingInput[0].size();
-	int hiddenCount = 20;
+	int hiddenCount = 40;
 	int outputCount = 10;
 
 	neuronal_network nn(inputCount, hiddenCount, outputCount);
@@ -79,7 +79,9 @@ int main7() {
 	std::vector<data::sample<float>> testInput = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
 	auto startTimeTrain = std::chrono::high_resolution_clock::now();
-	trainNetwork(nn, trainingInput);
+	for(int i = 0; i < 10; i++)
+		trainNetwork(nn, trainingInput);
+
 	auto endTimeTrain   = std::chrono::high_resolution_clock::now();
 	auto elapsedTimeTrain = std::chrono::duration_cast<std::chrono::milliseconds>(endTimeTrain - startTimeTrain).count();
 	std::cout << "\nTraining with " << trainingInput.size() << " pictures ended after " << elapsedTimeTrain << "ms\n\n";

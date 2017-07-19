@@ -13,8 +13,7 @@ void gui_thread(basic_interface& i) {
 	i.close();
 }
 
-int execute_cuda(util::config_file& config) {
-
+int execute_cuda_2(util::config_file& config) {
 	auto trainingsData = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 	auto testData = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
 
