@@ -7,7 +7,7 @@
 
 #include "layer.h"
 
-layer::layer(const int nodeCount) {
+layer::layer() {
 }
 
 layer::~layer() {

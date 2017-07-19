@@ -14,7 +14,7 @@ typedef enum layers {INPUT, HIDDEN, OUTPUT} layer_type;
 
 class layer {
 public:
-	layer(const int nodeCount);
+	layer();
 	virtual ~layer();
 	node& get_node(const int nodeID);
 	const node& get_node(const int nodeID) const;

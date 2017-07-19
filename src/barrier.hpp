@@ -54,7 +54,7 @@ public:
 		// if all threads reached the wait() call, proceed with the call
 		if (m_counter == size_) {
 			int tmp = size_;
-			if (m_counter.compare_exchange_strong(tmp, 0)) {
+			if(m_counter.compare_exchange_strong(tmp, 0)) {
 				//m_counter = 0;
 				// invalidates all current tickets
 				m_head = ticket + size_;
@@ -65,7 +65,6 @@ public:
 		while (ticket == m_head) {
 			std::this_thread::yield();
 		}
-
 	}
 
 private:
@@ -73,7 +72,7 @@ private:
 	std::atomic<int> m_counter;
 	int lockCounter_;
 	int head_;
-	int size_;
+	const int size_;
 
 	std::mutex mutex;
 };
