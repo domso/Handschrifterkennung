@@ -56,7 +56,7 @@ void testNetwork(neuronal_network& nn, std::vector<data::sample<float>>& testSam
 }
 
 
-int main() {
+int main7() {
 	std::vector<data::sample<float>> trainingInput = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 
 	int imgCount = trainingInput.size();

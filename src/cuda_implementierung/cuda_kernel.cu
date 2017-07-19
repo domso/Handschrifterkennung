@@ -27,7 +27,6 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 		}
 	}
 
-
 	if (threadIdx.x == 0) {
 		next[blockIdx.x] = activation(buffer[0] + inputBias);
 	}

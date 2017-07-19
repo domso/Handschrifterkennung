@@ -5,6 +5,7 @@
 #include "../basic_interface.h"
 #include <thread>
 #include <chrono>
+#include "../config_file.h"
 
 void gui_thread(basic_interface& i) {
 	i.init();
@@ -12,14 +13,14 @@ void gui_thread(basic_interface& i) {
 	i.close();
 }
 
-int main2() {
-	std::mutex m;
-	data::sample<float> output(28, 28);
-	data::sample<float> final(28, 28);
-	basic_interface i(800, 800, 28, 28);
+int execute_cuda(util::config_file& config) {
 
 	auto trainingsData = data::sample_set::load<float>("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
 	auto testData = data::sample_set::load<float>("./t10k-images.idx3-ubyte", "./t10k-labels.idx1-ubyte");
+
+	data::sample<float> output(28, 28);
+	data::sample<float> final(28, 28);
+	basic_interface i(800, 800, 28, 28);
 
 	cuda::model model;
 	cuda::neuronal_network NN;
