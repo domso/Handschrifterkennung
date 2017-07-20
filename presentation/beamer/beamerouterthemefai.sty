@@ -1,0 +1,95 @@
+% Encoding: UTF-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% $Id: beamerouterthemefai.sty 33 2011-02-28 09:33:27Z metzlast $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Vorlage fuer LaTeX-Beamer
+%% gemaess dem Corporate Design der Uni Augsburg
+%%
+%% Autor: Florian Kluge <kluge@informatik.uni-augsburg.de>
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Changelog:
+%%
+%% 11/02/10 (FAK) Start
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\ProvidesPackageRCS $Id: beamerouterthemefai.sty 33 2011-02-28 09:33:27Z metzlast $
+%% TODO: \ProvidesPackageSVN implementieren
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemefai}
+
+
+\mode<presentation>
+
+\defbeamertemplate*{frametitle}{fai theme}
+{
+ \vspace{-0.035cm}
+ \mbox{
+%\setlength{\textwidth}{\paperwidth}
+  \leavevmode
+  \hskip-1.1cm
+  %\begin{beamercolorbox}[wd=.13\paperwidth,ht=1.35cm,dp=0cm,left]{unisiegel}
+  \begin{beamercolorbox}[wd=1.7cm,ht=1.35cm,dp=0cm,left]{unisiegel}
+    \includegraphics[width=1.61cm]{img/siegel.png}
+  \end{beamercolorbox}
+  %7.5cm
+  %\begin{beamercolorbox}[wd=.6\paperwidth,ht=1.35cm,dp=0cm,left]{frametitle}
+  \begin{beamercolorbox}[wd=7.6cm,ht=1.35cm,left,sep=0.10cm]{frametitle}
+    %\vspace{0.5cm}
+%    \vfill
+%	{\large
+    \insertframetitle
+%	}
+    %\ifx\insertframesubtitle\@empty%
+    %\strut\par%
+    %\else
+    %\par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+    %\fi%
+    %Foo bar
+%    \vfill
+  \end{beamercolorbox}
+  %3.5cm
+  \hskip-0.16cm
+  %\begin{beamercolorbox}[wd=.27\paperwidth,ht=1.35cm,dp=0cm,center]{unilogo}
+  \begin{beamercolorbox}[wd=3.52cm,ht=1.35cm,dp=0cm,center]{unilogo}
+    \vspace{-0.5cm}
+    %\vspace*{\fill}
+    \hfill
+    \includegraphics[width=2.35cm]{img/unilogo.png}
+    \hfill
+    %\vspace*{\fill}
+  \end{beamercolorbox}
+}
+}
+
+\defbeamertemplate*{headline}{fai theme}
+{
+}
+
+\defbeamertemplate*{footline}{fai theme}
+{
+  \leavevmode
+  \begin{beamercolorbox}[wd=1.65cm,ht=0.45cm,dp=0cm,center,sep=4pt]{date in
+      head/foot}
+    \insertshortdate
+  \end{beamercolorbox}
+  \hskip-0.16cm
+  \begin{beamercolorbox}[wd=10cm,ht=0.45cm,dp=0cm,left,sep=4pt]{title in head/foot}
+    \insertshortauthor~/ \insertshorttitle
+  \end{beamercolorbox}
+  \hskip-0.16cm
+  \begin{beamercolorbox}[wd=1.37cm,ht=0.45cm,dp=0cm,right,sep=4pt]{title in head/foot}
+    \insertframenumber{}
+  \end{beamercolorbox}
+
+}
+
+\mode<all>
