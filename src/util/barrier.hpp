@@ -47,12 +47,11 @@ public:
 		int ticket = m_head;
 		//std::unique_lock < std::mutex > ul(mutex);
 
-
 		// increase current number of threads waiting on the barrier
-		m_counter++;
+		int current = m_counter++;
 
 		// if all threads reached the wait() call, proceed with the call
-		if (m_counter == size_) {
+		if (current + 1 == size_) {
 			int tmp = size_;
 			if(m_counter.compare_exchange_strong(tmp, 0)) {
 				//m_counter = 0;
