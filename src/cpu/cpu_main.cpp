@@ -49,6 +49,7 @@ namespace cpu {
 		auto learningRate = config.getNumeric<float, parameters::learning_rate>();
 		auto numThreads = config.getNumeric<int, parameters::num_threads>();
 
+		std::cout << "C++ implementation:" << std::endl;
 		training(NN, trainingsData, numRelearning, numThreads);
 		testing(NN, testData, numThreads);
 

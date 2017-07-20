@@ -15,28 +15,133 @@ namespace cpu {
 
 class neuronal_network {
 public:
+
+	/**
+	 * constructor
+	 * @param inputCount  Number of nodes in the INPUT layer
+	 * @param hiddenCount Number of nodes in the HIDDEN layer
+	 * @param outputCount Number of nodes in the OUTPUT layer
+	 */
 	neuronal_network(int inputCount, int hiddenCount, int outputCount);
+
+	/**
+	 * deleted copy constructor
+	 */
 	neuronal_network(neuronal_network& o) = delete;
+
+	/**
+	 * destructor
+	 */
 	virtual ~neuronal_network();
-	layer 		 create_layer(int nodeCount, int weightCount);
-	layer& 		 get_layer(layer_type lType);
+
+	/**
+	 * Creates a layer
+	 * @param nodeCount   the number of nodes that this layer should contain
+	 * @param weightCount the number of weights that should every node contain
+	 * @return the created layer
+	 */
+	layer create_layer(int nodeCount, int weightCount);
+
+	/**
+	 * Returns the corresponding layer to the given lType of the network
+	 * @param lType  Type of layer to be returned (INPUT, HIDDEN, OUTPUT)
+	 * @return the corresponding layer to lType
+	 */
+	layer& get_layer(layer_type lType);
+
+	/**
+	 * Returns the corresponding layer to the given lType of the network
+	 * @param lType  Type of layer to be returned (INPUT, HIDDEN, OUTPUT)
+	 * @return the corresponding layer to lType
+	 */
 	const layer& get_layer(layer_type lType) const;
-	int    		 get_network_classification() const;
-	int    		 proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
+
+
+	/**
+	 * @return the network's classification using the ID of the node with the highest output
+	 */
+	int get_network_classification() const;
+
+	/**
+	 * processes the given inputSamples and returns the number of false calssifications
+	 * @param inputSamples     the input samples
+	 * @param updateWeights    flag, if the weights should been updated (training)
+	 * @param usedThreadCount  number of threads that should be used
+	 * @return the id of false computed classifications
+	 */
+	int proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
 
 private:
-	void activate_node(node& node);
-	void backpropagate_network(int targetClassification);
-	void backpropagate_hidden_layer(int targetClassification);
-	void backpropagate_output_layer(int targetClassification);
-	void calc_layer(layer_type lType);
-	void calc_node_output(layer& calcLayer, layer& prevLayer, node& calcNode);
-	void init_weights(layer_type lType);
-	void feed_forward(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID);
-	void feed_input(std::vector<float> input);
-	void update_node_weights(layer_type lType, int nodeID, float delta);
 
+	/**
+	 * Performs the SEGMOID activiation function to the specified node
+	 * @param node  the node to activate
+	 */
+	void activate_node(node& node);
+
+	/**
+	 * Back propagates network error to hidden-layer
+	 * @param targetClassification  correct classification of the input stream (label)
+	 * @param usedThreadCount  number of threads to use
+	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 */
+	void backpropagate_hidden_layer(int targetClassification, int usedThreadCount, int thID);
+
+	/**
+	 * Back propagates network error to output-layer
+	 * @param targetClassification  correct classification of the input stream (label)
+	 * @param usedThreadCount  number of threads to use
+	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 */
+	void backpropagate_output_layer(int targetClassification, int usedThreadCount, int thID);
+
+	/**
+	 * Calculates the output value of the specified node by multiplying all its weights with the previous layer's outputs
+	 * @param calcLayer  the layer of the node
+	 * @param prevLayer  the previous layer of the node
+	 * @param calcNode  the node to calculate
+	 */
+	void calc_node_output(layer& calcLayer, layer& prevLayer, node& calcNode);
+
+	/**
+	 * Initializes a layer's weights with random values
+	 * @param lType  Defining what layer to initialize
+	 */
+	void init_weights(layer_type lType);
+
+	/**
+	 * feeds the data of the previous layer forward to the actual layer
+	 * @param actualLayer  the actual layer
+	 * @param prevLayer  the previous layer
+	 * @param usedThreadCount  the number of threads to use
+	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 */
+	void feed_forward(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID);
+
+	/**
+	 * Feeds some data into the input-layer of the network
+	 * @param input  a vector with the input values
+	 * @param usedThreadCount  the number of threads to use
+	 * @param thID  id of the actual thread (0 if there is only 1 thread)
+	 */
+	void feed_input(std::vector<float> input, int usedThreadCount, int thID);
+
+	/**
+	 * Updates a node's weights based on given delta
+	 * @param lType   Type of layer (INPUT, HIDDEN, OUTPUT)
+	 * @param nodeID  id of the node to update
+	 * @param delta   difference between desired output and actual output
+	 */
+	void update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, float delta);
+
+	/**
+	 * the learning rate of the neuronal network
+	 */
 	float m_learning_rate;
+
+	/**
+	 * the layers of this network
+	 */
 	std::vector<layer> m_layers;
 };
 

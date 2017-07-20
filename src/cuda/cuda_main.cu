@@ -52,6 +52,8 @@ bool main(cuda::neuronal_network& NN, std::vector<data::sample<float>>& training
 	auto numRelearning = config.getNumeric<int, parameters::num_relearning>();
 	auto learningRate = config.getNumeric<float, parameters::learning_rate>();
 
+	std::cout << "Cuda implementation:" << std::endl;
+
 	cuda::model model;
 	cuda::neuronal_network::config_t configNN;
 
