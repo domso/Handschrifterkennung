@@ -12,20 +12,53 @@
 
 namespace cpu {
 
-typedef enum layers {INPUT, HIDDEN, OUTPUT} layer_type;
+	/**
+	 * types of layers
+	 */
+	typedef enum layers {INPUT, HIDDEN, OUTPUT} layer_type;
 
-class layer {
-public:
-	layer();
-	virtual ~layer();
-	node& get_node(const int nodeID);
-	const node& get_node(const int nodeID) const;
-	int   get_node_count() const;
-	void  insert_node(const node& newNode);
+	class layer {
+	public:
 
-private:
-	std::vector<node> m_nodes;
-};
+		/**
+		 * constructor
+		 */
+		layer();
+
+		/**
+		 * destructor
+		 */
+		virtual ~layer();
+
+		/**
+		 * @param nodeID  the index of the node
+		 * @return the node with the given index
+		 */
+		node& get_node(const int nodeID);
+
+		/**
+		 * @param nodeID  the index of the node
+		 * @return the node with the given index
+		 */
+		const node& get_node(const int nodeID) const;
+
+		/**
+		 * @return the number of nodes in this layer
+		 */
+		int   get_node_count() const;
+
+		/**
+		 * inserts the given node in this layer
+		 * @param newNode  the node to be inserted
+		 */
+		void  insert_node(const node& newNode);
+
+	private:
+		/**
+		 * the nodes of this layer
+		 */
+		std::vector<node> m_nodes;
+	};
 
 }
 #endif /* LAYER_H_ */
