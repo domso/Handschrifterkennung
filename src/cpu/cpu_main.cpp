@@ -44,15 +44,6 @@ namespace cpu {
 		std::cout << (testData.size() - result) / (double) testData.size() << std::endl;
 	}
 
-	/**
-	 * trains and tests the given network with the given data
-	 * @param NN  the network to train and test
-	 * @param trainingsData  the data used for training
-	 * @param testData  the data used for testing
-	 * @param useGui  flag, if the gui should be showed
-	 * @param config  the config-file to use
-	 * @return
-	 */
 	bool main(cpu::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, const int useGui, util::config_file& config) {
 		auto numRelearning = config.getNumeric<int, parameters::num_relearning>();
 		auto learningRate = config.getNumeric<float, parameters::learning_rate>();

@@ -7,6 +7,18 @@
 #include "cuda_neuronal_network.h"
 
 namespace cuda {
+/*
+ * Cuda-main implementation
+ * Trains a new model on the trainingsData and tests it on the testData.
+ * Additional parameters are stored in the given config.
+ * If the useGui-flag was set, the NN will be prepared for additional NN::classify() calls. (for the GUI)
+ * @param NN: initialized neuronal-network
+ * @param trainingsData: non empty vector containing the labeled trainings-samples
+ * @param testData: non empty vector containing the labeled test-samples
+ * @param useGui: gui-window-flag
+ * @param config: initialized config
+ * @return: true on success
+ */
 bool main(cuda::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, const int useGui, util::config_file& config);
 
 }

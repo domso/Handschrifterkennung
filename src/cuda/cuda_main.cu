@@ -1,15 +1,23 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include "../data/sample_set.h"
 #include "cuda_neuronal_network.h"
 #include "cuda_model.h"
 #include "../gui/basic_interface.h"
-#include <thread>
-#include <chrono>
 #include "../util/config_file.h"
 #include "../parameters.h"
 
 namespace cuda {
 
+/*
+ * Trains the given model on the given neuronal-network with the given trainingsData
+ * Prints the duration in microseconds
+ * @param model: initialized model
+ * @param NN: initialized neuronal-network
+ * @param trainingsData: non empty vector containing the labeled trainings-samples
+ * @param numRelearning: number of relearning iterations
+ */
 void training(cuda::model& model, cuda::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, const int numRelearning) {
 	auto tp1 = std::chrono::high_resolution_clock::now();
 	NN.train(model, trainingsData, numRelearning);
@@ -19,6 +27,13 @@ void training(cuda::model& model, cuda::neuronal_network& NN, std::vector<data::
 	std::cout << "Training took: " << duration / (double) 1000000 << "sec" << std::endl;
 }
 
+/*
+ * Tests the given model on the given neuronal-network with the given testData
+ * Prints the duration in microseconds
+ * @param model: trained model
+ * @param NN: initialized neuronal-network
+ * @param testData: non empty vector containing the labeled test-samples
+ */
 void testing(cuda::model& model, cuda::neuronal_network& NN, std::vector<data::sample<float>>& testData) {
 	auto tp1 = std::chrono::high_resolution_clock::now();
 	auto result = NN.test(model, testData);

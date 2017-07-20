@@ -34,12 +34,6 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 	}
 }
 
-__global__ void cuda_neural_network_output_error(float* output, float* labels) {
-	float o = output[threadIdx.x];
-
-	output[threadIdx.x] = o * (1 - o) * (labels[threadIdx.x] - o);
-}
-
 __global__ void cuda_neural_network_error(float* current, float* next,
 		float* weights, float* learning, float* labels) {
 	extern __shared__ float buffer[];

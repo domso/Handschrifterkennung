@@ -9,14 +9,30 @@
 #include "cpu/neuronal_network.h"
 #include "cpu/cpu_main.h"
 
+/*
+ * Opens the gui-window and executes the main update-methode
+ * Runs until the window was closed *
+ * @param window: non initialized gui-window
+ */
 void gui_thread(gui::basic_interface& window) {
 	window.init();
 	window.update();
 	window.close();
 }
 
+/*
+ * Start the gui-thread and waits until the window was closed
+ * Every drawn sample on the gui will be classified with
+ * NNtype::classify(data::sample<float>&)
+ * @param NN: initialized neuronal-network of type NNtype
+ * @param window: non initialized gui-window
+ * @param sampleWidth: x-resolution of a sample
+ * @param sampleHeight: y-resolution of a sample
+ */
 template<typename NNtype>
-void gui_consumer(NNtype& NN, gui::basic_interface& window, data::sample<float>& output, data::sample<float>& final) {
+void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, const int sampleHeight) {
+	data::sample<float> output(sampleWidth, sampleHeight);
+	data::sample<float> final(sampleWidth, sampleHeight);
 	std::thread t1(&gui_thread, std::ref(window));
 
 	while (window.is_active()) {
@@ -29,20 +45,33 @@ void gui_consumer(NNtype& NN, gui::basic_interface& window, data::sample<float>&
 	t1.join();
 }
 
+/*
+ * Initializes the gui and start the gui-main-function
+ * Requires NNtype::classify(data::sample<float>&)
+ * @param NN: initialized neuronal-network of type NNtype
+ * @param trainingsData: non empty vector with trainings-samples as a size-reference
+ */
 template<typename NNtype>
-void gui_main(NNtype& NN, util::config_file& config, std::vector<data::sample<float>>& trainingsData) {
+void gui_init(NNtype& NN, util::config_file& config, std::vector<data::sample<float>>& trainingsData) {
 	int sampleWidth = trainingsData[0].get_width();
 	int sampleHeight = trainingsData[0].get_height();
 	int windowWidth = config.getNumeric<int, parameters::window_width>();
 	int windowHeight = config.getNumeric<int, parameters::window_height>();
 
-	data::sample<float> output(sampleWidth, sampleHeight);
-	data::sample<float> final(sampleWidth, sampleHeight);
 	gui::basic_interface window(windowWidth, windowHeight, sampleWidth, sampleHeight);
 
-	gui_consumer<NNtype>(NN, window, output, final);
+	gui_main<NNtype>(NN, window, sampleWidth, sampleHeight);
 }
 
+/*
+ * Loads all samples and labels from the files specified in config and sets the useGui-flag
+ * If the useGui-flag was set, the gui will be opened afterwards
+ * @param config: input-config file
+ * @param trainingsData: empty vector for trainings-samples
+ * @param testData: empty vector for the test-samples
+ * @param useGui: output-flag for gui
+ * @return: true on success
+ */
 bool load_samples(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
 	auto pathTrainingSamples = config.getString<parameters::path_training_samples>();
 	auto pathTrainingLabels = config.getString<parameters::path_training_labels>();
@@ -67,6 +96,14 @@ bool load_samples(util::config_file& config, std::vector<data::sample<float>>& t
 	return true;
 }
 
+/*
+ * Starts the c++ implementation
+ * If the useGui-flag was set, the gui will be opened afterwards
+ * @param config: input-config file
+ * @param trainingsData: vector with the loaded trainings-samples
+ * @param testData: vector with the loaded test-samples
+ * @param useGui: flag for gui
+ */
 void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
 	auto numHidden = config.getNumeric<int, parameters::num_hidden>();
 	cpu::neuronal_network NN(trainingsData[0].size(), numHidden, 10);
@@ -74,19 +111,32 @@ void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& tr
 
 	if (useGui) {
 		// TODO requires cpu::neuronal_network::classify(data::sample<float>&)
-		//gui_main<cpu::neuronal_network>(NN, config, trainingsData);
+		//gui_init<cpu::neuronal_network>(NN, config, trainingsData);
 	}
 }
 
+/*
+ * Starts the cuda implementation
+ * If the useGui-flag was set, the gui will be opened afterwards
+ * @param config: input-config file
+ * @param trainingsData: vector with the loaded trainings-samples
+ * @param testData: vector with the loaded test-samples
+ * @param useGui: flag for gui
+ */
 void execute_cuda(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
 	cuda::neuronal_network NN;
 	cuda::main(NN, trainingsData, testData, useGui, config);
 
 	if (useGui) {
-		gui_main<cuda::neuronal_network>(NN, config, trainingsData);
+		gui_init<cuda::neuronal_network>(NN, config, trainingsData);
 	}
 }
 
+/*
+ * Implementation switch for cuda and c++
+ * Loads the samples using the config-files
+ * @param config: input-config file
+ */
 void execute_general(util::config_file& config) {
 	std::vector<data::sample<float>> trainingsData;
 	std::vector<data::sample<float>> testData;
@@ -106,6 +156,10 @@ void execute_general(util::config_file& config) {
 	}
 }
 
+/*
+ * Checks the given config for required and recommended parameters.
+ * @param config: input-config file
+ */
 void check_config(util::config_file& config) {
 	config.requireString<parameters::implementation>();
 	config.requireString<parameters::path_training_samples>();
@@ -119,6 +173,13 @@ void check_config(util::config_file& config) {
 	config.recommendNumeric<float, parameters::learning_rate>();
 }
 
+/*
+ * Tries to load a configuration from the given file and checks
+ * it for any warnings or errors
+ * @param config: input-config file
+ * @param filename: path to the file
+ * @return: false on error
+ */
 bool load_config(util::config_file& config, const std::string& filename) {
 	config.load(filename);
 
@@ -141,6 +202,10 @@ bool load_config(util::config_file& config, const std::string& filename) {
 	return true;
 }
 
+/*
+ * Loads the config-file specified by the first argument and executes
+ * the starts the implementation-switch
+ */
 int main(int argc, char* args[]) {
 	if (argc < 2) {
 		std::cout << "[Error] No arguments" << std::endl;

@@ -25,22 +25,13 @@
 __global__ void cuda_neural_network(float* input, float* next, float* weights);
 
 /*
- * Kernel for the back-propagation of the output-layer
- * Every thread represents one node in the output-layer (just 1 block)
- *
- * Every thread calculates the output-error and overrides the original output
- *
- * All boundaries needs be adjusted on the caller side!
- *
- * @param output: actual output-layer
- * @param labels: the expected true output
- */
-__global__ void cuda_neural_network_output_error(float* output, float* labels);
-
-/*
- * Kernel for the back-propagation of the remaining layers (see cuda_neural_network_output_error)
+ * Kernel for the back-propagation
  * Every block represents one node in the current-layer.
  * Every thread represents one edge from the "block"-node to the next-layer
+ *
+ * If labels is not null, the next should layer not contain the local error,
+ * but the local output. The error of node i will be calculated using the expected
+ * output stored in labels[i];
  *
  * Every thread calculates the weighted-error, which will be reduced to the
  * root thread (id = 0)
@@ -57,6 +48,7 @@ __global__ void cuda_neural_network_output_error(float* output, float* labels);
  * @param next: next layer after current
  * @param weights: weights for all edges from current to next (warning! not the same order! see cuda_neural_network)
  * @param learning: learning_rate
+ * @param labels: expected result on the next layer (set to nullptr for next != output)
  */
 __global__ void cuda_neural_network_error(float* current, float* next,
 		float* weights, float* learning, float* labels);
