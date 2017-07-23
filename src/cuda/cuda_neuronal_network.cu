@@ -100,7 +100,7 @@ int neuronal_network::classify(data::sample<float>& s) {
 		return test_sample(0, s, *m_currentContext);
 	}
 
-	return 0;
+	return -1;
 }
 
 bool neuronal_network::train_sample(const int i, const data::sample<float>& sample, train_data_context& context) {

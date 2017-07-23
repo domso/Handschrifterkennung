@@ -110,8 +110,7 @@ void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& tr
 	cpu::main(NN, trainingsData, testData, useGui, config);
 
 	if (useGui) {
-		// TODO requires cpu::neuronal_network::classify(data::sample<float>&)
-		//gui_init<cpu::neuronal_network>(NN, config, trainingsData);
+		gui_init<cpu::neuronal_network>(NN, config, trainingsData);
 	}
 }
 

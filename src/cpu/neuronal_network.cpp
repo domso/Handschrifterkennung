@@ -29,6 +29,12 @@ namespace cpu {
 
 	neuronal_network::~neuronal_network() {}
 
+	int neuronal_network::classify(data::sample<float>& s) {
+		std::vector<data::sample<float>> inputSamples;
+		inputSamples.push_back(s);
+		proccess_input(inputSamples, false, 8); // TODO fix thread number bad
+	}
+
 	layer neuronal_network::create_layer(int nodeCount, int weightCount) {
 		layer l;
 
@@ -125,6 +131,10 @@ namespace cpu {
 		for (auto& thread : threads)
 			thread.join();
 		return numError;
+	}
+
+	void neuronal_network::setLearningRate(float learningRate) {
+		m_learning_rate = learningRate;
 	}
 
 	void neuronal_network::activate_node(node& node) {

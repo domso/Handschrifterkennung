@@ -35,6 +35,13 @@ public:
 	virtual ~neuronal_network();
 
 	/**
+	 * Classifies the sample with the current context (see set_classify_context)
+	 * @param s: unlabeled sample
+	 * @return: classification (>=0) or -1 on any error
+	 */
+	int classify(data::sample<float>& s);
+
+	/**
 	 * Creates a layer
 	 * @param nodeCount   the number of nodes that this layer should contain
 	 * @param weightCount the number of weights that should every node contain
@@ -70,6 +77,12 @@ public:
 	 * @return the id of false computed classifications
 	 */
 	int proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
+
+	/**
+	 * sets the learning rate of this network to the given value
+	 * @param learningRate  the new learning rate to be set
+	 */
+	void setLearningRate(float learningRate);
 
 private:
 
