@@ -35,9 +35,9 @@ public:
 	virtual ~neuronal_network();
 
 	/**
-	 * Classifies the sample with the current context (see set_classify_context)
+	 * Classifies the sample with use of 8 threads
 	 * @param s: unlabeled sample
-	 * @return: classification (>=0) or -1 on any error
+	 * @return: classification
 	 */
 	int classify(data::sample<float>& s);
 

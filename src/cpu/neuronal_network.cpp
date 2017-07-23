@@ -33,6 +33,7 @@ namespace cpu {
 		std::vector<data::sample<float>> inputSamples;
 		inputSamples.push_back(s);
 		proccess_input(inputSamples, false, 8); // TODO fix thread number bad
+		return get_network_classification();
 	}
 
 	layer neuronal_network::create_layer(int nodeCount, int weightCount) {
