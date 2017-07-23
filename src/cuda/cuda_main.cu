@@ -57,8 +57,11 @@ bool main(cuda::neuronal_network& NN, std::vector<data::sample<float>>& training
 	cuda::model model;
 	cuda::neuronal_network::config_t configNN;
 
+	configNN.numOutput = 10;
 	configNN.numHidden = numHidden;
 	configNN.learningRate = learningRate;
+
+	NN.set_config(configNN);
 
 	training(model, NN, trainingsData, numRelearning);
 	testing(model, NN, testData);

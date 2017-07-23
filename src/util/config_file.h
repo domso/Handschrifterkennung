@@ -177,11 +177,11 @@ namespace util {
             if (result != map_.end()) {
                 if (result->second != "") {
                     char* endPtr = nullptr;
-                    double value = strtod(result->second.c_str(), &endPtr);
+                    float value = std::strtof(result->second.c_str(), &endPtr);
 
                     if (endPtr != result->second.c_str()) {
                         // simple 'hack' to verify that value is a instance of T
-                        if ((T)value != value) {
+                        if (((T)value) != value) {
                             result->second = std::to_string((T)value);
                             warningMsg_ += "[WARNING] Wrong numeric format for '" + key + "'";
                             warningMsg_ += " in " + filename_ + ".";
@@ -229,12 +229,10 @@ namespace util {
             if (result != map_.end()) {
                 if (result->second != "") {
                     char* endPtr = nullptr;
-                    double value = strtod(result->second.c_str(), &endPtr);
+                    double value = std::strtod(result->second.c_str(), &endPtr);
 
                     if (endPtr != result->second.c_str()) {
-                        if ((T)value == value) {
-                            return (T)value;
-                        }
+                    	return (T)value;
                     }
                 }
             }
