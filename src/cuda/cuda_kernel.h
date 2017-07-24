@@ -36,7 +36,7 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights);
  * Every thread calculates the weighted-error, which will be reduced to the
  * root thread (id = 0)
  *
- * The root calculates the node-error and stores in current.
+ * The root calculates the node-error and stores in current, if override is set to true
  * Then he scatters the weighted-error-sum together with the learning rate and the original output
  * to all threads.
  *
@@ -49,8 +49,9 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights);
  * @param weights: weights for all edges from current to next (warning! not the same order! see cuda_neural_network)
  * @param learning: learning_rate
  * @param labels: expected result on the next layer (set to nullptr for next != output)
+ * @param override: override the values in current with the node-error
  */
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning, float* labels, bool copy);
+		float* weights, float* learning, float* labels, bool override);
 
 #endif
