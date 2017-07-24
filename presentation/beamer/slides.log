@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.4.25)  23 JUL 2017 19:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.4.22)  24 JUL 2017 15:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **slides.tex
 (./slides.tex
 LaTeX2e <2017/01/01> patch level 3
-Babel <3.9r> and hyphenation patterns for 8 language(s) loaded.
+Babel <3.9r> and hyphenation patterns for 3 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/beamer.cls
 Document Class: beamer 2017/01/22 v3.40 A class for typesetting presentations
 (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
@@ -663,26 +663,7 @@ fault.sty
 \beamer@dimb=\dimen189
 )
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/themes/outer/beamerouterthemede
-fault.sty))) (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2016/04/23 3.9r The Babel package
-
-(/usr/share/texlive/texmf-dist/tex/generic/babel-german/german.ldf
-Language: german 2016/11/02 v2.9 German support for babel (traditional orthogra
-phy)
-
-(/usr/share/texlive/texmf-dist/tex/generic/babel-german/germanb.ldf
-Language: germanb 2016/11/02 v2.9 German support for babel (traditional orthogr
-aphy)
-
-(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2016/04/23 3.9r Babel common definitions
-\babel@savecnt=\count155
-\U@D=\dimen190
-LaTeX Info: Redefining \textlatin on input line 1448.
-)
-Package babel Info: Making " an active character on input line 139.
-)))
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+fault.sty))) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks45
 \inpenc@posthook=\toks46
@@ -1013,7 +994,7 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 \XKV@toks=\toks47
 \XKV@tempa@toks=\toks48
 )
-\XKV@depth=\count156
+\XKV@depth=\count155
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
@@ -1025,30 +1006,30 @@ Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen191
-\captionmargin@=\dimen192
-\captionwidth=\dimen193
-\caption@tempdima=\dimen194
-\caption@indent=\dimen195
-\caption@parindent=\dimen196
-\caption@hangindent=\dimen197
+\captionmargin=\dimen190
+\captionmargin@=\dimen191
+\captionwidth=\dimen192
+\caption@tempdima=\dimen193
+\caption@indent=\dimen194
+\caption@parindent=\dimen195
+\caption@hangindent=\dimen196
 )
-\c@ContinuedFloat=\count157
+\c@ContinuedFloat=\count156
 Package caption Info: beamer document class.
 Package caption Info: hyperref package is loaded.
 Package caption Info: Hyperref support is turned off
 (caption)             because hyperref has stopped early.
 )
-\c@KVtest=\count158
+\c@KVtest=\count157
 \sf@farskip=\skip60
-\sf@captopadj=\dimen198
+\sf@captopadj=\dimen197
 \sf@capskip=\skip61
 \sf@nearskip=\skip62
-\c@subfigure=\count159
-\c@subfigure@save=\count160
-\c@depth=\count161
-\c@subtable=\count162
-\c@subtable@save=\count163
+\c@subfigure=\count158
+\c@subfigure@save=\count159
+\c@depth=\count160
+\c@subtable=\count161
+\c@subtable@save=\count162
 \sf@top=\skip63
 \sf@bottom=\skip64
 )
@@ -1061,7 +1042,7 @@ Package: transparent 2016/05/16 v1.1 Transparency via pdfTeX's color stack (HO)
 )
 \SVG@out@width=\skip65
 \SVG@out@height=\skip66
-\c@svgfigure=\count164
+\c@svgfigure=\count163
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2017/02/22 v2.0g Standard LaTeX package
@@ -1219,18 +1200,6 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/german/german.sty v2.5e 1998-07-08
-Package: german 1998/07/08 v2.5e Support for writing german texts (br)
-\grmnU@D=\dimen199
-LaTeX Info: Redefining \glqq on input line 251.
-LaTeX Info: Redefining \glq on input line 264.
-LaTeX Info: Redefining \flqq on input line 277.
-LaTeX Info: Redefining \frqq on input line 285.
-LaTeX Info: Redefining \flq on input line 293.
-LaTeX Info: Redefining \frq on input line 300.
-german -- \language number for Austrian undefined, default 6 used.
-german -- \language number for French undefined, default 255 used.
-)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
@@ -1244,8 +1213,8 @@ File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
 .sty
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen256
-\pgf@nodesepend=\dimen257
+\pgf@nodesepstart=\dimen198
+\pgf@nodesepend=\dimen199
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
 .sty
@@ -1259,8 +1228,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
 Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen258
-\pgffor@skip=\dimen259
+\pgffor@iter=\dimen256
+\pgffor@skip=\dimen257
 \pgffor@stack=\toks49
 \pgffor@toks=\toks50
 ))
@@ -1270,31 +1239,31 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
 .code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count165
-\pgfplotmarksize=\dimen260
+\pgf@plot@mark@count=\count164
+\pgfplotmarksize=\dimen258
 )
-\tikz@lastx=\dimen261
-\tikz@lasty=\dimen262
-\tikz@lastxsaved=\dimen263
-\tikz@lastysaved=\dimen264
-\tikzleveldistance=\dimen265
-\tikzsiblingdistance=\dimen266
+\tikz@lastx=\dimen259
+\tikz@lasty=\dimen260
+\tikz@lastxsaved=\dimen261
+\tikz@lastysaved=\dimen262
+\tikzleveldistance=\dimen263
+\tikzsiblingdistance=\dimen264
 \tikz@figbox=\box54
 \tikz@figbox@bg=\box55
 \tikz@tempbox=\box56
 \tikz@tempbox@bg=\box57
-\tikztreelevel=\count166
-\tikznumberofchildren=\count167
-\tikznumberofcurrentchild=\count168
-\tikz@fig@count=\count169
+\tikztreelevel=\count165
+\tikznumberofchildren=\count166
+\tikznumberofcurrentchild=\count167
+\tikz@fig@count=\count168
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count170
-\pgfmatrixcurrentcolumn=\count171
-\pgf@matrix@numberofcolumns=\count172
+\pgfmatrixcurrentrow=\count169
+\pgfmatrixcurrentcolumn=\count170
+\pgf@matrix@numberofcolumns=\count171
 )
-\tikz@expandcount=\count173
+\tikz@expandcount=\count172
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarytopaths.code.tex
@@ -1309,9 +1278,9 @@ Package: pgfplots 2016/08/10 v1.14 Data Visualization (1.14)
 \t@pgfplots@toka=\toks51
 \t@pgfplots@tokb=\toks52
 \t@pgfplots@tokc=\toks53
-\pgfplots@tmpa=\dimen267
-\c@pgfplots@coordindex=\count174
-\c@pgfplots@scanlineindex=\count175
+\pgfplots@tmpa=\dimen265
+\c@pgfplots@coordindex=\count173
+\c@pgfplots@scanlineindex=\count174
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code
 .tex))
@@ -1327,7 +1296,7 @@ Package pgfplots: loading complementary arithmetics for your pgf version...
 gfsupp_pgflibraryfpu.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
 gfsupp_pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count176
+\c@pgfmathroundto@lastzeros=\count175
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
@@ -1336,13 +1305,13 @@ tructure.code.tex)
 tructureext.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray
 .code.tex
-\c@pgfplotsarray@tmp=\count177
+\c@pgfplotsarray@tmp=\count176
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatri
 x.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
 d.code.tex
-\c@pgfplotstable@counta=\count178
+\c@pgfplotstable@counta=\count177
 \t@pgfplotstable@a=\toks54
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
@@ -1355,7 +1324,7 @@ de.tex))
 .tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.sur
 fshading.code.tex
-\c@pgfplotslibrarysurf@no=\count179
+\c@pgfplotslibrarysurf@no=\count178
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
 shading.pgfsys-pdftex.def)))
@@ -1382,14 +1351,14 @@ e.tex)
 zlibrarydecorations.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduledecorations.cod
 e.tex
-\pgfdecoratedcompleteddistance=\dimen268
-\pgfdecoratedremainingdistance=\dimen269
-\pgfdecoratedinputsegmentcompleteddistance=\dimen270
-\pgfdecoratedinputsegmentremainingdistance=\dimen271
-\pgf@decorate@distancetomove=\dimen272
-\pgf@decorate@repeatstate=\count180
-\pgfdecorationsegmentamplitude=\dimen273
-\pgfdecorationsegmentlength=\dimen274
+\pgfdecoratedcompleteddistance=\dimen266
+\pgfdecoratedremainingdistance=\dimen267
+\pgfdecoratedinputsegmentcompleteddistance=\dimen268
+\pgfdecoratedinputsegmentremainingdistance=\dimen269
+\pgf@decorate@distancetomove=\dimen270
+\pgf@decorate@repeatstate=\count179
+\pgfdecorationsegmentamplitude=\dimen271
+\pgfdecorationsegmentlength=\dimen272
 )
 \tikz@lib@dec@box=\box58
 )
@@ -1401,13 +1370,13 @@ decorations.pathmorphing.code.tex))
 zlibrarydecorations.pathreplacing.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrary
 decorations.pathreplacing.code.tex))
-\pgfplots@numplots=\count181
-\pgfplots@xmin@reg=\dimen275
-\pgfplots@xmax@reg=\dimen276
-\pgfplots@ymin@reg=\dimen277
-\pgfplots@ymax@reg=\dimen278
-\pgfplots@zmin@reg=\dimen279
-\pgfplots@zmax@reg=\dimen280
+\pgfplots@numplots=\count180
+\pgfplots@xmin@reg=\dimen273
+\pgfplots@xmax@reg=\dimen274
+\pgfplots@ymin@reg=\dimen275
+\pgfplots@ymax@reg=\dimen276
+\pgfplots@zmin@reg=\dimen277
+\pgfplots@zmax@reg=\dimen278
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryplotmarks.code.tex
@@ -1418,23 +1387,23 @@ de.tex
 File: pgflibraryplotmarks.code.tex 2015/08/03 v3.0.1a (rcs-revision 1.14)
 ))) (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2016/04/27 v1.618033 publication quality tables
-\heavyrulewidth=\dimen281
-\lightrulewidth=\dimen282
-\cmidrulewidth=\dimen283
-\belowrulesep=\dimen284
-\belowbottomsep=\dimen285
-\aboverulesep=\dimen286
-\abovetopsep=\dimen287
-\cmidrulesep=\dimen288
-\cmidrulekern=\dimen289
-\defaultaddspace=\dimen290
-\@cmidla=\count182
-\@cmidlb=\count183
-\@aboverulesep=\dimen291
-\@belowrulesep=\dimen292
-\@thisruleclass=\count184
-\@lastruleclass=\count185
-\@thisrulewidth=\dimen293
+\heavyrulewidth=\dimen279
+\lightrulewidth=\dimen280
+\cmidrulewidth=\dimen281
+\belowrulesep=\dimen282
+\belowbottomsep=\dimen283
+\aboverulesep=\dimen284
+\abovetopsep=\dimen285
+\cmidrulesep=\dimen286
+\cmidrulekern=\dimen287
+\defaultaddspace=\dimen288
+\@cmidla=\count181
+\@cmidlb=\count182
+\@aboverulesep=\dimen289
+\@belowrulesep=\dimen290
+\@thisruleclass=\count183
+\@lastruleclass=\count184
+\@thisrulewidth=\dimen291
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryautomata.code.tex
@@ -1481,7 +1450,7 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.
 tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen294
+\arrowsize=\dimen292
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryshapes.code.tex
@@ -1602,16 +1571,16 @@ LaTeX Font Info:    ... okay on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count186
-\scratchdimen=\dimen295
+\scratchcounter=\count185
+\scratchdimen=\dimen293
 \scratchbox=\box79
-\nofMPsegments=\count187
-\nofMParguments=\count188
+\nofMPsegments=\count186
+\nofMParguments=\count187
 \everyMPshowfont=\toks55
-\MPscratchCnt=\count189
-\MPscratchDim=\dimen296
-\MPnumerator=\count190
-\makeMPintoPDFobject=\count191
+\MPscratchCnt=\count188
+\MPscratchDim=\dimen294
+\MPnumerator=\count189
+\makeMPintoPDFobject=\count190
 \everyMPtoPDFconversion=\toks56
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -1640,7 +1609,7 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count192
+\c@section@level=\count191
 )
 LaTeX Info: Redefining \ref on input line 100.
 LaTeX Info: Redefining \pageref on input line 100.
@@ -2029,117 +1998,102 @@ Overfull \hbox (40.42363pt too wide) in paragraph at lines 241--241
 [7
 
 ]
+Overfull \hbox (22.37027pt too wide) in paragraph at lines 305--305
+[][] 
+ []
+
 File: img/siegel.png Graphic file (type png)
- <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 302.
+<use img/siegel.png>
+Package pdftex.def Info: img/siegel.png used on input line 305.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 302.
+Package pdftex.def Info: img/unilogo.png used on input line 305.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 302--302
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 305--305
 [][][][]  
  []
 
 [8
 
 ]
-Overfull \hbox (25.30692pt too wide) in paragraph at lines 326--326
+Overfull \hbox (25.30692pt too wide) in paragraph at lines 329--329
 [][] 
  []
 
 File: img/siegel.png Graphic file (type png)
 <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 326.
+Package pdftex.def Info: img/siegel.png used on input line 329.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 326.
+Package pdftex.def Info: img/unilogo.png used on input line 329.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 326--326
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 329--329
 [][][][]  
  []
 
 [9
 
 ]
-Overfull \hbox (25.30858pt too wide) in paragraph at lines 364--364
+Overfull \hbox (25.30858pt too wide) in paragraph at lines 367--367
 [][] 
  []
 
 File: img/siegel.png Graphic file (type png)
 <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 364.
+Package pdftex.def Info: img/siegel.png used on input line 367.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 364.
+Package pdftex.def Info: img/unilogo.png used on input line 367.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 364--364
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 367--367
 [][][][]  
  []
 
 [10
 
 ]
-Overfull \hbox (9.49358pt too wide) in paragraph at lines 556--556
+Overfull \hbox (29.69394pt too wide) in paragraph at lines 562--562
 [][] 
  []
 
 
-Overfull \hbox (4.01857pt too wide) in paragraph at lines 556--556
+Overfull \hbox (4.01857pt too wide) in paragraph at lines 562--562
 [][] 
  []
 
 File: img/siegel.png Graphic file (type png)
 <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 556.
+Package pdftex.def Info: img/siegel.png used on input line 562.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 556.
+Package pdftex.def Info: img/unilogo.png used on input line 562.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 556--556
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 562--562
 [][][][]  
  []
 
 [11
 
 ]
-
-Package pgfplots Warning: Axis range for axis x is approximately empty; enlargi
-ng it (it is [0.0:0.0]) on input line 702.
-
- [warning /pgfplots/warning/approx empty range enlarged]
-
-Package pgfplots Warning: Axis range for axis y is approximately empty; enlargi
-ng it (it is [0.0:0.0]) on input line 702.
-
- [warning /pgfplots/warning/approx empty range enlarged]
-
-Overfull \hbox (4.60153pt too wide) in paragraph at lines 702--702
-[][] 
- []
-
 File: img/siegel.png Graphic file (type png)
-<use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 702.
+ <use img/siegel.png>
+Package pdftex.def Info: img/siegel.png used on input line 580.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 702.
+Package pdftex.def Info: img/unilogo.png used on input line 580.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 702--702
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 580--580
 [][][][]  
- []
-
-
-Overfull \vbox (21.97714pt too high) detected at line 702
  []
 
 [12
@@ -2154,11 +2108,11 @@ Overfull \vbox (21.97714pt too high) detected at line 702
 \tf@snm=\write8
 \openout8 = `slides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 704.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 704.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 582.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 582.
  (./slides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 704.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 704.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 582.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 582.
 Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -2168,28 +2122,27 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 35939 strings out of 494893
- 857633 string characters out of 6178672
- 1110334 words of memory out of 5000000
- 38478 multiletter control sequences out of 15000+600000
+ 35232 strings out of 494945
+ 846919 string characters out of 6181032
+ 1084269 words of memory out of 5000000
+ 37773 multiletter control sequences out of 15000+600000
  14872 words of font info for 55 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 68i,23n,105p,772b,2626s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,23n,105p,772b,2628s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/dominik/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/tcss1095.6
 00pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/symbols/msam7.pfb>
-Output written on slides.pdf (12 pages, 254111 bytes).
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/symbols/msam7.pfb>
+Output written on slides.pdf (12 pages, 245180 bytes).
 PDF statistics:
- 166 PDF objects out of 1000 (max. 8388607)
- 111 compressed objects within 2 object streams
+ 162 PDF objects out of 1000 (max. 8388607)
+ 108 compressed objects within 2 object streams
  25 named destinations out of 1000 (max. 500000)
  123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

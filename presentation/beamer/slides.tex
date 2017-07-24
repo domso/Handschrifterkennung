@@ -30,7 +30,7 @@
 % cleantex prior to any latex/pdflatex to remove all .aux files, else
 % latex might fail!
 %\usepackage[english]{babel}
-\usepackage[german]{babel}
+%\usepackage[german]{babel}
 
 %\usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -38,7 +38,7 @@
 
 \usepackage{svg}
 \usepackage{textcomp}
-\usepackage{german}
+%\usepackage{german}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{booktabs}% http://ctan.org/pkg/booktabs
@@ -173,13 +173,13 @@
 			\begin{column}{0.5\textwidth}
 				\underline{Feed-Forward:}
 				\begin{itemize}
-					\item Eingabe-Kanten (edges)
+					\item Eingehende-Kanten ($edges$)
 					\begin{itemize}
 						\item Thread
 						\item Berechnet Kanten-Wert
 						\item Speichert in $Shared Memory$
 					\end{itemize}
-					\item Knoten (nodes)
+					\item Knoten ($nodes$)
 					\begin{itemize}
 						\item Thread-Block
 						\item Summiert alle Kanten-Werte
@@ -241,7 +241,7 @@
 	\end{frame}
 
 	\begin{frame}
-		\frametitle{Auswertung-Generic CUDA}
+		\frametitle{Auswertung CUDA}
 		\begin{columns}
 			\begin{column}{0.5\textwidth}
 				\begin{figure}[htbp]
@@ -251,6 +251,7 @@
 							\begin{semilogxaxis}[
 							width=1.15\textwidth,
 							xlabel={Hidden-Nodes},
+							ylabel={[s]},
 							legend style={at={(0.5,1.05)},anchor=south}
 							]
 							
@@ -269,6 +270,8 @@
 						\end{minipage}
 					\end{figure}
 				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
 			\end{column}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}[htbp]
@@ -302,7 +305,7 @@
 	\end{frame}
 
 	\begin{frame}
-	\frametitle{Auswertung-Generic CUDA}
+	\frametitle{Auswertung-CUDA / C++}
 	\begin{figure}[htbp]
 		\begin{figure}[htbp]
 			\begin{minipage}{0.6\textwidth}
@@ -326,7 +329,7 @@
 	\end{frame}
 
 	\begin{frame}
-		\frametitle{Auswertung-Generic CUDA}
+		\frametitle{Auswertung-CUDA / C++}
 		\begin{figure}[htbp]
 			\begin{figure}[htbp]
 				\begin{minipage}{0.6\textwidth}
@@ -375,6 +378,7 @@
 						\begin{semilogxaxis}[
 						width=1.15\textwidth,
 						xlabel={Hidden-Nodes},
+						ylabel={[s]},
 						legend style={at={(0.5,1.05)},anchor=south,legend
 							columns=2},
 						]
@@ -460,6 +464,8 @@
 				\end{figure}
 			\end{figure}
 		\end{column}
+				\begin{column}{0.1\textwidth}
+				\end{column}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}[htbp]
 				\begin{figure}[htbp]
@@ -555,150 +561,22 @@
 	
 \end{frame}
 
-	\begin{frame}
-		\frametitle{Auswertung-Generic TODO}
-		\begin{figure}[htbp]
-	\begin{minipage}{0.9\textwidth}	
-		\begin{tikzpicture}
-		\begin{semilogyaxis}[
-		width=1\textwidth,
-		enlarge x limits={abs=1.5cm},
-		height=0.3\textwidth,
-		ybar,
-		bar width=0.3cm,
-		ylabel={TODO},
-		xlabel={TODO},
-		legend style={at={(0.5,1.05)},anchor=south,legend
-			columns=-1},
-		symbolic x coords={x, y, z},
-		xtick align=inside,
-		xtick=data
-		]
-
-		\addplot +[area legend] coordinates {
-			(x, 205120)	
-			(y, 1375)
-			(z, 304256)
-			
-		};
-
-		\addplot +[area legend] coordinates {
-			(x, 5995520)
-			(y, 156992)
-			(z, 27899008)
-			
-		};
-
-		\addplot +[area legend] coordinates {
-			(x, 67793976)	
-			(y, 1157136)
-			(z, 301377384)
-			
-		};		
-		\legend{
-			x,
-			y,
-			z
-		}
-		\end{semilogyaxis}
-		\end{tikzpicture}
-	\end{minipage}
-		\begin{figure}[htbp]
-	\begin{minipage}{1\textwidth}
-		% legend
-		\begin{tikzpicture}
-		\begin{axis}[
-		width=0.87\textwidth,
-		height=0.2\textwidth,
-		hide axis,
-		symbolic x coords={0}
-		]
-
-		\addplot +[mark=] coordinates {
-			(0,0)
-		};
-
-		\addplot +[mark=] coordinates {
-			(0,0)
-		};
-
-		\addplot +[mark=] coordinates {
-			(0,0)
-		};
-		\legend{a, b}
-		\end{axis}
-		\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}{0.325\textwidth}
-		% IS
-		\begin{tikzpicture}
-		\begin{semilogyaxis}[
-		width=1.15\textwidth,
-		xlabel={x},
-		legend style={at={(0.5,1.05)},anchor=south},
-		xtick=data,
-		xticklabels={$_2$,$_3$,$_4$,$_2$,2,3,4,2}
-		]
-		
-		
-		\addplot +[mark=] coordinates {
-			(79, 50617585) (80, 50465035) (81, 52132224) (82, 41708585) (83, 22660009) (84, 22916748) (85, 22811790) (86, 22660009)
-		};
+\begin{frame}
+	\frametitle{Bottle-Necks}
+		C++:
+		\begin{itemize}
+			\item Synchronisierungsoverhead 
+			\item Limitiert durch die Anzahl der CPU-Kerne
+			\item Auseinanderlaufende Threads beschränken die Parallelität
+		\end{itemize}
 	
-		\addplot +[mark=] coordinates {
-			(79, 34896112) (80, 31484235) (81, 24788262) (82, 31034653) (83, 25894023) (84, 25230307) (85, 24911442) (86, 25894023) 
-		};
-		
-		\end{semilogyaxis}
-		\end{tikzpicture}
-	\end{minipage}
-	%DT
-	\begin{minipage}{0.325\textwidth}	
-		\begin{tikzpicture}
-		\begin{semilogyaxis}[
-		width=1.15\textwidth,
-		xlabel={y},
-		legend style={at={(0.5,1.05)},anchor=south,legend},
-		xtick=data,
-		xticklabels={$_2$,$_3$,$_4$,$_2$,2,3,4,2}
-		]
-
-		\addplot +[mark=] coordinates {
-			(79, 2216845) (80, 2312995) (81, 2426046) (82, 2122934) (83, 2126110) (84, 2203558) (85, 2388962) (86, 2126110) 
-		};
 	
-		\addplot +[mark=] coordinates {
-			(79, 1966208) (80, 2050492) (81, 2086301) (82, 1963645) (83, 2461961) (84, 2410293) (85, 2563874) (86, 2461961)
-		};
-		
-		\end{semilogyaxis}
-		\end{tikzpicture}
-	\end{minipage}
-	% CG
-	\begin{minipage}{0.325\textwidth}
-		\begin{tikzpicture}
-		\begin{semilogyaxis}[
-		width=1.15\textwidth,
-		xlabel={z},
-		legend style={at={(0.5,1.05)},anchor=south,legend
-			columns=-1},
-		xtick=data,
-		xticklabels={$_2$,$_3$,$_4$,$_2$,2,3,4,2}
-		]
-
-		\addplot +[mark=] coordinates {
-			(79, 281861317) (80, 253046064) (81, 285023162) (82, 90994546) (83, 91800314) (84, 88307720) (85, 88526507) (86, 91708040)
-		};
-
-		\addplot +[mark=] coordinates {
-			(79, 129645476) (80, 96242016) (81, 93795705) (82, 92430244) (83, 107873591) (84, 96351507) (85, 96421277) (86, 107856802) 
-		};
-
-		\end{semilogyaxis}
-		\end{tikzpicture}
-	\end{minipage}
-\end{figure}
-\end{figure}
-	\end{frame}
+		CUDA:
+		\begin{itemize}
+			\item Zu viele $Kernel$-Aufrufe
+			\item Zu geringer $Workload$
+			\item Datenübertragung			
+		\end{itemize}
+\end{frame}
 
 \end{document}
