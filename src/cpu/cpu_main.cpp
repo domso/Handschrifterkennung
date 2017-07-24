@@ -43,7 +43,7 @@ namespace cpu {
 
 		std::cout << "Correct: " << testData.size() - result << std::endl;
 		std::cout << "Total: " << testData.size() << std::endl;
-		std::cout << "Ratio: " << (testData.size() - result) / (double) testData.size() << std::endl;
+		std::cout << "Ratio: " << (testData.size() - result) / (double) testData.size() * 100 << "%" << std::endl;
 	}
 
 	bool main(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int useGui, const util::config_file& config) {

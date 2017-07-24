@@ -44,7 +44,7 @@ void testing(const cuda::model& model, const cuda::neuronal_network& NN, const s
 
 	std::cout << "Correct: " << result.correct << std::endl;
 	std::cout << "Total: " << result.total << std::endl;
-	std::cout << "Ratio: " << result.ratio << std::endl;
+	std::cout << "Ratio: " << result.ratio  * 100 << "%" << std::endl;
 }
 
 bool main(cuda::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int useGui, const util::config_file& config) {
