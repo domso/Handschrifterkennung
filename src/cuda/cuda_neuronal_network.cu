@@ -24,12 +24,12 @@ bool neuronal_network::train(cuda::model& model, const std::vector<data::sample<
 	model.init((refInput.size() + 1) * m_currentConfig.numHidden + (m_currentConfig.numHidden + 1) * m_currentConfig.numOutput);
 	train_data_context context(m_currentConfig, model, trainingsData);
 
-	context.synchronize(m_currentConfig, model, trainingsData);
-	if (!context.error_check()) {
-		return false;
-	}
-
 	for (int iteration = 0; iteration < numRelearning; iteration++) {
+		context.synchronize(m_currentConfig, model, trainingsData);
+		if (!context.error_check()) {
+			return false;
+		}
+
 		for (int i = 0; i < trainingsData.size(); i++) {
 			if (!train_sample(i, trainingsData[i], context)) {
 				return false;
