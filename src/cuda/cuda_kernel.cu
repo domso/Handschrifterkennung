@@ -35,7 +35,7 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights) {
 }
 
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning, float* labels) {
+		float* weights, float* learning, float* labels, bool copy) {
 	extern __shared__ float buffer[];
 	float weight;
 	float bias;
@@ -85,7 +85,7 @@ __global__ void cuda_neural_network_error(float* current, float* next,
 		weights[(threadIdx.x + 1) * (gridDim.x + 1) - 1] = bias + error * buffer[2];
 	}
 
-	if (threadIdx.x == 0) {
+	if (threadIdx.x == 0 && copy) {
 		current[blockIdx.x] = output * (1 - output) * tmp;
 	}
 }

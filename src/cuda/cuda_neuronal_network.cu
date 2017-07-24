@@ -24,12 +24,13 @@ bool neuronal_network::train(cuda::model& model, const std::vector<data::sample<
 	model.init((refInput.size() + 1) * m_currentConfig.numHidden + (m_currentConfig.numHidden + 1) * m_currentConfig.numOutput);
 	train_data_context context(m_currentConfig, model, trainingsData);
 
-	for (int iteration = 0; iteration < numRelearning; iteration++) {
-		context.synchronize(m_currentConfig, model, trainingsData);
-		if (!context.error_check()) {
-			return false;
-		}
+	context.synchronize(m_currentConfig, model, trainingsData);
+	if (!context.error_check()) {
+		return false;
+	}
 
+
+	for (int iteration = 0; iteration < numRelearning; iteration++) {
 		for (int i = 0; i < trainingsData.size(); i++) {
 			if (!train_sample(i, trainingsData[i], context)) {
 				return false;
@@ -125,7 +126,7 @@ bool neuronal_network::train_sample(const int i, const data::sample<float>& samp
 
 	num_blocks = context.hiddenLayer.size();
 	num_threads = context.outputLayer.size();
-	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>(&context.devHidden, &context.devOutput, (&context.devWeights) + ((sample.size() + 1) * context.hiddenLayer.size()), &context.devLearning, (&context.devLabels) + i * context.outputLayer.size());
+	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>(&context.devHidden, &context.devOutput, (&context.devWeights) + ((sample.size() + 1) * context.hiddenLayer.size()), &context.devLearning, (&context.devLabels) + i * context.outputLayer.size(), true);
 
 	if (cudaSuccess != cudaGetLastError()) {
 		return false;
@@ -133,7 +134,7 @@ bool neuronal_network::train_sample(const int i, const data::sample<float>& samp
 
 	num_blocks = sample.size();
 	num_threads = context.hiddenLayer.size();
-	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>((&context.devInput) + i * sample.size(), &context.devHidden, &context.devWeights, &context.devLearning, nullptr);
+	cuda_neural_network_error<<<num_blocks, num_threads, num_threads * sizeof(float)>>>((&context.devInput) + i * sample.size(), &context.devHidden, &context.devWeights, &context.devLearning, nullptr, false);
 
 	if (cudaSuccess != cudaGetLastError()) {
 		return false;

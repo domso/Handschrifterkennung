@@ -51,6 +51,6 @@ __global__ void cuda_neural_network(float* input, float* next, float* weights);
  * @param labels: expected result on the next layer (set to nullptr for next != output)
  */
 __global__ void cuda_neural_network_error(float* current, float* next,
-		float* weights, float* learning, float* labels);
+		float* weights, float* learning, float* labels, bool copy);
 
 #endif
