@@ -7,7 +7,7 @@
 #include "cuda_neuronal_network.h"
 
 namespace cuda {
-/*
+/**
  * Cuda-main implementation
  * Trains a new model on the trainingsData and tests it on the testData.
  * Additional parameters are stored in the given config.

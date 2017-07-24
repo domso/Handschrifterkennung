@@ -7,7 +7,7 @@
 #include "../data/sample.h"
 
 namespace cuda {
-/*
+/**
  * Neuronal Network for Handwriting Recognition
  */
 class neuronal_network {
@@ -16,7 +16,7 @@ public:
 	~neuronal_network();
 	neuronal_network(const model& m) = delete;
 
-	/*
+	/**
 	 * Parameters for the NN
 	 */
 	struct config_t {
@@ -25,13 +25,13 @@ public:
 		int numOutput = 10;
 	};
 
-	/*
+	/**
 	 * Updates the configuration
 	 * @param config: new configuration
 	 */
 	void set_config(const config_t config);
 
-	/*
+	/**
 	 * Evaluation/Test Results
 	 */
 	struct test_result_t {
@@ -41,7 +41,7 @@ public:
 		float ratio = 0;
 	};
 
-	/*
+	/**
 	 * Trains the given model with the given trainingsData
 	 * @param model: untrained-model
 	 * @param trainingsData: container with all labeled training-samples
@@ -50,7 +50,7 @@ public:
 	 */
 	bool train(cuda::model& model, const std::vector<data::sample<float>>& trainingsData, const int numRelearning = 1) const;
 
-	/*
+	/**
 	 * Tests the given trained model on the given testData
 	 * @param model: trained-model
 	 * @param testData: container with all labeled testData-samples
@@ -58,7 +58,7 @@ public:
 	 */
 	test_result_t test(const cuda::model& model, const std::vector<data::sample<float>>& testData) const;
 
-	/*
+	/**
 	 * Loads the given model to the graphic-card and set up all required data-structs
 	 * @param model: trained-model
 	 * @param s: a reference object (not important, just for the size)
@@ -66,7 +66,7 @@ public:
 	 */
 	bool set_classify_context(const cuda::model& model, const data::sample<float>& s);
 
-	/*
+	/**
 	 * Classifies the sample with the current context (see set_classify_context)
 	 * @param s: unlabeled sample
 	 * @return: classification (>=0) or -1 on any error
@@ -74,7 +74,7 @@ public:
 	int classify(const data::sample<float>& s) const;
 private:
 
-	/*
+	/**
 	 * Internal trainings-context
 	 */
 	struct train_data_context {
@@ -90,14 +90,14 @@ private:
 		ressource<float> devLabels;
 		ressource<float> devLearning;
 
-		/*
+		/**
 		 * Allocates memory for a new context with the given arguments on the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
 		 * @param samples: labeled training-samples
 		 */
 		train_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
-		/*
+		/**
 		 * Copies the memory for a new context with the given arguments to the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
@@ -105,13 +105,13 @@ private:
 		 */
 		void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
-		/*
+		/**
 		 * @return: true, if all operations were successfull
 		 */
 		bool error_check() const;
 	};
 
-	/*
+	/**
 	 * Internal test-context (subset of train_data_context)
 	 */
 	struct test_data_context {
@@ -123,7 +123,7 @@ private:
 		ressource<float> devOutput;
 		ressource<float> devWeights;
 
-		/*
+		/**
 		 * Allocates memory for a new context with the given arguments on the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
@@ -131,7 +131,7 @@ private:
 		 */
 		test_data_context(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
-		/*
+		/**
 		 * Copies the memory for a new context with the given arguments to the graphic-card
 		 * @param config: NN-configuration
 		 * @param model: untrained-model
@@ -139,13 +139,13 @@ private:
 		 */
 		void synchronize(const config_t config, const cuda::model& model, const std::vector<data::sample<float>>& samples);
 
-		/*
+		/**
 		 * @return: true, if all operations were successful
 		 */
 		bool error_check() const;
 	};
 
-	/*
+	/**
 	 * Performs a single training for a sample
 	 * @param i: index inside the trainings-data
 	 * @param sample: reference sample for the size
@@ -154,7 +154,7 @@ private:
 	 */
 	bool train_sample(const int i, const data::sample<float>& sample, train_data_context& context) const;
 
-	/*
+	/**
 	 * Performs a single test for a sample
 	 * @param i: index inside the test-data
 	 * @param sample: reference sample for the size

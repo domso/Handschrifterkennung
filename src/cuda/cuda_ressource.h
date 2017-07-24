@@ -5,14 +5,14 @@
 #include <vector>
 
 namespace cuda {
-/*
+/**
  * RAII-wrapper for cudaMalloc and cudaMemcpy
  */
 template<typename synchT>
 class ressource {
 public:
 
-	/*
+	/**
 	 * Allocates memory for n instances of synchT (n * sizeof(synchT) Bytes) on the graphic-card
 	 * (see cudaMalloc)
 	 * @param n: optional number of requested instances
@@ -23,7 +23,7 @@ public:
 		m_size = n * sizeof(synchT) * m_error;
 	}
 
-	/*
+	/**
 	 * Allocates memory for n chunks on the graphic-card.
 	 * (n * input.size() * sizeof(synch) Bytes)
 	 * (see cudaMalloc)
@@ -36,7 +36,7 @@ public:
 		m_size = n * input.size() * sizeof(synchT) * m_error;
 	}
 
-	/*
+	/**
 	 * Frees the allocated memory
 	 */
 	~ressource() {
@@ -46,28 +46,28 @@ public:
 	ressource(const ressource& o) = delete;
 	ressource(const ressource&& o) = delete;
 
-	/*
+	/**
 	 * @return: device_pointer for the cuda-kernels
 	 */
 	synchT* operator &() {
 		return m_devData;
 	}
 
-	/*
+	/**
 	 * @return: device_pointer for the cuda-kernels
 	 */
 	const synchT* operator &() const {
 		return m_devData;
 	}
 
-	/*
+	/**
 	 * @return: true, if the all operations could be executed successfully
 	 */
 	bool has_error() const {
 		return m_error;
 	}
 
-	/*
+	/**
 	 * Copies n instances of synchT to the graphic-card.
 	 * (see cudaMemcpy)
 	 * @param input: reference to n instances of synchT
@@ -79,7 +79,7 @@ public:
 						cudaMemcpyHostToDevice) != cudaSuccess);
 	}
 
-	/*
+	/**
 	 * Copies n instances of synchT to the RAM.
 	 * (see cudaMemcpy)
 	 * @param output: reference to n instances of synchT
@@ -91,7 +91,7 @@ public:
 						cudaMemcpyDeviceToHost) != cudaSuccess);
 	}
 
-	/*
+	/**
 	 * Copies a vector of synchT-instances to the graphic-card.
 	 * (see cudaMemcpy)
 	 * @param input: input data
@@ -105,7 +105,7 @@ public:
 						!= cudaSuccess);
 	}
 
-	/*
+	/**
 	 * Copies a vector of synchT-instances to the RAM
 	 * (see cudaMemcpy)
 	 * @param output: output data

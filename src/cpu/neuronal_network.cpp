@@ -1,4 +1,4 @@
-/*
+/**
  * neuronal_network.cpp
  *
  *  Created on: 30.06.2017
@@ -201,12 +201,13 @@ namespace cpu {
 		for (int i = 0; i < nodeCount; i++) {
 			node& node = layer.get_node(i);
 
-			int j = 0;
+//			int j = 0;
 			for (float& weight : node.get_weights()) {
-				weight = 0.7 * (rand() / (float) RAND_MAX);
-				if (j % 2)
-					weight = -weight;  // make half of the weights negative
-				j++;
+//				weight = 0.7 * (rand() / (float) RAND_MAX);
+//				if (j % 2)
+//					weight = -weight;  // make half of the weights negative
+//				j++;
+				weight = -0.5 + (float) (std::rand() % 1000001) / (float) 1000000;
 			}
 		}
 	}

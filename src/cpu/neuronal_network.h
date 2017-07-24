@@ -1,4 +1,4 @@
-/*
+/**
  * neuronal_network.h
  *
  *  Created on: 30.06.2017
@@ -159,4 +159,4 @@ private:
 };
 
 }
-#endif /* NEURONALNETWORK_H_ */
+#endif /** NEURONALNETWORK_H_ */

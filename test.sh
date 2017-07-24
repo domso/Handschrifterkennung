@@ -10,5 +10,5 @@ fi
 for file in $(find tests/$1 -type f)
 do
 	echo $file >> $2;
-	./Release/Handschrifterkennung $file >> $2;
+	./Release/mc17-team1 $file >> $2;
 done

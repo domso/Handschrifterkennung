@@ -1,4 +1,4 @@
-/*
+/**
  * Node.cpp
  *
  *  Created on: 30.06.2017

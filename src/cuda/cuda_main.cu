@@ -10,7 +10,7 @@
 
 namespace cuda {
 
-/*
+/**
  * Trains the given model on the given neuronal-network with the given trainingsData
  * Prints the duration in microseconds
  * @param model: initialized model
@@ -27,7 +27,7 @@ void training(cuda::model& model, const cuda::neuronal_network& NN, const std::v
 	std::cout << "Training took: " << duration / (double) 1000000 << "sec" << std::endl;
 }
 
-/*
+/**
  * Tests the given model on the given neuronal-network with the given testData
  * Prints the duration in microseconds
  * @param model: trained model
@@ -52,8 +52,7 @@ bool main(cuda::neuronal_network& NN, const std::vector<data::sample<float>>& tr
 	auto numRelearning = config.getNumeric<int, parameters::num_relearning>();
 	auto learningRate = config.getNumeric<float, parameters::learning_rate>();
 
-	std::cout << "Cuda implementation:" << std::endl;
-
+	std::cout << "Cuda implementation with " << numHidden << " hidden nodes:" << std::endl;
 	cuda::model model;
 	cuda::neuronal_network::config_t configNN;
 

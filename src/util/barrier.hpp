@@ -9,19 +9,19 @@
 #include <thread>
 
 namespace util {
-/*
+/**
  * spin-lock barrier
  */
 class barrier {
 public:
-	/*
+	/**
 	 * @param n: constructs a new barrier for n threads
 	 */
 	explicit barrier(const int n);
 
 	barrier(const barrier& b) = delete;
 
-	/*
+	/**
 	 * waits (spin-lock!) until n thread reached this call.
 	 */
 	void wait();
