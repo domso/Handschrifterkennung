@@ -41,9 +41,9 @@ namespace cpu {
 		auto duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
 		std::cout << "Testing took: " << duration / (double) 1000000 << "sec" << std::endl;
 
-		std::cout << testData.size() - result << std::endl;
-		std::cout << testData.size() << std::endl;
-		std::cout << (testData.size() - result) / (double) testData.size() << std::endl;
+		std::cout << "Correct: " << testData.size() - result << std::endl;
+		std::cout << "Total: " << testData.size() << std::endl;
+		std::cout << "Ratio: " << (testData.size() - result) / (double) testData.size() << std::endl;
 	}
 
 	bool main(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int useGui, const util::config_file& config) {

@@ -38,7 +38,7 @@ void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, c
 	while (window.is_active()) {
 		if (window.wait_for_output(output)) {
 			final.normalize_from(output);
-			std::cout << (int) NN.classify(final) << std::endl;
+			std::cout << "Classified input as (" << (int) NN.classify(final) << ")" << std::endl;
 		}
 	}
 
