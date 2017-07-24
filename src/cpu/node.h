@@ -18,7 +18,7 @@ namespace cpu {
 		 * @param output  the output of this node
 		 * @param weightCount  the number of weights of this node
 		 */
-		node(float bias, float output, int weightCount);
+		node(const float bias, const float output, const int weightCount);
 
 		/**
 		 * destructor
@@ -44,13 +44,13 @@ namespace cpu {
 		 * sets the bias of this node to the given value
 		 * @param bias  the value to be set
 		 */
-		void set_bias(float bias);
+		void set_bias(const float bias);
 
 		/**
 		 *sets the output of this node to the given value
 		 * @param output  the value to be set
 		 */
-		void set_output(float output);
+		void set_output(const float output);
 
 	private:
 		/**

@@ -19,7 +19,7 @@ namespace cuda {
  * @param config: initialized config
  * @return: true on success
  */
-bool main(cuda::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, const int useGui, util::config_file& config);
+bool main(cuda::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int useGui, const util::config_file& config);
 
 }
 #endif

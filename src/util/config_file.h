@@ -240,7 +240,7 @@ namespace util {
             return defaultValue;
         }
         template <typename T, typename paramT>
-        T getNumeric() {
+        T getNumeric() const {
         	return getNumeric<T>(paramT::key, paramT::defaultValue);
         }
     private:

@@ -22,12 +22,12 @@ public:
 	 * @param hiddenCount Number of nodes in the HIDDEN layer
 	 * @param outputCount Number of nodes in the OUTPUT layer
 	 */
-	neuronal_network(int inputCount, int hiddenCount, int outputCount);
+	neuronal_network(const int inputCount, const int hiddenCount, const int outputCount);
 
 	/**
 	 * deleted copy constructor
 	 */
-	neuronal_network(neuronal_network& o) = delete;
+	neuronal_network(const neuronal_network& o) = delete;
 
 	/**
 	 * destructor
@@ -39,7 +39,7 @@ public:
 	 * @param s: unlabeled sample
 	 * @return: classification
 	 */
-	int classify(data::sample<float>& s);
+	int classify(const data::sample<float>& s);
 
 	/**
 	 * Creates a layer
@@ -47,21 +47,21 @@ public:
 	 * @param weightCount the number of weights that should every node contain
 	 * @return the created layer
 	 */
-	layer create_layer(int nodeCount, int weightCount);
+	layer create_layer(const int nodeCount, const int weightCount);
 
 	/**
 	 * Returns the corresponding layer to the given lType of the network
 	 * @param lType  Type of layer to be returned (INPUT, HIDDEN, OUTPUT)
 	 * @return the corresponding layer to lType
 	 */
-	layer& get_layer(layer_type lType);
+	layer& get_layer(const layer_type lType);
 
 	/**
 	 * Returns the corresponding layer to the given lType of the network
 	 * @param lType  Type of layer to be returned (INPUT, HIDDEN, OUTPUT)
 	 * @return the corresponding layer to lType
 	 */
-	const layer& get_layer(layer_type lType) const;
+	const layer& get_layer(const layer_type lType) const;
 
 
 	/**
@@ -76,13 +76,13 @@ public:
 	 * @param usedThreadCount  number of threads that should be used
 	 * @return the id of false computed classifications
 	 */
-	int proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount);
+	int proccess_input(const std::vector<data::sample<float>>& inputSamples, const bool updateWeights, const int usedThreadCount);
 
 	/**
 	 * sets the learning rate of this network to the given value
 	 * @param learningRate  the new learning rate to be set
 	 */
-	void setLearningRate(float learningRate);
+	void set_learning_rate(const float learningRate);
 
 private:
 
@@ -98,7 +98,7 @@ private:
 	 * @param usedThreadCount  number of threads to use
 	 * @param thID id of the actual thread (0 if there is only 1 thread)
 	 */
-	void backpropagate_hidden_layer(int targetClassification, int usedThreadCount, int thID);
+	void backpropagate_hidden_layer(const int targetClassification, const int usedThreadCount, const int thID);
 
 	/**
 	 * Back propagates network error to output-layer
@@ -106,7 +106,7 @@ private:
 	 * @param usedThreadCount  number of threads to use
 	 * @param thID id of the actual thread (0 if there is only 1 thread)
 	 */
-	void backpropagate_output_layer(int targetClassification, int usedThreadCount, int thID);
+	void backpropagate_output_layer(const int targetClassification, const int usedThreadCount, const int thID);
 
 	/**
 	 * Calculates the output value of the specified node by multiplying all its weights with the previous layer's outputs
@@ -120,7 +120,7 @@ private:
 	 * Initializes a layer's weights with random values
 	 * @param lType  Defining what layer to initialize
 	 */
-	void init_weights(layer_type lType);
+	void init_weights(const layer_type lType);
 
 	/**
 	 * feeds the data of the previous layer forward to the actual layer
@@ -137,7 +137,7 @@ private:
 	 * @param usedThreadCount  the number of threads to use
 	 * @param thID  id of the actual thread (0 if there is only 1 thread)
 	 */
-	void feed_input(std::vector<float> input, int usedThreadCount, int thID);
+	void feed_input(const std::vector<float>& input, const int usedThreadCount, const int thID);
 
 	/**
 	 * Updates a node's weights based on given delta
@@ -145,7 +145,7 @@ private:
 	 * @param nodeID  id of the node to update
 	 * @param delta   difference between desired output and actual output
 	 */
-	void update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, float delta);
+	void update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, const float delta);
 
 	/**
 	 * the learning rate of the neuronal network

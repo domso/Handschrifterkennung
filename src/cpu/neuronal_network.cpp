@@ -15,7 +15,7 @@
 
 namespace cpu {
 
-	neuronal_network::neuronal_network(int inputCount, int hiddenCount, int outputCount) {
+	neuronal_network::neuronal_network(const int inputCount, const int hiddenCount, const int outputCount) {
 		srand(time(NULL));
 		m_learning_rate = 0.2;
 
@@ -29,14 +29,14 @@ namespace cpu {
 
 	neuronal_network::~neuronal_network() {}
 
-	int neuronal_network::classify(data::sample<float>& s) {
+	int neuronal_network::classify(const data::sample<float>& s) {
 		std::vector<data::sample<float>> inputSamples;
 		inputSamples.push_back(s);
 		proccess_input(inputSamples, false, 8); // TODO fix thread number bad
 		return get_network_classification();
 	}
 
-	layer neuronal_network::create_layer(int nodeCount, int weightCount) {
+	layer neuronal_network::create_layer(const int nodeCount, const int weightCount) {
 		layer l;
 
 		for (int i = 0; i < nodeCount; i++) {
@@ -47,7 +47,7 @@ namespace cpu {
 		return std::move(l);
 	}
 
-	layer& neuronal_network::get_layer(layer_type lType) {
+	layer& neuronal_network::get_layer(const layer_type lType) {
 		switch (lType) {
 		case INPUT: {
 			return m_layers[0];
@@ -63,7 +63,7 @@ namespace cpu {
 		}
 	}
 
-	const layer& neuronal_network::get_layer(layer_type lType) const {
+	const layer& neuronal_network::get_layer(const layer_type lType) const {
 		switch (lType) {
 		case INPUT: {
 			return m_layers[0];
@@ -93,9 +93,9 @@ namespace cpu {
 		return maxIndex;
 	}
 
-	int neuronal_network::proccess_input(std::vector<data::sample<float>>& inputSamples, bool updateWeights, int usedThreadCount) {
+	int neuronal_network::proccess_input(const std::vector<data::sample<float>>& inputSamples, const bool updateWeights, const int usedThreadCount) {
 		int numError = 0;
-		Barrier barrier(usedThreadCount);
+		util::barrier barrier(usedThreadCount);
 		std::vector<std::thread> threads(0);
 		for (int thID = 0; thID < usedThreadCount; thID++) {
 			threads.push_back(std::thread([this, &barrier, &inputSamples, thID, usedThreadCount, updateWeights, &numError] {
@@ -134,7 +134,7 @@ namespace cpu {
 		return numError;
 	}
 
-	void neuronal_network::setLearningRate(float learningRate) {
+	void neuronal_network::set_learning_rate(const float learningRate) {
 		m_learning_rate = learningRate;
 	}
 
@@ -142,7 +142,7 @@ namespace cpu {
 		node.set_output(1.0 / (1 + std::exp((float) -1 * node.get_output()))); // SIGMOID activation function
 	}
 
-	void neuronal_network::backpropagate_hidden_layer(int targetClassification, int usedThreadCount, int thID) {
+	void neuronal_network::backpropagate_hidden_layer(const int targetClassification, const int usedThreadCount, const int thID) {
 		layer& inputLayer  = get_layer(INPUT);
 		layer& hiddenLayer = get_layer(HIDDEN);
 		layer& outputLayer = get_layer(OUTPUT);
@@ -168,7 +168,7 @@ namespace cpu {
 		}
 	}
 
-	void neuronal_network::backpropagate_output_layer(int targetClassification, int usedThreadCount, int thID) {
+	void neuronal_network::backpropagate_output_layer(const int targetClassification, const int usedThreadCount, const int thID) {
 		layer& hiddenLayer = get_layer(HIDDEN);
 		layer& outputLayer = get_layer(OUTPUT);
 		int elementsPerThread = outputLayer.get_node_count() / usedThreadCount;
@@ -194,7 +194,7 @@ namespace cpu {
 		calcNode.set_output(output);
 	}
 
-	void neuronal_network::init_weights(layer_type lType) {
+	void neuronal_network::init_weights(const layer_type lType) {
 		layer& layer = get_layer(lType);
 		int nodeCount = layer.get_node_count();
 
@@ -222,7 +222,7 @@ namespace cpu {
 		}
 	}
 
-	void neuronal_network::feed_input(std::vector<float> input, int usedThreadCount, int thID) {
+	void neuronal_network::feed_input(const std::vector<float>& input, const int usedThreadCount, const int thID) {
 		layer& inputLayer = get_layer(INPUT);
 
 		int elementsPerThread = input.size() / usedThreadCount;
@@ -234,7 +234,7 @@ namespace cpu {
 		}
 	}
 
-	void neuronal_network::update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, float delta) {
+	void neuronal_network::update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, const float delta) {
 		// go through all weights of updateNode and update them with the delta
 		int i = 0;
 		for (float& weight : updateNode.get_weights()) {

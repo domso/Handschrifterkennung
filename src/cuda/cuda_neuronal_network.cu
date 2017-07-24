@@ -19,8 +19,8 @@ void neuronal_network::set_config(const config_t config) {
 	m_currentConfig = config;
 }
 
-bool neuronal_network::train(cuda::model& model, std::vector<data::sample<float>>& trainingsData, const int numRelearning) {
-	std::vector<float>& refInput = trainingsData[0].internal_data();
+bool neuronal_network::train(cuda::model& model, const std::vector<data::sample<float>>& trainingsData, const int numRelearning) const {
+	const std::vector<float>& refInput = trainingsData[0].internal_data();
 	model.init((refInput.size() + 1) * m_currentConfig.numHidden + (m_currentConfig.numHidden + 1) * m_currentConfig.numOutput);
 	train_data_context context(m_currentConfig, model, trainingsData);
 
@@ -42,7 +42,7 @@ bool neuronal_network::train(cuda::model& model, std::vector<data::sample<float>
 	return !context.devWeights.has_error();
 }
 
-neuronal_network::test_result_t neuronal_network::test(cuda::model& model, std::vector<data::sample<float>>& testData) {
+neuronal_network::test_result_t neuronal_network::test(const cuda::model& model, const std::vector<data::sample<float>>& testData) const {
 	test_data_context context(m_currentConfig, model, testData);
 	test_result_t result;
 	int i = 0;
@@ -57,7 +57,7 @@ neuronal_network::test_result_t neuronal_network::test(cuda::model& model, std::
 		return result;
 	}
 
-	for (data::sample<float>& s : testData) {
+	for (const data::sample<float>& s : testData) {
 		current = test_sample(i, s, context);
 		if (current == s.get_label()) {
 			result.correct++;
@@ -79,7 +79,7 @@ neuronal_network::test_result_t neuronal_network::test(cuda::model& model, std::
 	return result;
 }
 
-bool neuronal_network::set_classify_context(cuda::model& model, data::sample<float>& s) {
+bool neuronal_network::set_classify_context(const cuda::model& model, const data::sample<float>& s) {
 
 	if (m_currentContext != nullptr) {
 		delete m_currentContext;
@@ -93,7 +93,7 @@ bool neuronal_network::set_classify_context(cuda::model& model, data::sample<flo
 	return m_currentContext->error_check();
 }
 
-int neuronal_network::classify(data::sample<float>& s) {
+int neuronal_network::classify(const data::sample<float>& s) const {
 	if (m_currentContext != nullptr && m_currentContext->error_check()) {
 		m_currentContext->devInput.synch_to_device(s.internal_data(), 0);
 		cudaThreadSynchronize();
@@ -103,7 +103,7 @@ int neuronal_network::classify(data::sample<float>& s) {
 	return -1;
 }
 
-bool neuronal_network::train_sample(const int i, const data::sample<float>& sample, train_data_context& context) {
+bool neuronal_network::train_sample(const int i, const data::sample<float>& sample, train_data_context& context) const {
 	int num_blocks;
 	int num_threads;
 
@@ -142,7 +142,7 @@ bool neuronal_network::train_sample(const int i, const data::sample<float>& samp
 	return true;
 }
 
-int neuronal_network::test_sample(const int i, const data::sample<float>& sample, test_data_context& context) {
+int neuronal_network::test_sample(const int i, const data::sample<float>& sample, test_data_context& context) const {
 	int num_blocks;
 	int num_threads;
 
@@ -202,7 +202,7 @@ void neuronal_network::train_data_context::synchronize(const config_t config, co
 	devLearning.synch_to_device(config.learningRate);
 }
 
-bool neuronal_network::train_data_context::error_check() {
+bool neuronal_network::train_data_context::error_check() const {
 	bool error = false;
 	error |= devInput.has_error();
 	error |= devHidden.has_error();
@@ -237,7 +237,7 @@ void neuronal_network::test_data_context::synchronize(const config_t config, con
 	devWeights.synch_to_device(model.get_weights());
 }
 
-bool neuronal_network::test_data_context::error_check() {
+bool neuronal_network::test_data_context::error_check() const {
 	bool error = false;
 	error |= devInput.has_error();
 	error |= devHidden.has_error();

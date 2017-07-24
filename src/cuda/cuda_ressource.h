@@ -54,6 +54,13 @@ public:
 	}
 
 	/*
+	 * @return: device_pointer for the cuda-kernels
+	 */
+	const synchT* operator &() const {
+		return m_devData;
+	}
+
+	/*
 	 * @return: true, if the all operations could be executed successfully
 	 */
 	bool has_error() const {
