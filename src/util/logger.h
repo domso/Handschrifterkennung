@@ -10,7 +10,7 @@
 #include <ostream>
 
 namespace util {
-/*
+/**
  * Class for simple logs and error-handling:
  * The possible log-messages are predefined in separate classes.
  * Example:
@@ -43,7 +43,7 @@ namespace util {
  */
 class logger {
 public:
-	/*
+	/**
 	 * Logs a new occurrence of T with the given argument
 	 * T requires all fields used in the general example
 	 * @param argument: optional argument for the event (displayed as [argument])
@@ -64,7 +64,7 @@ public:
 		}
 	}
 
-	/*
+	/**
 	 * Searches for an occurrence of T
 	 * T requires all fields used in the general example
 	 * T is identified by T::id!
@@ -81,7 +81,7 @@ public:
 		return false;
 	}
 
-	/*
+	/**
 	 * Searches and prints all occurrences of T to std::cout
 	 * or to std::cerr, if T::error is marked as true
 	 * T requires all fields used in the general example
@@ -100,25 +100,25 @@ public:
 		}
 	}
 
-	/*
+	/**
 	 * Prints all messages to std::cout
 	 * or to std::cerr, if message was marked as an error
 	 */
 	void print_all() const;
 
-	/*
+	/**
 	 * This does not scan the internal-data --> very fast!
 	 * @return: true, if the number of errors equals zero
 	 */
 	bool has_error() const;
 
-	/*
+	/**
 	 * Deletes all messages and resets the logger
 	 */
 	void clear();
 private:
 
-	/*
+	/**
 	 * Inserts T with the given argument to the internal data-structure
 	 * @param argument: (see logger::log)
 	 */
@@ -156,7 +156,7 @@ private:
 		}
 	}
 
-	/*
+	/**
 	 * Internal data-structure for a message
 	 */
 	struct message {

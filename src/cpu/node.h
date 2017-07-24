@@ -1,4 +1,4 @@
-/*
+/**
  * node.h
  *
  *  Created on: 30.06.2017
@@ -70,4 +70,4 @@ namespace cpu {
 	};
 }
 
-#endif /* NODE_H_ */
+#endif /** NODE_H_ */

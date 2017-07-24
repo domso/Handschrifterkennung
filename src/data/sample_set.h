@@ -8,7 +8,7 @@
 
 namespace data {
 namespace sample_set {
-/*
+/**
  * Loads a dataset in the IDX-format into a vector of samples
  * See http://yann.lecun.com/exdb/mnist/
  * @param imgFileName: idx-file containing the sample-data

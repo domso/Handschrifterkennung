@@ -9,7 +9,7 @@
 #include "cpu/neuronal_network.h"
 #include "cpu/cpu_main.h"
 
-/*
+/**
  * Opens the gui-window and executes the main update-methode
  * Runs until the window was closed *
  * @param window: non initialized gui-window
@@ -20,7 +20,7 @@ void gui_thread(gui::basic_interface& window) {
 	window.close();
 }
 
-/*
+/**
  * Start the gui-thread and waits until the window was closed
  * Every drawn sample on the gui will be classified with
  * NNtype::classify(data::sample<float>&)
@@ -45,7 +45,7 @@ void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, c
 	t1.join();
 }
 
-/*
+/**
  * Initializes the gui and start the gui-main-function
  * Requires NNtype::classify(data::sample<float>&)
  * @param NN: initialized neuronal-network of type NNtype
@@ -63,7 +63,7 @@ void gui_init(NNtype& NN, const util::config_file& config, const std::vector<dat
 	gui_main<NNtype>(NN, window, sampleWidth, sampleHeight);
 }
 
-/*
+/**
  * Loads all samples and labels from the files specified in config and sets the useGui-flag
  * If the useGui-flag was set, the gui will be opened afterwards
  * @param config: input-config file
@@ -96,7 +96,7 @@ bool load_samples(const util::config_file& config, std::vector<data::sample<floa
 	return true;
 }
 
-/*
+/**
  * Starts the c++ implementation
  * If the useGui-flag was set, the gui will be opened afterwards
  * @param config: input-config file
@@ -114,7 +114,7 @@ void execute_cpu(const util::config_file& config, const std::vector<data::sample
 	}
 }
 
-/*
+/**
  * Starts the cuda implementation
  * If the useGui-flag was set, the gui will be opened afterwards
  * @param config: input-config file
@@ -131,7 +131,7 @@ void execute_cuda(const util::config_file& config, const std::vector<data::sampl
 	}
 }
 
-/*
+/**
  * Implementation switch for cuda and c++
  * Loads the samples using the config-files
  * @param config: input-config file
@@ -155,7 +155,7 @@ void execute_general(const util::config_file& config) {
 	}
 }
 
-/*
+/**
  * Checks the given config for required and recommended parameters.
  * @param config: input-config file
  */
@@ -172,7 +172,7 @@ void check_config(util::config_file& config) {
 	config.recommendNumeric<float, parameters::learning_rate>();
 }
 
-/*
+/**
  * Tries to load a configuration from the given file and checks
  * it for any warnings or errors
  * @param config: input-config file
@@ -201,7 +201,7 @@ bool load_config(util::config_file& config, const std::string& filename) {
 	return true;
 }
 
-/*
+/**
  * Loads the config-file specified by the first argument and executes
  * the starts the implementation-switch
  */

@@ -8,13 +8,13 @@
 #include <iostream>
 
 namespace data {
-/*
+/**
  * Basic storage-class for a single sample
  */
 template<typename imgT>
 class sample {
 public:
-	/*
+	/**
 	 * Initializes a new sample with the given arguments
 	 * @param width: x-resolution of the sample-image
 	 * @param height: y-resolution of the sample-image
@@ -23,7 +23,7 @@ public:
 			m_width(width), m_height(height), m_internalData(width * height) {
 	}
 
-	/*
+	/**
 	 * Returns the pixel-data at a given index
 	 * @param index: row-major index of requested pixel
 	 * @return: reference to the requested pixel
@@ -32,7 +32,7 @@ public:
 		return m_internalData[index];
 	}
 
-	/*
+	/**
 	 * Returns the pixel-data at a given index
 	 * @param index: row-major index of requested pixel
 	 * @return: reference to the requested pixel
@@ -41,7 +41,7 @@ public:
 		return m_internalData[index];
 	}
 
-	/*
+	/**
 	 * Compares the own pixel-data with the given sample
 	 * @param o: sample to compare with
 	 * @return: true if both samples are equal
@@ -50,7 +50,7 @@ public:
 		return m_internalData == o.m_internalData;
 	}
 
-	/*
+	/**
 	 * Compares the own pixel-data with the given sample
 	 * @param o: sample to compare with
 	 * @return: true if both samples are not equal
@@ -59,28 +59,28 @@ public:
 		return m_internalData != o.m_internalData;
 	}
 
-	/*
+	/**
 	 * @return: x-resolution of the sample-image
 	 */
 	int get_width() const {
 		return m_width;
 	}
 
-	/*
+	/**
 	 * @return: y-resolution of the sample-image
 	 */
 	int get_height() const {
 		return m_height;
 	}
 
-	/*
+	/**
 	 * @return: the label of the sample
 	 */
 	uint8_t get_label() const {
 		return m_label;
 	}
 
-	/*
+	/**
 	 * Sets a new label for the sample
 	 * @param newLabel: the label
 	 */
@@ -88,7 +88,7 @@ public:
 		m_label = newLabel;
 	}
 
-	/*
+	/**
 	 * Prints the resolution and label to std::cout
 	 */
 	void print() const {
@@ -96,7 +96,7 @@ public:
 				<< ") | " << (int) m_label << std::endl;
 	}
 
-	/*
+	/**
 	 * Exports the sample to an Portable_Anymap(.pgm)-file
 	 * --> https://de.wikipedia.org/wiki/Portable_Anymap
 	 * @param filenamePrefix: the prefix for the output-file($(prefix)_label.pgm)
@@ -124,28 +124,28 @@ public:
 		return false;
 	}
 
-	/*
+	/**
 	 * @return: the number of pixels (width * height)
 	 */
 	int size() const {
 		return m_internalData.size();
 	}
 
-	/*
+	/**
 	 * @return: reference to the internal data representation
 	 */
 	std::vector<imgT>& internal_data() {
 		return m_internalData;
 	}
 
-	/*
+	/**
 	 * @return: reference to the internal data representation
 	 */
 	const std::vector<imgT>& internal_data() const {
 		return m_internalData;
 	}
 
-	/*
+	/**
 	 * The MNIST dataset comes with a huge bias on color, thickness
 	 * and other parameters. In order to allow "self-made" samples
 	 * to have a decent performance, a normalized sample needs to be
@@ -169,7 +169,7 @@ public:
 
 private:
 
-	/*
+	/**
 	 * See normalize_from()
 	 * Performs a Gaussian-Blur on input, adds a small Noise-Signal
 	 * and stores the result in output
@@ -213,7 +213,7 @@ private:
 		return max;
 	}
 
-	/*
+	/**
 	 * See normalize_from()
 	 * Performs a Rescale to [0, 1] on input, upscales all value
 	 * and copies all pixel from the input with a value = 1.
@@ -239,7 +239,7 @@ private:
 		}
 	}
 
-	/*
+	/**
 	 * See normalize_from()
 	 * Moves the non-zero pixels from input to the center
 	 * and stores the result in output

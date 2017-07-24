@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 namespace util {
-/*
+/**
  * Converts a Big-Endian to a Little-Endian and vice versa
  * @param input: original instance of T
  * @return: converted T

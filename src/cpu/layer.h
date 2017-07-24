@@ -1,4 +1,4 @@
-/*
+/**
  * layer.h
  *
  *  Created on: 30.06.2017
@@ -61,4 +61,4 @@ namespace cpu {
 	};
 
 }
-#endif /* LAYER_H_ */
+#endif /** LAYER_H_ */

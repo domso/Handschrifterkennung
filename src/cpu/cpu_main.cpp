@@ -17,14 +17,13 @@ namespace cpu {
 	 * @param numThreads   the number threads to use
 	 */
 	void training(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const int numRelearning, const int numThreads) {
-		for(int i = 0; i < numRelearning; i++){
-			auto tp1 = std::chrono::high_resolution_clock::now();
+		auto tp1 = std::chrono::high_resolution_clock::now();
+		for(int i = 0; i < numRelearning; i++)
 			NN.proccess_input(trainingsData, true, numThreads);
-			auto tp2 = std::chrono::high_resolution_clock::now();
 
-			auto duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
-			std::cout << "Training took: " << duration / (double) 1000000 << "sec" << std::endl;
-		}
+		auto tp2 = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
+		std::cout << "Training took: " << duration / (double) 1000000 << "sec" << std::endl;
 	}
 
 	/**
@@ -50,10 +49,11 @@ namespace cpu {
 		auto numRelearning = config.getNumeric<int, parameters::num_relearning>();
 		auto learningRate = config.getNumeric<float, parameters::learning_rate>();
 		auto numThreads = config.getNumeric<int, parameters::num_threads>();
+		auto numHiddenNodes = config.getNumeric<int, parameters::num_hidden>();
 
 		NN.set_learning_rate(learningRate);
 
-		std::cout << "C++ implementation:" << std::endl;
+		std::cout << "C++ implementation with " << numHiddenNodes << " hidden nodes:" << std::endl;
 		training(NN, trainingsData, numRelearning, numThreads);
 		testing(NN, testData, numThreads);
 

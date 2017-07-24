@@ -1,7 +1,7 @@
 #ifndef cuda_kernel_h
 #define cuda_kernel_h
 
-/*
+/**
  * Kernel for the standard feed-forward to the next layer.
  * Every block represents one node in the next-layer.
  * Every thread represents one edge to the "block"-node.
@@ -24,7 +24,7 @@
  */
 __global__ void cuda_neural_network(float* input, float* next, float* weights);
 
-/*
+/**
  * Kernel for the back-propagation
  * Every block represents one node in the current-layer.
  * Every thread represents one edge from the "block"-node to the next-layer
