@@ -9,7 +9,7 @@
 
 namespace cpu {
 
-	node::node(float bias, float output, int weightCount) : m_weights(weightCount){
+	node::node(const float bias, const float output, const int weightCount) : m_weights(weightCount){
 		this->m_bias = bias;
 		this->m_output = output;
 	}
@@ -22,7 +22,7 @@ namespace cpu {
 		return m_output;
 	}
 
-	void node::set_output(float output) {
+	void node::set_output(const float output) {
 		this->m_output = output;
 	}
 
@@ -30,7 +30,7 @@ namespace cpu {
 		return m_bias;
 	}
 
-	void node::set_bias(float bias) {
+	void node::set_bias(const float bias) {
 		this->m_bias = bias;
 	}
 

@@ -1,28 +1,5 @@
-#pragma once
-
-#include <mutex>
-#include <condition_variable>
-#include <iostream>
-#include <pthread.h>
-#include <atomic>
-
-class Barrier1 {
-public:
-
-    explicit Barrier1(const int n) {
-    	pthread_barrier_init(&m_bar, 0, n);
-    }
-
-	Barrier1(const Barrier1& b) = delete;
-    void wait() {
-    	pthread_barrier_wait(&m_bar);
-    }
-
-private:
-    pthread_barrier_t m_bar;
-};
-
-#pragma once
+#ifndef util_barrier_h
+#define util_barrier_h
 
 #include <mutex>
 #include <condition_variable>
@@ -31,47 +8,29 @@ private:
 #include <atomic>
 #include <thread>
 
-class Barrier {
+namespace util {
+/*
+ * spin-lock barrier
+ */
+class barrier {
 public:
-	explicit Barrier(const int n) :
-			lockCounter_(0), head_(n), size_(n) {
-		m_head = n;
-		m_counter = 0;
-	}
+	/*
+	 * @param n: constructs a new barrier for n threads
+	 */
+	explicit barrier(const int n);
 
-	Barrier(const Barrier& b) = delete;
+	barrier(const barrier& b) = delete;
 
-	void wait() {
-
-		// get current ticket
-		int ticket = m_head;
-		//std::unique_lock < std::mutex > ul(mutex);
-
-		// increase current number of threads waiting on the barrier
-		int current = m_counter++;
-
-		// if all threads reached the wait() call, proceed with the call
-		if (current + 1 == size_) {
-			int tmp = size_;
-			if(m_counter.compare_exchange_strong(tmp, 0)) {
-				//m_counter = 0;
-				// invalidates all current tickets
-				m_head = ticket + size_;
-			}
-			return;
-		}
-
-		while (ticket == m_head) {
-			std::this_thread::yield();
-		}
-	}
+	/*
+	 * waits (spin-lock!) until n thread reached this call.
+	 */
+	void wait();
 
 private:
 	std::atomic<int> m_head;
 	std::atomic<int> m_counter;
-	int lockCounter_;
-	int head_;
-	const int size_;
-
-	std::mutex mutex;
+	const int m_size;
 };
+}
+
+#endif

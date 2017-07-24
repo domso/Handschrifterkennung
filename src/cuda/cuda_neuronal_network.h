@@ -48,7 +48,7 @@ public:
 	 * @param numRelearning: number of learning iterations (relearning)
 	 * @return: true on success
 	 */
-	bool train(cuda::model& model, std::vector<data::sample<float>>& trainingsData, const int numRelearning = 1);
+	bool train(cuda::model& model, const std::vector<data::sample<float>>& trainingsData, const int numRelearning = 1) const;
 
 	/*
 	 * Tests the given trained model on the given testData
@@ -56,7 +56,7 @@ public:
 	 * @param testData: container with all labeled testData-samples
 	 * @return: basic metrics wrapped in a result-object (filled with -1 on error)
 	 */
-	test_result_t test(cuda::model& model, std::vector<data::sample<float>>& testData);
+	test_result_t test(const cuda::model& model, const std::vector<data::sample<float>>& testData) const;
 
 	/*
 	 * Loads the given model to the graphic-card and set up all required data-structs
@@ -64,14 +64,14 @@ public:
 	 * @param s: a reference object (not important, just for the size)
 	 * @return: true on success
 	 */
-	bool set_classify_context(cuda::model& model, data::sample<float>& s);
+	bool set_classify_context(const cuda::model& model, const data::sample<float>& s);
 
 	/*
 	 * Classifies the sample with the current context (see set_classify_context)
 	 * @param s: unlabeled sample
 	 * @return: classification (>=0) or -1 on any error
 	 */
-	int classify(data::sample<float>& s);
+	int classify(const data::sample<float>& s) const;
 private:
 
 	/*
@@ -108,7 +108,7 @@ private:
 		/*
 		 * @return: true, if all operations were successfull
 		 */
-		bool error_check();
+		bool error_check() const;
 	};
 
 	/*
@@ -142,7 +142,7 @@ private:
 		/*
 		 * @return: true, if all operations were successful
 		 */
-		bool error_check();
+		bool error_check() const;
 	};
 
 	/*
@@ -152,7 +152,7 @@ private:
 	 * @param context: the current trainings-context
 	 * @return: true on success
 	 */
-	bool train_sample(const int i, const data::sample<float>& sample, train_data_context& context);
+	bool train_sample(const int i, const data::sample<float>& sample, train_data_context& context) const;
 
 	/*
 	 * Performs a single test for a sample
@@ -161,7 +161,7 @@ private:
 	 * @param context: the current test-context
 	 * @return: classification-result on success, -1 on error
 	 */
-	int test_sample(const int i, const data::sample<float>& sample, test_data_context& context);
+	int test_sample(const int i, const data::sample<float>& sample, test_data_context& context) const;
 
 	config_t m_currentConfig;
 	test_data_context* m_currentContext;

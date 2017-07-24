@@ -16,7 +16,7 @@ namespace cpu {
 	 * @param numRelearning  the number of iterations through the training data
 	 * @param numThreads   the number threads to use
 	 */
-	void training(cpu::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, const int numRelearning, const int numThreads) {
+	void training(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const int numRelearning, const int numThreads) {
 		for(int i = 0; i < numRelearning; i++){
 			auto tp1 = std::chrono::high_resolution_clock::now();
 			NN.proccess_input(trainingsData, true, numThreads);
@@ -33,7 +33,7 @@ namespace cpu {
 	 * @param testData  the data to use for the training
 	 * @param numThreads   the number threads to use
 	 */
-	void testing(cpu::neuronal_network& NN, std::vector<data::sample<float>>& testData, const int numThreads) {
+	void testing(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& testData, const int numThreads) {
 		auto tp1 = std::chrono::high_resolution_clock::now();
 		auto result = NN.proccess_input(testData, false, numThreads);
 		auto tp2 = std::chrono::high_resolution_clock::now();
@@ -41,17 +41,17 @@ namespace cpu {
 		auto duration = std::chrono::duration_cast < std::chrono::microseconds > (tp2 - tp1).count();
 		std::cout << "Testing took: " << duration / (double) 1000000 << "sec" << std::endl;
 
-		std::cout << testData.size() - result << std::endl;
-		std::cout << testData.size() << std::endl;
-		std::cout << (testData.size() - result) / (double) testData.size() << std::endl;
+		std::cout << "Correct: " << testData.size() - result << std::endl;
+		std::cout << "Total: " << testData.size() << std::endl;
+		std::cout << "Ratio: " << (testData.size() - result) / (double) testData.size() << std::endl;
 	}
 
-	bool main(cpu::neuronal_network& NN, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, const int useGui, util::config_file& config) {
+	bool main(cpu::neuronal_network& NN, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int useGui, const util::config_file& config) {
 		auto numRelearning = config.getNumeric<int, parameters::num_relearning>();
 		auto learningRate = config.getNumeric<float, parameters::learning_rate>();
 		auto numThreads = config.getNumeric<int, parameters::num_threads>();
 
-		NN.setLearningRate(learningRate);
+		NN.set_learning_rate(learningRate);
 
 		std::cout << "C++ implementation:" << std::endl;
 		training(NN, trainingsData, numRelearning, numThreads);

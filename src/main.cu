@@ -38,7 +38,7 @@ void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, c
 	while (window.is_active()) {
 		if (window.wait_for_output(output)) {
 			final.normalize_from(output);
-			std::cout << (int) NN.classify(final) << std::endl;
+			std::cout << "Classified input as (" << (int) NN.classify(final) << ")" << std::endl;
 		}
 	}
 
@@ -52,7 +52,7 @@ void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, c
  * @param trainingsData: non empty vector with trainings-samples as a size-reference
  */
 template<typename NNtype>
-void gui_init(NNtype& NN, util::config_file& config, std::vector<data::sample<float>>& trainingsData) {
+void gui_init(NNtype& NN, const util::config_file& config, const std::vector<data::sample<float>>& trainingsData) {
 	int sampleWidth = trainingsData[0].get_width();
 	int sampleHeight = trainingsData[0].get_height();
 	int windowWidth = config.getNumeric<int, parameters::window_width>();
@@ -72,7 +72,7 @@ void gui_init(NNtype& NN, util::config_file& config, std::vector<data::sample<fl
  * @param useGui: output-flag for gui
  * @return: true on success
  */
-bool load_samples(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
+bool load_samples(const util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
 	auto pathTrainingSamples = config.getString<parameters::path_training_samples>();
 	auto pathTrainingLabels = config.getString<parameters::path_training_labels>();
 	auto pathTestingSamples = config.getString<parameters::path_testing_samples>();
@@ -104,7 +104,7 @@ bool load_samples(util::config_file& config, std::vector<data::sample<float>>& t
  * @param testData: vector with the loaded test-samples
  * @param useGui: flag for gui
  */
-void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
+void execute_cpu(const util::config_file& config, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int& useGui) {
 	auto numHidden = config.getNumeric<int, parameters::num_hidden>();
 	cpu::neuronal_network NN(trainingsData[0].size(), numHidden, 10);
 	cpu::main(NN, trainingsData, testData, useGui, config);
@@ -122,7 +122,7 @@ void execute_cpu(util::config_file& config, std::vector<data::sample<float>>& tr
  * @param testData: vector with the loaded test-samples
  * @param useGui: flag for gui
  */
-void execute_cuda(util::config_file& config, std::vector<data::sample<float>>& trainingsData, std::vector<data::sample<float>>& testData, int& useGui) {
+void execute_cuda(const util::config_file& config, const std::vector<data::sample<float>>& trainingsData, const std::vector<data::sample<float>>& testData, const int& useGui) {
 	cuda::neuronal_network NN;
 	cuda::main(NN, trainingsData, testData, useGui, config);
 
@@ -136,7 +136,7 @@ void execute_cuda(util::config_file& config, std::vector<data::sample<float>>& t
  * Loads the samples using the config-files
  * @param config: input-config file
  */
-void execute_general(util::config_file& config) {
+void execute_general(const util::config_file& config) {
 	std::vector<data::sample<float>> trainingsData;
 	std::vector<data::sample<float>> testData;
 	int useGui;
