@@ -35,7 +35,7 @@ public:
 	virtual ~neuronal_network();
 
 	/**
-	 * Classifies the sample with use of 8 threads
+	 * Classifies the given sample (with use of 8 threads)
 	 * @param s: unlabeled sample
 	 * @return: classification
 	 */
@@ -44,7 +44,7 @@ public:
 	/**
 	 * Creates a layer
 	 * @param nodeCount   the number of nodes that this layer should contain
-	 * @param weightCount the number of weights that should every node contain
+	 * @param weightCount the number of weights that every node of this layer should contain
 	 * @return the created layer
 	 */
 	layer create_layer(const int nodeCount, const int weightCount);
@@ -63,18 +63,17 @@ public:
 	 */
 	const layer& get_layer(const layer_type lType) const;
 
-
 	/**
-	 * @return the network's classification using the ID of the node with the highest output
+	 * @return the network's classification using the index of the node with the highest output
 	 */
 	int get_network_classification() const;
 
 	/**
-	 * processes the given inputSamples and returns the number of false calssifications
+	 * processes the given inputSamples and returns the number of false classifications
 	 * @param inputSamples     the input samples
 	 * @param updateWeights    flag, if the weights should been updated (training)
 	 * @param usedThreadCount  number of threads that should be used
-	 * @return the id of false computed classifications
+	 * @return the number of false computed classifications
 	 */
 	int proccess_input(const std::vector<data::sample<float>>& inputSamples, const bool updateWeights, const int usedThreadCount);
 
@@ -87,7 +86,7 @@ public:
 private:
 
 	/**
-	 * Performs the SEGMOID activiation function to the specified node
+	 * Performs the SEGMOID activation function on the specified node
 	 * @param node  the node to activate
 	 */
 	void activate_node(node& node);
@@ -96,7 +95,7 @@ private:
 	 * Back propagates network error to hidden-layer
 	 * @param targetClassification  correct classification of the input stream (label)
 	 * @param usedThreadCount  number of threads to use
-	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 * @param thID  id of the actual thread (0 if there is only 1 thread)
 	 */
 	void backpropagate_hidden_layer(const int targetClassification, const int usedThreadCount, const int thID);
 
@@ -104,7 +103,7 @@ private:
 	 * Back propagates network error to output-layer
 	 * @param targetClassification  correct classification of the input stream (label)
 	 * @param usedThreadCount  number of threads to use
-	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 * @param thID  id of the actual thread (0 if there is only 1 thread)
 	 */
 	void backpropagate_output_layer(const int targetClassification, const int usedThreadCount, const int thID);
 
@@ -112,12 +111,12 @@ private:
 	 * Calculates the output value of the specified node by multiplying all its weights with the previous layer's outputs
 	 * @param calcLayer  the layer of the node
 	 * @param prevLayer  the previous layer of the node
-	 * @param calcNode  the node to calculate
+	 * @param calcNode   the node to calculate
 	 */
 	void calc_node_output(layer& calcLayer, layer& prevLayer, node& calcNode);
 
 	/**
-	 * Initializes a layer's weights with random values
+	 * Initializes a layer's weights with random values between -0.5 and 0.5
 	 * @param lType  Defining what layer to initialize
 	 */
 	void init_weights(const layer_type lType);
@@ -125,14 +124,14 @@ private:
 	/**
 	 * feeds the data of the previous layer forward to the actual layer
 	 * @param actualLayer  the actual layer
-	 * @param prevLayer  the previous layer
+	 * @param prevLayer    the previous layer
 	 * @param usedThreadCount  the number of threads to use
-	 * @param thID id of the actual thread (0 if there is only 1 thread)
+	 * @param thID  id of the actual thread (0 if there is only 1 thread)
 	 */
 	void feed_forward(layer& actualLayer, layer& prevLayer, const int usedThreadCount, const int thID);
 
 	/**
-	 * Feeds some data into the input-layer of the network
+	 * Feeds the given data into the input-layer of the network
 	 * @param input  a vector with the input values
 	 * @param usedThreadCount  the number of threads to use
 	 * @param thID  id of the actual thread (0 if there is only 1 thread)
@@ -140,9 +139,9 @@ private:
 	void feed_input(const std::vector<float>& input, const int usedThreadCount, const int thID);
 
 	/**
-	 * Updates a node's weights based on given delta
+	 * Updates a node's weights based on the given delta
 	 * @param lType   Type of layer (INPUT, HIDDEN, OUTPUT)
-	 * @param nodeID  id of the node to update
+	 * @param nodeID  id of the node to be updated
 	 * @param delta   difference between desired output and actual output
 	 */
 	void update_node_weights(layer& actualLayer, layer& prevLayer, node& updateNode, const float delta);
