@@ -105,6 +105,9 @@ private:
 	int m_tile_width;
 	int m_tile_height;
 
+	int m_sample_width;
+	int m_sample_height;
+
 	data::sample<float> m_output;bool m_outputIsValid = false;
 
 	SDL_Window* m_window;
