@@ -32,7 +32,7 @@ namespace cpu {
 	int neuronal_network::classify(const data::sample<float>& s) {
 		std::vector<data::sample<float>> inputSamples;
 		inputSamples.push_back(s);
-		proccess_input(inputSamples, false, 8); // TODO fix thread number bad
+		proccess_input(inputSamples, false, 8);
 		return get_network_classification();
 	}
 
@@ -123,7 +123,7 @@ namespace cpu {
 						backpropagate_hidden_layer(label, usedThreadCount, thID);
 						barrier.wait();
 					}
-					if(thID == 0)// only once
+					if(thID == 0)// first thread checks, if the classification was correct
 						numError += get_network_classification() != label;
 				}
 			}));
@@ -200,13 +200,8 @@ namespace cpu {
 
 		for (int i = 0; i < nodeCount; i++) {
 			node& node = layer.get_node(i);
-
-//			int j = 0;
 			for (float& weight : node.get_weights()) {
-//				weight = 0.7 * (rand() / (float) RAND_MAX);
-//				if (j % 2)
-//					weight = -weight;  // make half of the weights negative
-//				j++;
+				// init weight with random value in [-0.5, 0.5]
 				weight = -0.5 + (float) (std::rand() % 1000001) / (float) 1000000;
 			}
 		}
@@ -219,7 +214,7 @@ namespace cpu {
 		for(int i = rangeFrom; i < rangeTo; i++) {
 			node& calcNode = actualLayer.get_node(i);
 			calc_node_output(actualLayer, prevLayer, calcNode);
-			activate_node(calcNode);
+			activate_node(calcNode); // activate the node with the SIGMOID activation function
 		}
 	}
 
