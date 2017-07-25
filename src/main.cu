@@ -13,9 +13,12 @@
  * Opens the gui-window and executes the main update-methode
  * Runs until the window was closed *
  * @param window: non initialized gui-window
+ * @param config: input-config file
  */
-void gui_thread(gui::basic_interface& window) {
-	window.init();
+void gui_thread(gui::basic_interface& window, const util::config_file& config) {
+	bool use_accelerator = config.getNumeric<int, parameters::use_accelerator>();
+
+	window.init(use_accelerator);
 	window.update();
 	window.close();
 }
@@ -28,12 +31,13 @@ void gui_thread(gui::basic_interface& window) {
  * @param window: non initialized gui-window
  * @param sampleWidth: x-resolution of a sample
  * @param sampleHeight: y-resolution of a sample
+ * @param config: input-config file
  */
 template<typename NNtype>
-void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, const int sampleHeight) {
+void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, const int sampleHeight, const util::config_file& config) {
 	data::sample<float> output(sampleWidth, sampleHeight);
 	data::sample<float> final(sampleWidth, sampleHeight);
-	std::thread t1(&gui_thread, std::ref(window));
+	std::thread t1(&gui_thread, std::ref(window), std::ref(config));
 
 	while (window.is_active()) {
 		if (window.wait_for_output(output)) {
@@ -50,9 +54,10 @@ void gui_main(NNtype& NN, gui::basic_interface& window, const int sampleWidth, c
  * Requires NNtype::classify(data::sample<float>&)
  * @param NN: initialized neuronal-network of type NNtype
  * @param trainingsData: non empty vector with trainings-samples as a size-reference
+ * @param config: input-config file
  */
 template<typename NNtype>
-void gui_init(NNtype& NN, const util::config_file& config, const std::vector<data::sample<float>>& trainingsData) {
+void gui_init(NNtype& NN, const std::vector<data::sample<float>>& trainingsData, const util::config_file& config) {
 	int sampleWidth = trainingsData[0].get_width();
 	int sampleHeight = trainingsData[0].get_height();
 	int windowWidth = config.getNumeric<int, parameters::window_width>();
@@ -60,7 +65,7 @@ void gui_init(NNtype& NN, const util::config_file& config, const std::vector<dat
 
 	gui::basic_interface window(windowWidth, windowHeight, sampleWidth, sampleHeight);
 
-	gui_main<NNtype>(NN, window, sampleWidth, sampleHeight);
+	gui_main<NNtype>(NN, window, sampleWidth, sampleHeight, config);
 }
 
 /**
@@ -110,7 +115,7 @@ void execute_cpu(const util::config_file& config, const std::vector<data::sample
 	cpu::main(NN, trainingsData, testData, useGui, config);
 
 	if (useGui) {
-		gui_init<cpu::neuronal_network>(NN, config, trainingsData);
+		gui_init<cpu::neuronal_network>(NN, trainingsData, config);
 	}
 }
 
@@ -127,7 +132,7 @@ void execute_cuda(const util::config_file& config, const std::vector<data::sampl
 	cuda::main(NN, trainingsData, testData, useGui, config);
 
 	if (useGui) {
-		gui_init<cuda::neuronal_network>(NN, config, trainingsData);
+		gui_init<cuda::neuronal_network>(NN, trainingsData, config);
 	}
 }
 

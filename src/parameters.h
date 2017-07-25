@@ -100,6 +100,14 @@ struct window_height {
 	constexpr static const int defaultValue = 800;
 };
 
+/**
+ * Enable hardware accelerator for GUI
+ */
+struct use_accelerator {
+	constexpr static const auto key = "use_accelerator";
+	constexpr static const int defaultValue = 1;
+};
+
 }
 
 #endif

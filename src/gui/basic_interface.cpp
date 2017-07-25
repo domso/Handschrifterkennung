@@ -10,13 +10,19 @@
 
 namespace gui {
 
-basic_interface::basic_interface(const int width, const int height, const int tile_width, const int tile_height) :
-		m_width(width), m_height(height), m_sample_width(tile_width), m_sample_height(tile_height), m_tile_width(width / tile_width), m_tile_height(height / tile_height), m_output(tile_width, tile_height), m_active(true) {
+basic_interface::basic_interface(const int width, const int height, const int sample_width, const int sample_height) :
+		m_width(width), m_height(height), m_sample_width(sample_width), m_sample_height(sample_height), m_tile_width(width / sample_width), m_tile_height(height / sample_height), m_output(sample_width, sample_height), m_active(true) {
 }
 
-bool basic_interface::init() {
+bool basic_interface::init(const bool use_accelerator) {
 	m_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_SOFTWARE);
+
+	if (use_accelerator) {
+		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	} else {
+		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_SOFTWARE);
+	}
+
 	return m_window != nullptr && m_renderer != nullptr;
 }
 

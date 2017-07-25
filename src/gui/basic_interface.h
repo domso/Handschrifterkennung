@@ -20,15 +20,16 @@ public:
 	 * Sets some init values
 	 * @param width: x-resolution of the window
 	 * @param height: y-resolution of the window
-	 * @param tile_width: x-resolution of a sample
-	 * @param tile_height: y-resolution of a sample
+	 * @param sample_width: x-resolution of a sample
+	 * @param sample_height: y-resolution of a sample
 	 */
-	basic_interface(const int width, const int height, const int tile_width, const int tile_height);
+	basic_interface(const int width, const int height, const int sample_width, const int sample_height);
 	/**
 	 * Starts the SDL-Context and opens the window
+	 * @param use_accelerator: Enable hardware accelerator
 	 * @return: true on success
 	 */
-	bool init();
+	bool init(const bool use_accelerator);
 
 	/**
 	 * Main-Update-loop for the window
