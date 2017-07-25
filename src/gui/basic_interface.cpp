@@ -11,17 +11,17 @@
 namespace gui {
 
 basic_interface::basic_interface(const int width, const int height, const int tile_width, const int tile_height) :
-		m_width(width), m_height(height), m_tile_width(tile_width), m_tile_height(tile_height), m_output(tile_width, tile_height), m_active(true) {
+		m_width(width), m_height(height), m_sample_width(tile_width), m_sample_height(tile_height), m_tile_width(width / tile_width), m_tile_height(height / tile_height), m_output(tile_width, tile_height), m_active(true) {
 }
 
 bool basic_interface::init() {
 	m_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_SOFTWARE);
 	return m_window != nullptr && m_renderer != nullptr;
 }
 
 void basic_interface::update() {
-	data::sample<float> local_data(m_tile_width, m_tile_height);
+	data::sample<float> local_data(m_sample_width, m_sample_height);
 	bool running = true;
 	bool update = false;
 
@@ -35,9 +35,9 @@ void basic_interface::update() {
 		if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
 			int tile_x = x / m_tile_width;
 			int tile_y = y / m_tile_height;
-			if (tile_x < m_tile_width && tile_y < m_tile_height) {
-				if (local_data[tile_y * m_tile_width + tile_x] != 1) {
-					local_data[tile_y * m_tile_width + tile_x] = 1;
+			if (tile_x < m_sample_width && tile_y < m_sample_height) {
+				if (local_data[tile_y * m_sample_width + tile_x] != 1) {
+					local_data[tile_y * m_sample_width + tile_x] = 1;
 
 					draw_tile(tile_x, tile_y, 255);
 
