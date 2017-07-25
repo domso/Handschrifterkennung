@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.4.25)  24 JUL 2017 20:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.4.25)  25 JUL 2017 19:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2054,21 +2054,21 @@ Overfull \hbox (40.42363pt too wide) in paragraph at lines 354--354
 [10
 
 ]
-Overfull \hbox (25.30858pt too wide) in paragraph at lines 392--392
-[][] 
- []
-
 File: img/siegel.png Graphic file (type png)
-<use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 392.
+ <use img/siegel.png>
+Package pdftex.def Info: img/siegel.png used on input line 449.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 392.
+Package pdftex.def Info: img/unilogo.png used on input line 449.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 392--392
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 449--449
 [][][][]  
+ []
+
+
+Overfull \vbox (17.95584pt too high) detected at line 449
  []
 
 [11
@@ -2076,19 +2076,19 @@ Overfull \hbox (40.42363pt too wide) in paragraph at lines 392--392
 ]
 File: img/siegel.png Graphic file (type png)
  <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 489.
+Package pdftex.def Info: img/siegel.png used on input line 539.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 489.
+Package pdftex.def Info: img/unilogo.png used on input line 539.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 489--489
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 539--539
 [][][][]  
  []
 
 
-Overfull \vbox (17.95584pt too high) detected at line 489
+Overfull \vbox (17.9568pt too high) detected at line 539
  []
 
 [12
@@ -2096,19 +2096,15 @@ Overfull \vbox (17.95584pt too high) detected at line 489
 ]
 File: img/siegel.png Graphic file (type png)
  <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 579.
+Package pdftex.def Info: img/siegel.png used on input line 567.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 579.
+Package pdftex.def Info: img/unilogo.png used on input line 567.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 579--579
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 567--567
 [][][][]  
- []
-
-
-Overfull \vbox (17.9568pt too high) detected at line 579
  []
 
 [13
@@ -2116,99 +2112,99 @@ Overfull \vbox (17.9568pt too high) detected at line 579
 ]
 File: img/siegel.png Graphic file (type png)
  <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 599.
+Package pdftex.def Info: img/siegel.png used on input line 588.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 599.
+Package pdftex.def Info: img/unilogo.png used on input line 588.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 599--599
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 588--588
 [][][][]  
  []
 
 [14
 
-] <./img/4_drawn.png, id=134, 803.0pt x 850.17625pt>
+] <./img/4_drawn.png, id=134, interpolate=true, 803.0pt x 850.17625pt>
 File: ./img/4_drawn.png Graphic file (type png)
 
 <use ./img/4_drawn.png>
-Package pdftex.def Info: ./img/4_drawn.png used on input line 639.
+Package pdftex.def Info: ./img/4_drawn.png used on input line 628.
 (pdftex.def)             Requested size: 76.82246pt x 81.3254pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
 
 <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 
 <./img/4_input.png, id=135, 28.105pt x 28.105pt>
 File: ./img/4_input.png Graphic file (type png)
  <use ./img/4_input.png>
-Package pdftex.def Info: ./img/4_input.png used on input line 639.
+Package pdftex.def Info: ./img/4_input.png used on input line 628.
 (pdftex.def)             Requested size: 76.82246pt x 76.83138pt.
 File: arrow.png Graphic file (type png)
 
 <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
 
 <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 File: arrow.png Graphic file (type png)
  <use arrow.png>
-Package pdftex.def Info: arrow.png used on input line 639.
+Package pdftex.def Info: arrow.png used on input line 628.
 (pdftex.def)             Requested size: 15.36542pt x 10.1698pt.
 
 <./img/4_normalized.png, id=136, 28.105pt x 28.105pt>
 File: ./img/4_normalized.png Graphic file (type png)
 
 <use ./img/4_normalized.png>
-Package pdftex.def Info: ./img/4_normalized.png used on input line 639.
+Package pdftex.def Info: ./img/4_normalized.png used on input line 628.
 (pdftex.def)             Requested size: 76.82246pt x 76.83138pt.
 File: img/siegel.png Graphic file (type png)
  <use img/siegel.png>
-Package pdftex.def Info: img/siegel.png used on input line 639.
+Package pdftex.def Info: img/siegel.png used on input line 628.
 (pdftex.def)             Requested size: 45.80894pt x 38.05319pt.
 File: img/unilogo.png Graphic file (type png)
  <use img/unilogo.png>
-Package pdftex.def Info: img/unilogo.png used on input line 639.
+Package pdftex.def Info: img/unilogo.png used on input line 628.
 (pdftex.def)             Requested size: 66.86414pt x 47.37105pt.
 
-Overfull \hbox (40.42363pt too wide) in paragraph at lines 639--639
+Overfull \hbox (40.42363pt too wide) in paragraph at lines 628--628
 [][][][]  
  []
 
@@ -2225,11 +2221,11 @@ G copy)>]
 \tf@snm=\write8
 \openout8 = `slides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 641.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 641.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 630.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 630.
  (./slides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 641.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 641.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 630.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 630.
 Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -2239,10 +2235,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 35270 strings out of 494893
- 847661 string characters out of 6178672
- 1081709 words of memory out of 5000000
- 37818 multiletter control sequences out of 15000+600000
+ 35236 strings out of 494893
+ 846939 string characters out of 6178672
+ 1081500 words of memory out of 5000000
+ 37784 multiletter control sequences out of 15000+600000
  14872 words of font info for 55 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  68i,23n,105p,772b,2622s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2256,7 +2252,7 @@ dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam7.pfb>
-Output written on slides.pdf (15 pages, 269915 bytes).
+Output written on slides.pdf (15 pages, 270531 bytes).
 PDF statistics:
  186 PDF objects out of 1000 (max. 8388607)
  125 compressed objects within 2 object streams

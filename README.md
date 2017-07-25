@@ -13,7 +13,7 @@ Usage:
 Configuration: [key][:|=][value]
 
 General:
-	[implementation][int]
+	[implementation][string]
 		Currently [c++] and [cuda] is supported
 
 	[path_training_samples][string]

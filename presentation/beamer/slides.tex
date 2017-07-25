@@ -67,7 +67,7 @@
 %\subtitle{Optional Subtitle}
 \author{Christopher Haug, Dominik Walter}
 \institute[Uni Augsburg]{University of Augsburg\\Systems and Networking}
-\date[]{\today}
+\date[]{26.07.2017}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -353,46 +353,6 @@
 	\end{figure}
 	\end{frame}
 
-	\begin{frame}
-		\frametitle{Auswertung: Learning-Rate}
-		\begin{figure}[htbp]
-			\begin{figure}[htbp]
-				\begin{minipage}{0.6\textwidth}
-					\begin{tikzpicture}
-					\begin{axis}[
-					width=1.15\textwidth,
-					ylabel={Precision},
-					xlabel={Learning Rate},
-					legend style={at={(0.5,1.05)},anchor=south}
-					]
-					
-					\addplot +[mark=] coordinates {
-						(0.02, 0.8905)
-						(0.04, 0.905)
-						(0.06, 0.9119)
-						(0.08, 0.9175)
-						(0.10, 0.9209) 
-						(0.12, 0.9172)
-						(0.14, 0.9218)
-						(0.16, 0.9156)
-						(0.18, 0.922)
-						(0.20, 0.9211)
-						(0.22, 0.9202)
-						(0.24, 0.9238)
-						(0.26, 0.9227)
-						(0.28, 0.9169)
-						(0.30, 0.92)
-					};
-					
-					\end{axis}
-					\end{tikzpicture}
-				\end{minipage}
-			\end{figure}
-		\end{figure}
-	\end{frame}
-
-
-
 \begin{frame}
 	\frametitle{Auswertung: Training}
 	\begin{figure}[htbp]
@@ -578,6 +538,35 @@
 			\end{figure}
  \end{frame}
 
+
+\begin{frame}
+	\frametitle{Auswertung: Ergebnis}
+	CUDA / C++:
+	\begin{itemize}
+		\item 3-layer NN 784-256-10
+		\item Precision: 98.03\%
+		
+		\item Dauer des Trainings (30x):
+			\begin{itemize}
+				\item CUDA: 111.789sec
+				\item C++: 545.011sec
+			\end{itemize}
+		\item Dauer des Tests:
+			\begin{itemize}
+				\item CUDA: 0.40289sec
+				\item C++: 1.91795sec
+			\end{itemize}		
+		
+	\end{itemize}
+	
+	\textit{Deep Big Simple Neural Nets Excel on Handwritten Digit Recognition} (2010):
+	\begin{itemize}
+		\item 6-layer NN 784-2500-2000-1500-1000-500-10
+		\item Precision: 99.65\%
+	\end{itemize}
+\end{frame}
+
+
 \begin{frame}
 	\frametitle{Auswertung: Fazit}
 		C++:
@@ -585,7 +574,7 @@
 			\item Synchronisierungsoverhead 
 			\item Limitiert durch die Anzahl der CPU-Kerne
 			\item Auseinanderlaufende Threads beschränken die Parallelität
-			\item Fehlende Vektorisierung
+			\item Fehlende Vektorisierung?
 		\end{itemize}
 	
 	
@@ -602,7 +591,7 @@
 	\frametitle{Demo}
 	\begin{columns}
 		\begin{column}{0.25\textwidth}
-			\includegraphics[width=1\textwidth]{4_drawn.png}
+			\includegraphics[width=1\textwidth, interpolate=true]{4_drawn.png}
 		\end{column}
 		\begin{column}{0.05\textwidth}
 			\\
